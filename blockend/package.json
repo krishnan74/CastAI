@@ -3,5 +3,9 @@
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^5.0.0",
     "hardhat": "^2.22.6"
+  },
+  "dependencies": {
+    "@chainlink/contracts": "^1.1.1",
+    "ethers": "^6.13.1"
   }
 }
