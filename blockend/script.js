@@ -140,21 +140,19 @@ const abi = [
     type: "receive",
   },
 ];
-// Set up your provider (using Infura, Alchemy, or other)
+
 const provider = new ethers.JsonRpcProvider("http://localhost:8545");
 
-// Use a wallet private key to create a signer (DO NOT hard-code in production)
+
 const signer = new ethers.Wallet(
   "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80",
   provider
 );
 
-// The address of the deployed Insurance contract
+
 const insuranceContractAddress = "0x5fbdb2315678afecb367f032d93f642f64180aa3";
 
-// The ABI (Application Binary Interface) of the Insurance contract
 
-// Create a contract instance
 const insuranceContract = new ethers.Contract(
   insuranceContractAddress,
   abi,
@@ -166,9 +164,10 @@ async function main() {
     const cancelPolicyTx = await insuranceContract.cancelPolicy();
     await cancelPolicyTx.wait();
     console.log("Policy canceled");
-  // Example: Create a policy
+
+  // Create Policy transaction
   const initialInvestment = ethers.parseEther("1"); // 1 ETH    
-  const thresholdPrice = ethers.parseUnits("3000", "ether"); // Assuming price is in ETH units
+  const thresholdPrice = ethers.parseUnits("3000", "ether"); // 3000 USD
   const createPolicyTx = await insuranceContract.createPolicy(
     initialInvestment,
     thresholdPrice,
@@ -177,7 +176,7 @@ async function main() {
   await createPolicyTx.wait();
   console.log("Policy created");
 
-  // Example: Pay premium
+  // Pay premium transaction
   const premiumAmount = ethers.parseEther("0.01"); // 0.01 ETH
   const payPremiumTx = await insuranceContract.payPremium({
     value: premiumAmount,
@@ -185,11 +184,12 @@ async function main() {
   await payPremiumTx.wait();
   console.log("Premium paid");
 
+  // Get the latest price feed
   const latestPriceFeedTx = await insuranceContract.getLatestPrice();
   await latestPriceFeedTx.wait();
   console.log("Latest price feed obtained: " + latestPriceFeedTx.toString());
 
-  // Example: Claim
+  //Claim transaction
   const claimTx = await insuranceContract.claim();
   await claimTx.wait();
   console.log("Claim made");

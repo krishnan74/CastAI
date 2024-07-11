@@ -16,7 +16,7 @@ contract Insurance {
     mapping(address => Policy) public policies;
     AggregatorV3Interface internal priceFeed;
 
-    uint256 public premiumRate = 1; // 1% premium rate per month
+    uint256 public premiumRate = 1; // 1% interest
     uint256 public claimPeriod = 30 days;
 
     constructor(address _priceFeed) {
