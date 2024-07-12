@@ -1,6 +1,7 @@
 const { ethers } = require("ethers");
 //import { abi } from "./artifacts/contracts/Insurance.sol/Insurance.json";
 
+
 const abi = [
   {
     inputs: [
