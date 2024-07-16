@@ -18,7 +18,7 @@ const frameMetadata = getFrameMetadata({
     },
   ],
   image: {
-    src: `${NEXT_PUBLIC_URL}/park-3.png`,
+    src: `${NEXT_PUBLIC_URL}/celeb-collage.jpg`,
     aspectRatio: "1:1",
   },
   input: {
@@ -48,7 +48,7 @@ const styles = {
     backgroundPosition: "center",
     height: "91.4vh",
     width: "50%",
-     // Added border radius for a softer look
+    // Added border radius for a softer look
   },
 };
 
