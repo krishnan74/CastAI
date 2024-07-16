@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { ethers } from "ethers";
 import { Button } from "./ui/button";
+import Link from "next/link";
 import {
   Select,
   SelectItem,
@@ -47,10 +48,10 @@ const Navbar = () => {
   };
 
   return (
-    <div className="flex items-center px-8 py-4 justify-between border-b bg-white bg-opacity-90 shadow-md">
-      <div>
+    <div className="flex items-center px-8 py-4 justify-between border-b bg-white bg-opacity-90 ">
+      <Link className="" href={"/"}>
         <p className="text-2xl font-semibold text-gray-900">CastAI</p>
-      </div>
+      </Link>
       <div className="flex gap-8 items-center">
         <Select onValueChange={handleSwitchNetwork}>
           <SelectTrigger

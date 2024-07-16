@@ -1,6 +1,7 @@
-"use client"
+"use client";
 import { useState } from "react";
 import { getFrameMetadata } from "@coinbase/onchainkit/frame";
+import { useWeb3Provider } from "@/context/Web3ModalContext";
 import type { Metadata } from "next";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
@@ -11,10 +12,9 @@ const styles = {
     backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
     backgroundPosition: "center",
-    height: "91vh",
+    height: "91.2vh",
   },
   overlay: {
-    position: "absolute",
     top: 0,
     left: 0,
     right: 0,
@@ -31,28 +31,39 @@ const styles = {
 };
 
 export default function Page() {
-  const [celebName, setCelebName] = useState("");
-  const [celebPersonality, setCelebPersonality] = useState("");
+  const { createCelebrity, currentAccount } = useWeb3Provider();
+  const [celebDetails, setCelebDetails] = useState({
+    name: "",
+    personality1: "",
+    personality2: "",
+    personality3: "",
+    personality4: "",
+    description: "",
+  });
 
-  const handleSubmit = (e) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { id, value, type } = e.target;
+    setCelebDetails((prevDetails) => ({
+      ...prevDetails,
+      [id]: value,
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // You can handle form submission logic here, like sending data to an API
-    console.log("Submitted:", celebName, celebPersonality);
-    // Example: Send data to an API endpoint
-    // fetch('/api/create-celeb', {
-    //   method: 'POST',
-    //   body: JSON.stringify({ name: celebName, personality: celebPersonality }),
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   }
-    // }).then(response => response.json())
-    //   .then(data => console.log(data))
-    //   .catch(error => console.error('Error:', error));
+    try {
+      const response = await createCelebrity(celebDetails);
+      console.log("Celebrity created:", response);
+    } catch (err) {
+      console.error("Error creating celebrity:", err);
+    }
   };
 
   return (
     <div
-      className="flex mt-1 justify-center items-center gap-10 relative"
+      className="flex justify-center items-center gap-10 relative"
       style={styles.backgroundImage}
     >
       <div style={styles.overlay} className="absolute"></div>
@@ -71,28 +82,65 @@ export default function Page() {
           />
         </div>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          <label htmlFor="celebName" className="text-lg text-gray-900">
+          <label htmlFor="name" className="text-lg text-gray-900">
             Name Your AI Celebrity:
           </label>
           <input
             type="text"
-            id="celebName"
-            value={celebName}
-            onChange={(e) => setCelebName(e.target.value)}
+            id="name"
+            value={celebDetails.name}
+            onChange={handleChange}
             className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-[#845DCC]"
             required
           />
-          <label htmlFor="celebPersonality" className="text-lg text-gray-900">
+          <label htmlFor="description" className="text-lg text-gray-900">
+            Provide a description:
+          </label>
+          <input
+            type="text"
+            id="description"
+            value={celebDetails.description}
+            onChange={handleChange}
+            className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-[#845DCC]"
+            required
+          />
+          <label htmlFor="personality1" className="text-lg text-gray-900">
             Choose Their Personality:
           </label>
-          <textarea
-            id="celebPersonality"
-            value={celebPersonality}
-            onChange={(e) => setCelebPersonality(e.target.value)}
-            rows={4}
-            className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-[#845DCC] resize-none"
-            required
-          ></textarea>
+          <div className="grid grid-cols-2 gap-5">
+            <textarea
+              id="personality1"
+              rows={2}
+              value={celebDetails.personality1}
+              onChange={handleChange}
+              className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-[#845DCC] resize-none"
+              required
+            ></textarea>
+            <textarea
+              id="personality2"
+              rows={2}
+              value={celebDetails.personality2}
+              onChange={handleChange}
+              className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-[#845DCC] resize-none"
+              required
+            ></textarea>
+            <textarea
+              id="personality3"
+              rows={2}
+              value={celebDetails.personality3}
+              onChange={handleChange}
+              className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-[#845DCC] resize-none"
+              required
+            ></textarea>
+            <textarea
+              id="personality4"
+              rows={2}
+              value={celebDetails.personality4}
+              onChange={handleChange}
+              className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-[#845DCC] resize-none"
+              required
+            ></textarea>
+          </div>
           <div className="flex gap-5 mt-3">
             <Button
               type="submit"

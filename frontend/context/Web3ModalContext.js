@@ -2,28 +2,60 @@
 import React, { useState, useEffect, createContext, useContext } from "react";
 import Web3Modal from "web3modal";
 import { ethers } from "ethers";
-import contractJSON from "./Insurance.json";
+import contractJSON from "./AICelebrityPlatform.json";
 
 const contractDetails = {
-  address: "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+  address: "0x8320c4042143d35DAf3c975290e6660fe6c4Cc7F",
   abi: contractJSON.abi,
 };
 
 export const Web3ModalContext = createContext();
 
 export const Web3ModalProvider = ({ children }) => {
-  const DAPP_NAME = "Insurance";
+  const DAPP_NAME = "AICelebrityPlatform";
   const [currentAccount, setCurrentAccount] = useState("");
-  const [provider, setProvider] = useState(null);
 
   useEffect(() => {
     checkIfWalletConnected();
   }, []);
 
+  const fetchContract = async (signerOrProvider) =>
+    new ethers.Contract(
+      contractDetails.address,
+      contractDetails.abi,
+      signerOrProvider
+    );
+
   const getProvider = async () => {
-    const web3modal = new Web3Modal();
-    const connection = await web3modal.connect();
     const provider = new ethers.BrowserProvider(window.ethereum);
+    return provider;
+  };
+
+  const createCelebrity = async (celebDetails) => {
+    const {
+      name,
+      personality1,
+      personality2,
+      personality3,
+      personality4,
+      description,
+    } = celebDetails;
+    try {
+      const provider = await getProvider();
+      const signer = await provider.getSigner();
+      const contract = await fetchContract(signer);
+      const response = await contract.createCeleb(
+        name,
+        personality1,
+        personality2,
+        personality3,
+        personality4,
+        description
+      );
+      return response;
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const checkIfWalletConnected = async () => {
@@ -104,7 +136,6 @@ export const Web3ModalProvider = ({ children }) => {
       console.error("Failed to add network:", error);
     }
   };
-
   const switchNetwork = async (networkId) => {
     try {
       await window.ethereum.request({
@@ -129,6 +160,7 @@ export const Web3ModalProvider = ({ children }) => {
         DAPP_NAME,
         currentAccount,
         getProvider,
+        createCelebrity,
       }}
     >
       {children}
