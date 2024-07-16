@@ -14,6 +14,7 @@ export const Web3ModalContext = createContext();
 export const Web3ModalProvider = ({ children }) => {
   const DAPP_NAME = "Insurance";
   const [currentAccount, setCurrentAccount] = useState("");
+  const [provider, setProvider] = useState(null);
 
   useEffect(() => {
     checkIfWalletConnected();
@@ -22,8 +23,7 @@ export const Web3ModalProvider = ({ children }) => {
   const getProvider = async () => {
     const web3modal = new Web3Modal();
     const connection = await web3modal.connect();
-    const provider = new ethers.BrowserProvider(connection);
-    return provider;
+    const provider = new ethers.BrowserProvider(window.ethereum);
   };
 
   const checkIfWalletConnected = async () => {
@@ -70,50 +70,18 @@ export const Web3ModalProvider = ({ children }) => {
         rpcUrls: ["https://ropsten.infura.io/v3/YOUR_INFURA_PROJECT_ID"],
         blockExplorerUrls: ["https://ropsten.etherscan.io"],
       },
-      4: {
-        chainId: "0x4",
-        chainName: "Rinkeby Testnet",
+      84532: {
+        chainId: "0x14a34",
+        chainName: "Base Sepolia Testnet",
         nativeCurrency: {
-          name: "Rinkeby Ether",
-          symbol: "rETH",
+          name: "Sepolia",
+          symbol: "ETH",
           decimals: 18,
         },
-        rpcUrls: ["https://rinkeby.infura.io/v3/YOUR_INFURA_PROJECT_ID"],
-        blockExplorerUrls: ["https://rinkeby.etherscan.io"],
+        rpcUrls: ["https://sepolia.base.org"],
+        blockExplorerUrls: ["https://sepolia-explorer.base.org"],
       },
-      5: {
-        chainId: "0x5",
-        chainName: "Goerli Testnet",
-        nativeCurrency: {
-          name: "Goerli Ether",
-          symbol: "gETH",
-          decimals: 18,
-        },
-        rpcUrls: ["https://goerli.infura.io/v3/YOUR_INFURA_PROJECT_ID"],
-        blockExplorerUrls: ["https://goerli.etherscan.io"],
-      },
-      42: {
-        chainId: "0x2a",
-        chainName: "Kovan Testnet",
-        nativeCurrency: {
-          name: "Kovan Ether",
-          symbol: "KETH",
-          decimals: 18,
-        },
-        rpcUrls: ["https://kovan.infura.io/v3/YOUR_INFURA_PROJECT_ID"],
-        blockExplorerUrls: ["https://kovan.etherscan.io"],
-      },
-      80001: {
-        chainId: "0x13881",
-        chainName: "Polygon Mumbai Testnet",
-        nativeCurrency: {
-          name: "Matic",
-          symbol: "MATIC",
-          decimals: 18,
-        },
-        rpcUrls: ["https://rpc-mumbai.maticvigil.com"],
-        blockExplorerUrls: ["https://mumbai.polygonscan.com"],
-      },
+
       2442: {
         chainId: "0x98a",
         chainName: "Polygon zkEVM Cardona Testnet",
@@ -145,7 +113,6 @@ export const Web3ModalProvider = ({ children }) => {
       });
     } catch (err) {
       if (err.code === 4902) {
-        // Network is not added, so add it
         await addNetwork(networkId);
       } else {
         console.log(err);
@@ -161,6 +128,7 @@ export const Web3ModalProvider = ({ children }) => {
         switchNetwork,
         DAPP_NAME,
         currentAccount,
+        getProvider,
       }}
     >
       {children}
