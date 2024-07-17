@@ -32,9 +32,9 @@ const Navbar = () => {
     const provider = await getProvider();
     console.log(provider);
     if (provider && currentAccount) {
-      const balance = await provider.getBalance("ethers.eth");
-      setBalance(ethers.formatEther(balance));
-      console.log("Balance: ", balance);
+      // const balance = await provider.getBalance("ethers.eth");
+      // setBalance(ethers.formatEther(balance));
+      // console.log("Balance: ", balance);
     }
   };
 

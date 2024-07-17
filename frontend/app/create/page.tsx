@@ -4,6 +4,7 @@ import { getFrameMetadata } from "@coinbase/onchainkit/frame";
 import { useWeb3Provider } from "@/context/Web3ModalContext";
 import type { Metadata } from "next";
 import Image from "next/image";
+import { v4 as uuidv4 } from "uuid";
 import { Button } from "@/components/ui/button";
 
 const styles = {
@@ -30,15 +31,25 @@ const styles = {
   },
 };
 
+interface CelebDetails {
+  name: string;
+  celebId: string;
+  personality1: string;
+  personality2: string;
+  personality3: string;
+  personality4: string;
+}
+
 export default function Page() {
   const { createCelebrity, currentAccount } = useWeb3Provider();
+
   const [celebDetails, setCelebDetails] = useState({
     name: "",
+    celebId: "",
     personality1: "",
     personality2: "",
     personality3: "",
     personality4: "",
-    description: "",
   });
 
   const handleChange = (
@@ -54,8 +65,17 @@ export default function Page() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
+      const celeb = uuidv4();
+      setCelebDetails((prevDetails) => ({
+        ...prevDetails,
+        celebId: celeb,
+      }));
       const response = await createCelebrity(celebDetails);
-      console.log("Celebrity created:", response);
+      console.log(
+        "Celebrity created with celebId : ",
+        celebDetails.celebId,
+        response
+      );
     } catch (err) {
       console.error("Error creating celebrity:", err);
     }
@@ -93,7 +113,7 @@ export default function Page() {
             className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-[#845DCC]"
             required
           />
-          <label htmlFor="description" className="text-lg text-gray-900">
+          {/**<label htmlFor="description" className="text-lg text-gray-900">
             Provide a description:
           </label>
           <input
@@ -103,7 +123,7 @@ export default function Page() {
             onChange={handleChange}
             className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-[#845DCC]"
             required
-          />
+          />**/}
           <label htmlFor="personality1" className="text-lg text-gray-900">
             Choose Their Personality:
           </label>

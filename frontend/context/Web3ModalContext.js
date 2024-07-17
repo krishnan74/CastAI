@@ -2,11 +2,11 @@
 import React, { useState, useEffect, createContext, useContext } from "react";
 import Web3Modal from "web3modal";
 import { ethers } from "ethers";
-import contractJSON from "./AICelebrityPlatform.json";
+import contractABI from "./AICelebrityPlatform.json";
 
 const contractDetails = {
-  address: "0x8320c4042143d35DAf3c975290e6660fe6c4Cc7F",
-  abi: contractJSON.abi,
+  address: "0x4Eb90968c5F9c06EF7196dbAf7259d5cb6f07142",
+  abi: contractABI.abi,
 };
 
 export const Web3ModalContext = createContext();
@@ -34,6 +34,7 @@ export const Web3ModalProvider = ({ children }) => {
   const createCelebrity = async (celebDetails) => {
     const {
       name,
+      celebId,
       personality1,
       personality2,
       personality3,
@@ -46,13 +47,25 @@ export const Web3ModalProvider = ({ children }) => {
       const contract = await fetchContract(signer);
       const response = await contract.createCeleb(
         name,
+        celebId,
         personality1,
         personality2,
         personality3,
-        personality4,
-        description
+        personality4, 
+        "Ai Celeb"
       );
       return response;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const getCelebDetails = async (_celebId) => {
+    try {
+      const provider = await getProvider();
+      const contract = await fetchContract(provider);
+      const celebDetails = await contract.getCelebDetails(_celebId);
+      return celebDetails;
     } catch (err) {
       console.log(err);
     }
@@ -161,6 +174,7 @@ export const Web3ModalProvider = ({ children }) => {
         currentAccount,
         getProvider,
         createCelebrity,
+        getCelebDetails,
       }}
     >
       {children}
