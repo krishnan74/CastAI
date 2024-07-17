@@ -26,32 +26,28 @@ export async function generateMetadata(
 
   // Example of using searchParams to modify frameMetadata
   const frameMetadata = getFrameMetadata({
-    state: {},
+    state: { id },
     buttons: [
       {
         label: searchParams.celebPersonality1,
         action: "tx",
 
         target: `${NEXT_PUBLIC_URL}/api/enablePersonality/1`,
-        postUrl: `${NEXT_PUBLIC_URL}/api/frame`,
       },
       {
         label: searchParams.celebPersonality2,
         action: "tx",
         target: `${NEXT_PUBLIC_URL}/api/enablePersonality/2`,
-        postUrl: `${NEXT_PUBLIC_URL}/api/frame`,
       },
       {
         label: searchParams.celebPersonality3,
         action: "tx",
         target: `${NEXT_PUBLIC_URL}/api/enablePersonality/3`,
-        postUrl: `${NEXT_PUBLIC_URL}/api/frame`,
       },
       {
         label: searchParams.celebPersonality4,
         action: "tx",
         target: `${NEXT_PUBLIC_URL}/api/enablePersonality/4`,
-        postUrl: `${NEXT_PUBLIC_URL}/api/frame`,
       },
     ],
     image: {
