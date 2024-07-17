@@ -51,7 +51,7 @@ export const Web3ModalProvider = ({ children }) => {
         personality1,
         personality2,
         personality3,
-        personality4, 
+        personality4,
         "Ai Celeb"
       );
       return response;
@@ -66,6 +66,21 @@ export const Web3ModalProvider = ({ children }) => {
       const contract = await fetchContract(provider);
       const celebDetails = await contract.getCelebDetails(_celebId);
       return celebDetails;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const enablePersonality = async (_personalityIndex, _celebId) => {
+    try {
+      const provider = await getProvider();
+      const signer = await provider.getSigner();
+      const contract = await fetchContract(signer);
+      const response = await contract.enablePersonality(
+        _personalityIndex,
+        _celebId
+      );
+      return response;
     } catch (err) {
       console.log(err);
     }

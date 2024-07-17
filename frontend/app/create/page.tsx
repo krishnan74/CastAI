@@ -170,11 +170,12 @@ export default function Page() {
               Create AI Celebrity
             </Button>
             <Link
-              href="https://warpcast.com/~/compose?text=Hello%20world!&embeds[]=https://cast-ai-frame.vercel.app/celebs[celebId]"
+              href={`https://warpcast.com/~/compose?text=Hello%20world!&embeds[]=https://cast-ai-frame.vercel.app/celebs/1?celebId=${celebDetails.celebId}&celebName=${celebDetails.name}&celebPersonality1=${celebDetails.personality1}&celebPersonality2=${celebDetails.personality2}&celebPersonality3=${celebDetails.personality3}&celebPersonality4=${celebDetails.personality4}`}
               type="button"
-              className="px-8 py-3 border border-white text-gray-800 bg-white hover:bg-gray-100 transition-transform transform hover:scale-105"
             >
-              Cast on Warpcast
+              <Button className="px-8 py-3 border border-white text-gray-800 bg-white hover:bg-gray-100 transition-transform transform hover:scale-105">
+                Cast on Warpcast
+              </Button>
             </Link>
           </div>
         </form>
