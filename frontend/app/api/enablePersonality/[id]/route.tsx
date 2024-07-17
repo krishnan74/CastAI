@@ -31,9 +31,9 @@ async function getResponse(req: NextRequest): Promise<NextResponse | Response> {
       },
     };
     return NextResponse.json(txData);
-  } catch (e) {
-    console.log(e);
-    return new Response("error");
+  } catch (e: any) {
+    console.error(e);
+    return new Response(JSON.stringify({ error: e.message }), { status: 500 });
   }
 }
 
