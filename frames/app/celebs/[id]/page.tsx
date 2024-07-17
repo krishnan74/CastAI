@@ -1,5 +1,7 @@
 import { Metadata } from "next";
 const NEXT_PUBLIC_URL = "https://zizzamia.xyz";
+
+import React from "react";
 import { getFrameMetadata } from "@coinbase/onchainkit/core";
 
 const frameMetadata = getFrameMetadata({
@@ -36,3 +38,9 @@ export const metadata: Metadata = {
     ...frameMetadata,
   },
 };
+
+const CelebPage = () => {
+  return <div>Celebrity Page</div>;
+};
+
+export default CelebPage;
