@@ -31,22 +31,25 @@ export async function generateMetadata(
       {
         label: searchParams.celebPersonality1,
         action: "tx",
-
+        postUrl: `${NEXT_PUBLIC_URL}/api/frame/`,
         target: `${NEXT_PUBLIC_URL}/api/enablePersonality/1`,
       },
       {
         label: searchParams.celebPersonality2,
         action: "tx",
+        postUrl: `${NEXT_PUBLIC_URL}/api/frame/`,
         target: `${NEXT_PUBLIC_URL}/api/enablePersonality/2`,
       },
       {
         label: searchParams.celebPersonality3,
         action: "tx",
+        postUrl: `${NEXT_PUBLIC_URL}/api/frame/`,
         target: `${NEXT_PUBLIC_URL}/api/enablePersonality/3`,
       },
       {
         label: searchParams.celebPersonality4,
         action: "tx",
+        postUrl: `${NEXT_PUBLIC_URL}/api/frame/`,
         target: `${NEXT_PUBLIC_URL}/api/enablePersonality/4`,
       },
     ],

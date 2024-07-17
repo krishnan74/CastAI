@@ -15,6 +15,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         {
           label: "You enabled",
           action: "tx",
+          postUrl: `${NEXT_PUBLIC_URL}/api/frame/`,
           target: `${NEXT_PUBLIC_URL}/api/enablePersonality/4`,
         },
       ],
