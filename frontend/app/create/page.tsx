@@ -6,6 +6,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { v4 as uuidv4 } from "uuid";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const styles = {
   backgroundImage: {
@@ -168,12 +169,13 @@ export default function Page() {
             >
               Create AI Celebrity
             </Button>
-            <Button
+            <Link
+              href="https://warpcast.com/~/compose?text=Hello%20world!&embeds[]=https://cast-ai-frame.vercel.app/celebs[celebId]"
               type="button"
               className="px-8 py-3 border border-white text-gray-800 bg-white hover:bg-gray-100 transition-transform transform hover:scale-105"
             >
-              Share
-            </Button>
+              Cast on Warpcast
+            </Link>
           </div>
         </form>
       </div>
