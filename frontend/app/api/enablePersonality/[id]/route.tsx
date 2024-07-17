@@ -15,7 +15,22 @@ async function getResponse(req: NextRequest): Promise<NextResponse | Response> {
   try {
     const body: FrameRequest = await req.json();
 
-    return NextResponse.json(req);
+    const data = encodeFunctionData({
+      abi: contractConfig.abi,
+      functionName: "enablePersonality",
+      args: [1, "ae1370af-2f88-4e51-81ab-8d1378403325"],
+    });
+    const txData: FrameTransactionResponse = {
+      chainId: `eip155:${baseSepolia.id}`,
+      method: "eth_sendTransaction",
+      params: {
+        abi: [],
+        data,
+        to: `0x${contractConfig.contractAddress}`,
+        value: parseGwei("10000").toString(), // 0.00001 ETH
+      },
+    };
+    return NextResponse.json(txData);
   } catch (e: any) {
     console.error(e);
     return new Response(JSON.stringify({ error: e.message }), { status: 500 });
