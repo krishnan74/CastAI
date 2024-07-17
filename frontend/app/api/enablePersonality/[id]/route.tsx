@@ -4,7 +4,7 @@ import {
   getFrameHtmlResponse,
 } from "@coinbase/onchainkit/frame";
 import { NextRequest, NextResponse } from "next/server";
-import { encodeFunctionData, formatEther, parseGwei } from "viem";
+import { encodeFunctionData, formatEther, parseGwei, Abi } from "viem";
 import { baseSepolia } from "viem/chains";
 import type { FrameTransactionResponse } from "@coinbase/onchainkit/frame";
 
@@ -24,10 +24,10 @@ async function getResponse(req: NextRequest): Promise<NextResponse | Response> {
       chainId: `eip155:${baseSepolia.id}`,
       method: "eth_sendTransaction",
       params: {
-        abi: [],
+        abi: contractConfig.abi as Abi,
         data,
         to: `0x${contractConfig.contractAddress}`,
-        value: parseGwei("10000").toString(), // 0.00001 ETH
+        value: parseGwei("10000").toString(),
       },
     };
     return NextResponse.json(txData);
