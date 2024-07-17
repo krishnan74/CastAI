@@ -30,9 +30,9 @@ export async function generateMetadata(
     buttons: [
       {
         label: searchParams.celebPersonality1,
-        //action: "tx",
+        action: "tx",
 
-        //target: `${NEXT_PUBLIC_URL}/api/enablePersonality/1`,
+        target: `${NEXT_PUBLIC_URL}/api/enablePersonality/1`,
         postUrl: `${NEXT_PUBLIC_URL}/api/frame`,
       },
       {
