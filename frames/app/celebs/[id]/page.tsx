@@ -3,7 +3,7 @@ import { ResolvingMetadata } from "next";
 import React from "react";
 import { getFrameMetadata } from "@coinbase/onchainkit/core";
 
-const NEXT_PUBLIC_URL = "https://cast-ai.vercel.app";
+const NEXT_PUBLIC_URL = "https://cast-ai-frame.vercel.app";
 
 type Props = {
   params: { id: string };
@@ -31,26 +31,26 @@ export async function generateMetadata(
       {
         label: searchParams.celebPersonality1,
         action: "tx",
-        postUrl: `${NEXT_PUBLIC_URL}/api/frame/`,
-        target: `${NEXT_PUBLIC_URL}/api/enablePersonality/1`,
+        postUrl: `${NEXT_PUBLIC_URL}/tx-success/enablePersonality/1`,
+        target: `${NEXT_PUBLIC_URL}/tx/enablePersonality/1`,
       },
       {
         label: searchParams.celebPersonality2,
         action: "tx",
-        postUrl: `${NEXT_PUBLIC_URL}/api/frame/`,
-        target: `${NEXT_PUBLIC_URL}/api/enablePersonality/2`,
+        postUrl: `${NEXT_PUBLIC_URL}/tx-success/enablePersonality/2`,
+        target: `${NEXT_PUBLIC_URL}/tx/enablePersonality/2`,
       },
       {
         label: searchParams.celebPersonality3,
         action: "tx",
-        postUrl: `${NEXT_PUBLIC_URL}/api/frame/`,
-        target: `${NEXT_PUBLIC_URL}/api/enablePersonality/3`,
+        postUrl: `${NEXT_PUBLIC_URL}/tx-success/enablePersonality/3`,
+        target: `${NEXT_PUBLIC_URL}/tx/enablePersonality/3`,
       },
       {
         label: searchParams.celebPersonality4,
         action: "tx",
-        postUrl: `${NEXT_PUBLIC_URL}/api/frame/`,
-        target: `${NEXT_PUBLIC_URL}/api/enablePersonality/4`,
+        postUrl: `${NEXT_PUBLIC_URL}/tx-success/enablePersonality/4`,
+        target: `${NEXT_PUBLIC_URL}/tx/enablePersonality/4`,
       },
     ],
     image: {
@@ -60,7 +60,7 @@ export async function generateMetadata(
     input: {
       text: `Talk with your celebrity ${searchParams.celebName}`,
     },
-    postUrl: `${NEXT_PUBLIC_URL}/api/frame/`,
+    postUrl: `${NEXT_PUBLIC_URL}/tx/frame/`,
   });
 
   return {
