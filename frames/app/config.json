@@ -1,5 +1,5 @@
 {
-  "contractAddress": "4Eb90968c5F9c06EF7196dbAf7259d5cb6f07142",
+  "contractAddress": "e8BdF93E7BE2119EB4c851dDb16B5A390cD4E66E",
   "abi": [
     {
       "inputs": [
@@ -66,6 +66,134 @@
       ],
       "name": "CelebCreated",
       "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "string",
+          "name": "celebId",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "FeePaid",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "string",
+          "name": "celebId",
+          "type": "string"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "owner",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "Withdrawal",
+      "type": "event"
+    },
+    {
+      "stateMutability": "payable",
+      "type": "fallback"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "name": "celebs",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "celebId",
+          "type": "string"
+        },
+        {
+          "internalType": "address",
+          "name": "owner",
+          "type": "address"
+        },
+        {
+          "internalType": "string",
+          "name": "personality1",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "personality2",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "personality3",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "personality4",
+          "type": "string"
+        },
+        {
+          "internalType": "uint256",
+          "name": "etherEarned",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bool",
+          "name": "personality1Enabled",
+          "type": "bool"
+        },
+        {
+          "internalType": "bool",
+          "name": "personality2Enabled",
+          "type": "bool"
+        },
+        {
+          "internalType": "bool",
+          "name": "personality3Enabled",
+          "type": "bool"
+        },
+        {
+          "internalType": "bool",
+          "name": "personality4Enabled",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
     },
     {
       "inputs": [
@@ -144,164 +272,6 @@
       "name": "enablePersonality",
       "outputs": [],
       "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": true,
-          "internalType": "address",
-          "name": "user",
-          "type": "address"
-        },
-        {
-          "indexed": true,
-          "internalType": "string",
-          "name": "celebId",
-          "type": "string"
-        },
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "amount",
-          "type": "uint256"
-        }
-      ],
-      "name": "FeePaid",
-      "type": "event"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "string",
-          "name": "_celebId",
-          "type": "string"
-        }
-      ],
-      "name": "payFee",
-      "outputs": [],
-      "stateMutability": "payable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "string",
-          "name": "_celebId",
-          "type": "string"
-        }
-      ],
-      "name": "withdraw",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": true,
-          "internalType": "string",
-          "name": "celebId",
-          "type": "string"
-        },
-        {
-          "indexed": true,
-          "internalType": "address",
-          "name": "owner",
-          "type": "address"
-        },
-        {
-          "indexed": false,
-          "internalType": "uint256",
-          "name": "amount",
-          "type": "uint256"
-        }
-      ],
-      "name": "Withdrawal",
-      "type": "event"
-    },
-    {
-      "stateMutability": "payable",
-      "type": "fallback"
-    },
-    {
-      "stateMutability": "payable",
-      "type": "receive"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "string",
-          "name": "",
-          "type": "string"
-        }
-      ],
-      "name": "celebs",
-      "outputs": [
-        {
-          "internalType": "string",
-          "name": "name",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "celebId",
-          "type": "string"
-        },
-        {
-          "internalType": "address",
-          "name": "owner",
-          "type": "address"
-        },
-        {
-          "internalType": "string",
-          "name": "personality1",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "personality2",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "personality3",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "personality4",
-          "type": "string"
-        },
-        {
-          "internalType": "uint256",
-          "name": "etherEarned",
-          "type": "uint256"
-        },
-        {
-          "internalType": "bool",
-          "name": "personality1Enabled",
-          "type": "bool"
-        },
-        {
-          "internalType": "bool",
-          "name": "personality2Enabled",
-          "type": "bool"
-        },
-        {
-          "internalType": "bool",
-          "name": "personality3Enabled",
-          "type": "bool"
-        },
-        {
-          "internalType": "bool",
-          "name": "personality4Enabled",
-          "type": "bool"
-        }
-      ],
-      "stateMutability": "view",
       "type": "function"
     },
     {
@@ -497,6 +467,36 @@
       ],
       "stateMutability": "view",
       "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_celebId",
+          "type": "string"
+        }
+      ],
+      "name": "payFee",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_celebId",
+          "type": "string"
+        }
+      ],
+      "name": "withdraw",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "stateMutability": "payable",
+      "type": "receive"
     }
   ]
 }
