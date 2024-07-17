@@ -57,6 +57,7 @@ export async function generateMetadata(
     input: {
       text: `Talk with your celebrity ${searchParams.celebName}`,
     },
+    postUrl: `${NEXT_PUBLIC_URL}/api/frame/`,
   });
 
   return {

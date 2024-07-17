@@ -1,16 +1,37 @@
+import {
+  FrameRequest,
+  getFrameMessage,
+  getFrameHtmlResponse,
+} from "@coinbase/onchainkit/frame";
 import { NextRequest, NextResponse } from "next/server";
-import { PinataFDK } from "pinata-fdk";
-import { getConnectedAddressForUser } from "@/app/utils";
+const NEXT_PUBLIC_URL = "https://cast-ai.vercel.app";
 
-const fdk = new PinataFDK({
-  pinata_jwt: process.env.PINATA_JWT as string,
-  pinata_gateway: process.env.GATEWAY_URL as string,
-});
+async function getResponse(req: NextRequest): Promise<NextResponse> {
+  const body: FrameRequest = await req.json();
 
-export async function POST(req: NextRequest, res: NextResponse) {
-  const body = await req.json();
-  const fid = body.untrustedData.fid;
-  const address = await getConnectedAddressForUser(fid);
-  console.log(body);
-  console.log(address);
+  return new NextResponse(
+    getFrameHtmlResponse({
+      buttons: [
+        {
+          label: "You enabled",
+          action: "tx",
+          target: `${NEXT_PUBLIC_URL}/api/enablePersonality/4`,
+        },
+      ],
+      image: {
+        src: `${NEXT_PUBLIC_URL}/celeb-collage.jpg`,
+        aspectRatio: "1:1",
+      },
+      input: {
+        text: `Talk with your celebrity`,
+      },
+      postUrl: `${NEXT_PUBLIC_URL}/api/frame/`,
+    })
+  );
 }
+
+export async function POST(req: NextRequest): Promise<Response> {
+  return getResponse(req);
+}
+
+export const dynamic = "force-dynamic";
