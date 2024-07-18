@@ -18,7 +18,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse | Response> {
     const data = encodeFunctionData({
       abi: contractConfig.abi,
       functionName: "enablePersonality",
-      args: [BigInt(1), "ae1370af-2f88-4e51-81ab-8d1378403325"],
+      args: [BigInt(1), "d013db48-97e7-4170-b7a9-c1cf920f97a4"],
     });
     const txData: FrameTransactionResponse = {
       chainId: `eip155:${baseSepolia.id}`,
