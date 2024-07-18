@@ -2,11 +2,11 @@
 import React, { useState, useEffect, createContext, useContext } from "react";
 import Web3Modal from "web3modal";
 import { ethers } from "ethers";
-import contractABI from "./AICelebrityPlatform.json";
+import contractConfig from "./AICelebrityPlatform.json";
 
 const contractDetails = {
-  address: "0x4Eb90968c5F9c06EF7196dbAf7259d5cb6f07142",
-  abi: contractABI.abi,
+  address: `0x${contractConfig.contractAddress}`,
+  abi: contractConfig.abi,
 };
 
 export const Web3ModalContext = createContext();
