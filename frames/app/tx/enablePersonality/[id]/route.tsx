@@ -27,7 +27,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse | Response> {
         abi: contractConfig.abi as Abi,
         data,
         to: `0x${contractConfig.contractAddress}`,
-        value: parseGwei("10000").toString(),
+        value: "0",
       },
     };
     return NextResponse.json(txData);
