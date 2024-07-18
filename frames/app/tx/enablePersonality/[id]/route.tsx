@@ -13,12 +13,20 @@ import { get } from "http";
 
 async function getResponse(req: NextRequest): Promise<NextResponse | Response> {
   try {
-    const body: FrameRequest = await req.json();
+    const framerequest: FrameRequest = await req.json();
+
+    const { isValid, message } = await getFrameMessage(framerequest);
+
+    if (!isValid) {
+      return new Response(JSON.stringify({ error: "Invalid message" }), {
+        status: 400,
+      });
+    }
 
     const data = encodeFunctionData({
       abi: contractConfig.abi,
       functionName: "enablePersonality",
-      args: [BigInt(3), "d013db48-97e7-4170-b7a9-c1cf920f97a4"],
+      args: [BigInt(message.button), "d013db48-97e7-4170-b7a9-c1cf920f97a4"],
     });
     const txData: FrameTransactionResponse = {
       chainId: `eip155:${baseSepolia.id}`,
