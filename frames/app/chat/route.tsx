@@ -31,6 +31,7 @@ const interLight = fs.readFileSync(
 );
 
 const getImage = async (messages: Messages[], avatars: string[]) => {
+  console.log("Generating image with messages:", messages);
   const svg = await satori(
     <div
       style={{
@@ -128,26 +129,36 @@ const exampleMessages = [
 async function getResponse(req: NextRequest): Promise<NextResponse | Response> {
   try {
     const framerequest: FrameRequest = await req.json();
+    console.log("Frame request received:", framerequest);
     const { searchParams } = new URL(req.url);
     const celebPersonality1 = searchParams.get("celebPersonality1");
-
     const celebPersonality2 = searchParams.get("celebPersonality2");
-
     const celebPersonality3 = searchParams.get("celebPersonality3");
-
     const celebPersonality4 = searchParams.get("celebPersonality4");
-
     const celebName = searchParams.get("celebName");
     const id = searchParams.get("celebId");
     const button = searchParams.get("button");
 
+    console.log("Parsed query parameters:", {
+      celebPersonality1,
+      celebPersonality2,
+      celebPersonality3,
+      celebPersonality4,
+      celebName,
+      id,
+      button,
+    });
+
     const { isValid, message } = await getFrameMessage(framerequest);
 
     if (!isValid) {
+      console.error("Invalid message:", message);
       return new Response(JSON.stringify({ error: "Invalid message" }), {
         status: 400,
       });
     }
+
+    console.log("Valid message received:", message);
 
     const messageData = message.input;
 
@@ -167,6 +178,8 @@ async function getResponse(req: NextRequest): Promise<NextResponse | Response> {
         "https://image.api.playstation.com/vulcan/ap/rnd/202009/3021/B2aUYFC0qUAkNnjbTHRyhrg3.png",
       ]
     );
+
+    console.log("Image generated:", image);
 
     return new NextResponse(
       getFrameHtmlResponse({
@@ -206,7 +219,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse | Response> {
       })
     );
   } catch (e: any) {
-    console.error(e);
+    console.error("Error occurred:", e);
     return new Response(JSON.stringify({ error: e.message }), { status: 500 });
   }
 }
