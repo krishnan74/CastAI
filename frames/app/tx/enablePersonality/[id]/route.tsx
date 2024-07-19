@@ -4,7 +4,7 @@ import {
   getFrameHtmlResponse,
 } from "@coinbase/onchainkit/frame";
 import { NextRequest, NextResponse } from "next/server";
-import { encodeFunctionData, formatEther, parseGwei, Abi } from "viem";
+import { encodeFunctionData, formatEther, parseGwei, Abi, } from "viem";
 import { baseSepolia } from "viem/chains";
 import type { FrameTransactionResponse } from "@coinbase/onchainkit/frame";
 
@@ -14,6 +14,8 @@ import { get } from "http";
 async function getResponse(req: NextRequest): Promise<NextResponse | Response> {
   try {
     const framerequest: FrameRequest = await req.json();
+    const { searchParams } = new URL(req.url);
+    const celebId = searchParams.get("celebId");
 
     const { isValid, message } = await getFrameMessage(framerequest);
 
@@ -26,7 +28,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse | Response> {
     const data = encodeFunctionData({
       abi: contractConfig.abi,
       functionName: "enablePersonality",
-      args: [BigInt(message.button), "d013db48-97e7-4170-b7a9-c1cf920f97a4"],
+      args: [BigInt(message.button), celebId],
     });
     const txData: FrameTransactionResponse = {
       chainId: `eip155:${baseSepolia.id}`,

@@ -13,12 +13,22 @@ import { get } from "http";
 
 async function getResponse(req: NextRequest): Promise<NextResponse | Response> {
   try {
-    const body: FrameRequest = await req.json();
+    const framerequest: FrameRequest = await req.json();
+    const { searchParams } = new URL(req.url);
+    const celebId = searchParams.get("celebId");
+
+    const { isValid, message } = await getFrameMessage(framerequest);
+
+    if (!isValid) {
+      return new Response(JSON.stringify({ error: "Invalid message" }), {
+        status: 400,
+      });
+    }
 
     const data = encodeFunctionData({
       abi: contractConfig.abi,
       functionName: "disablePersonality",
-      args: [1, "ae1370af-2f88-4e51-81ab-8d1378403325"],
+      args: [BigInt(message.button), celebId],
     });
     const txData: FrameTransactionResponse = {
       chainId: `eip155:${baseSepolia.id}`,
@@ -27,7 +37,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse | Response> {
         abi: contractConfig.abi as Abi,
         data,
         to: `0x${contractConfig.contractAddress}`,
-        value: parseGwei("10000").toString(),
+        value: "0",
       },
     };
     return NextResponse.json(txData);

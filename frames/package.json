@@ -14,6 +14,8 @@
     "pinata-fdk": "^3.10.2",
     "react": "^18",
     "react-dom": "^18",
+    "satori": "^0.10.14",
+    "sharp": "^0.33.4",
     "viem": "^2.17.4"
   },
   "devDependencies": {

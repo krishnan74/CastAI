@@ -3,8 +3,6 @@ import { ResolvingMetadata } from "next";
 import React from "react";
 import { getFrameMetadata } from "@coinbase/onchainkit/core";
 
-const NEXT_PUBLIC_URL = "https://cast-ai-frame.vercel.app";
-
 type Props = {
   params: { id: string };
   searchParams: {
@@ -13,7 +11,6 @@ type Props = {
     celebPersonality2: string;
     celebPersonality3: string;
     celebPersonality4: string;
-    celebPersonality5: string;
   };
 };
 
@@ -21,10 +18,8 @@ export async function generateMetadata(
   { params, searchParams }: Props,
   parent: ResolvingMetadata
 ): Promise<Metadata> {
-  // read route params
   const id = params.id;
 
-  // Example of using searchParams to modify frameMetadata
   const frameMetadata = getFrameMetadata({
     state: {
       celebId: id,
@@ -33,36 +28,35 @@ export async function generateMetadata(
       {
         label: searchParams.celebPersonality1,
         action: "tx",
-        postUrl: `${NEXT_PUBLIC_URL}/tx-success/enablePersonality/1`,
-        target: `${NEXT_PUBLIC_URL}/tx/enablePersonality/1`,
+        postUrl: `${process.env.NEXT_PUBLIC_URL}/tx-success/enablePersonality/1?celebId=${id}&button=1&celebName=${searchParams.celebName}&celebPersonality1=${searchParams.celebPersonality1}&celebPersonality2=${searchParams.celebPersonality2}&celebPersonality3=${searchParams.celebPersonality3}&celebPersonality4=${searchParams.celebPersonality4}`,
+        target: `${process.env.NEXT_PUBLIC_URL}/tx/enablePersonality/1?celebId=${id}`,
       },
       {
         label: searchParams.celebPersonality2,
         action: "tx",
-        postUrl: `${NEXT_PUBLIC_URL}/tx-success/enablePersonality/2 `,
-        target: `${NEXT_PUBLIC_URL}/tx/enablePersonality/2`,
+        postUrl: `${process.env.NEXT_PUBLIC_URL}/tx-success/enablePersonality/2?celebId=${id}&button=2&celebName=${searchParams.celebName}&celebPersonality1=${searchParams.celebPersonality1}&celebPersonality2=${searchParams.celebPersonality2}&celebPersonality3=${searchParams.celebPersonality3}&celebPersonality4=${searchParams.celebPersonality4}`,
+        target: `${process.env.NEXT_PUBLIC_URL}/tx/enablePersonality/2?celebId=${id}`,
       },
       {
         label: searchParams.celebPersonality3,
         action: "tx",
-        postUrl: `${NEXT_PUBLIC_URL}/tx-success/enablePersonality/3`,
-        target: `${NEXT_PUBLIC_URL}/tx/enablePersonality/3`,
+        postUrl: `${process.env.NEXT_PUBLIC_URL}/tx-success/enablePersonality/3?celebId=${id}&button=3&celebName=${searchParams.celebName}&celebPersonality1=${searchParams.celebPersonality1}&celebPersonality2=${searchParams.celebPersonality2}&celebPersonality3=${searchParams.celebPersonality3}&celebPersonality4=${searchParams.celebPersonality4}`,
+        target: `${process.env.NEXT_PUBLIC_URL}/tx/enablePersonality/3?celebId=${id}`,
       },
       {
-        label: searchParams.celebPersonality4,
-        action: "tx",
-        postUrl: `${NEXT_PUBLIC_URL}/tx-success/enablePersonality/4`,
-        target: `${NEXT_PUBLIC_URL}/tx/enablePersonality/4`,
+        label: "Chat",
+        action: "post",
+        target: `${process.env.NEXT_PUBLIC_URL}/chat?celebName=${searchParams.celebName}&celebPersonality1=${searchParams.celebPersonality1}&celebPersonality2=${searchParams.celebPersonality2}&celebPersonality3=${searchParams.celebPersonality3}&celebPersonality4=${searchParams.celebPersonality4}`,
       },
     ],
     image: {
-      src: `${NEXT_PUBLIC_URL}/celeb-collage.jpg`,
+      src: `${process.env.NEXT_PUBLIC_URL}/celeb-collage.jpg`,
       aspectRatio: "1:1",
     },
     input: {
       text: `Talk with your celebrity ${searchParams.celebName}`,
     },
-    postUrl: `${NEXT_PUBLIC_URL}/tx/frame/`,
+    postUrl: `${process.env.NEXT_PUBLIC_URL}/tx/frame/`,
   });
 
   return {
@@ -71,7 +65,7 @@ export async function generateMetadata(
     openGraph: {
       title: "cast-ai.vercel.app",
       description: "Cast your own AI celebrity",
-      images: [`${NEXT_PUBLIC_URL}/celeb-collage.jpg`],
+      images: [`${process.env.NEXT_PUBLIC_URL}/celeb-collage.jpg`],
     },
     other: {
       ...frameMetadata,
