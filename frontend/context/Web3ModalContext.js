@@ -5,7 +5,7 @@ import { ethers } from "ethers";
 import contractConfig from "./AICelebrityPlatform.json";
 
 const contractDetails = {
-  address: `0x${contractConfig.contractAddress}`,
+  address: process.env.CONTRACT_ADDRESS,
   abi: contractConfig.abi,
 };
 

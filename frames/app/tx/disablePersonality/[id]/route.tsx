@@ -36,7 +36,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse | Response> {
       params: {
         abi: contractConfig.abi as Abi,
         data,
-        to: `0x${contractConfig.contractAddress}`,
+        to: `0x${process.env.CONTRACT_ADDRESS}`,
         value: "0",
       },
     };

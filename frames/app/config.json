@@ -1,5 +1,4 @@
 {
-  "contractAddress": "cA3dC2ea84D7cd7Be54177F3079CD7241Ab8aad1",
   "abi": [
     {
       "inputs": [
@@ -68,6 +67,85 @@
       "type": "event"
     },
     {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_name",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_celebId",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_personality1",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_personality2",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_personality3",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_personality4",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_description",
+          "type": "string"
+        }
+      ],
+      "name": "createCeleb",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_index",
+          "type": "uint256"
+        },
+        {
+          "internalType": "string",
+          "name": "_celebId",
+          "type": "string"
+        }
+      ],
+      "name": "disablePersonality",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_index",
+          "type": "uint256"
+        },
+        {
+          "internalType": "string",
+          "name": "_celebId",
+          "type": "string"
+        }
+      ],
+      "name": "enablePersonality",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
       "anonymous": false,
       "inputs": [
         {
@@ -91,6 +169,19 @@
       ],
       "name": "FeePaid",
       "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_celebId",
+          "type": "string"
+        }
+      ],
+      "name": "withdraw",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
     },
     {
       "anonymous": false,
@@ -120,6 +211,10 @@
     {
       "stateMutability": "payable",
       "type": "fallback"
+    },
+    {
+      "stateMutability": "payable",
+      "type": "receive"
     },
     {
       "inputs": [
@@ -193,85 +288,6 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "string",
-          "name": "_name",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "_celebId",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "_personality1",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "_personality2",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "_personality3",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "_personality4",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "_description",
-          "type": "string"
-        }
-      ],
-      "name": "createCeleb",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "_index",
-          "type": "uint256"
-        },
-        {
-          "internalType": "string",
-          "name": "_celebId",
-          "type": "string"
-        }
-      ],
-      "name": "disablePersonality",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "_index",
-          "type": "uint256"
-        },
-        {
-          "internalType": "string",
-          "name": "_celebId",
-          "type": "string"
-        }
-      ],
-      "name": "enablePersonality",
-      "outputs": [],
-      "stateMutability": "nonpayable",
       "type": "function"
     },
     {
@@ -467,36 +483,6 @@
       ],
       "stateMutability": "view",
       "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "string",
-          "name": "_celebId",
-          "type": "string"
-        }
-      ],
-      "name": "payFee",
-      "outputs": [],
-      "stateMutability": "payable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "string",
-          "name": "_celebId",
-          "type": "string"
-        }
-      ],
-      "name": "withdraw",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "stateMutability": "payable",
-      "type": "receive"
     }
   ]
 }

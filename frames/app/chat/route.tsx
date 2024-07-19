@@ -32,15 +32,18 @@ const getImage = async (messages: Messages[], avatars: string[]) => {
     <div
       style={{
         fontFamily: "Inter",
-        display: "flex",
-        flexDirection: "column",
-        width: 600,
+        width: 800,
         height: 800,
+        border: "1px solid #E0E0E0",
         backgroundColor: "#F5F5F5",
+        display: "flex",
+        justifyContent: "center",
+        flexDirection: "column",
       }}
     >
       {messages.map((msg, index) => {
         const avatar = avatars[index % avatars.length];
+
         return (
           <div key={index} style={{ display: "flex", padding: "15px" }}>
             <img
@@ -49,20 +52,18 @@ const getImage = async (messages: Messages[], avatars: string[]) => {
                 borderRadius: "50%",
                 width: "40px",
                 height: "40px",
+                objectFit: "cover",
                 marginRight: "15px",
               }}
             />
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-              }}
-            >
+            <div style={{ display: "flex", gap: "15px" }}>
               <div
                 style={{
                   backgroundColor: "#FFFFFF",
                   borderRadius: "15px",
-                  padding: "10px",
+                  padding: "10px 15px",
+                  display: "flex",
+
                   boxShadow: "0 0 5px rgba(0,0,0,0.1)",
                 }}
               >
@@ -70,6 +71,7 @@ const getImage = async (messages: Messages[], avatars: string[]) => {
                   style={{
                     margin: 0,
                     color: "#000000",
+
                     fontFamily: "Inter",
                     fontWeight: 600,
                   }}
@@ -124,10 +126,6 @@ const getImage = async (messages: Messages[], avatars: string[]) => {
 };
 
 // Example usage
-const exampleMessages = [
-  { userText: "Hello, how are you?", timestamp: "10:00 AM" },
-  { userText: "I am good, thanks!", timestamp: "10:02 AM" },
-];
 
 async function getResponse(req: NextRequest): Promise<NextResponse | Response> {
   try {
@@ -164,6 +162,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse | Response> {
     console.log("Valid message received:", message);
 
     const messageData = message.input;
+    console.log(messageData);
 
     const image = await getImage(
       [
@@ -175,14 +174,32 @@ async function getResponse(req: NextRequest): Promise<NextResponse | Response> {
           userText: "Hello, how are you?",
           timestamp: new Date().toLocaleTimeString(),
         },
+        {
+          userText: "I'm good, how about you?",
+          timestamp: new Date().toLocaleTimeString(),
+        },
+        {
+          userText: "I'm good too",
+          timestamp: new Date().toLocaleTimeString(),
+        },
+        {
+          userText: "What do you do for a living?",
+          timestamp: new Date().toLocaleTimeString(),
+        },
+        {
+          userText: "I'm a software engineer",
+          timestamp: new Date().toLocaleTimeString(),
+        },
+        {
+          userText: "That's cool",
+          timestamp: new Date().toLocaleTimeString(),
+        },
       ],
       [
         "https://static.animecorner.me/2023/12/1703513395-4981.jpg",
         "https://image.api.playstation.com/vulcan/ap/rnd/202009/3021/B2aUYFC0qUAkNnjbTHRyhrg3.png",
       ]
     );
-
-    console.log("Image generated:", image);
 
     return new NextResponse(
       getFrameHtmlResponse({

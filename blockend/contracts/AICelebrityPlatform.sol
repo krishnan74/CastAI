@@ -86,8 +86,14 @@ contract AICelebrityPlatform is ReentrancyGuard {
     }
 
     
-    function enablePersonality(uint256 _index, string memory _celebId) public {
+     function enablePersonality(uint256 _index, string memory _celebId) external payable {
+        require(bytes(celebs[_celebId].celebId).length != 0, "Celeb does not exist");
+        require(_index >= 1 && _index <= 4, "Invalid personality index");
+
+        require(msg.value == feeAmount, "Ether value must be greater than 0");
+
         
+
         if (_index == 1) {
             celebs[_celebId].personality1Enabled = true;
         } else if (_index == 2) {
@@ -97,10 +103,15 @@ contract AICelebrityPlatform is ReentrancyGuard {
         } else {
             celebs[_celebId].personality4Enabled = true;
         }
+
+        celebs[_celebId].etherEarned += msg.value;
+        emit FeePaid(msg.sender, _celebId, msg.value);
     }
 
-    function disablePersonality(uint256 _index, string memory _celebId) public {
-        
+     function disablePersonality(uint256 _index, string memory _celebId) external payable {
+        require(bytes(celebs[_celebId].celebId).length != 0, "Celeb does not exist");
+        require(_index >= 1 && _index <= 4, "Invalid personality index");
+
         if (_index == 1) {
             celebs[_celebId].personality1Enabled = false;
         } else if (_index == 2) {
@@ -110,17 +121,8 @@ contract AICelebrityPlatform is ReentrancyGuard {
         } else {
             celebs[_celebId].personality4Enabled = false;
         }
-    }
 
-    function payFee(string memory _celebId) external payable nonReentrant {
-
-        require(msg.sender != celebs[_celebId].owner, "Owner can't pay fee");
-        require(msg.value == feeAmount, "Incorrect fee amount");
-
-        celebs[_celebId].etherEarned += msg.value;
-
-        emit FeePaid(msg.sender, _celebId, msg.value);
-    }
+     }
 
   
     function getUserCelebCount(address _user) external view returns (uint256) {
@@ -137,7 +139,7 @@ contract AICelebrityPlatform is ReentrancyGuard {
         return userCelebs[_user];
     }
 
-    function withdraw(string memory _celebId) public nonReentrant {
+    function withdraw(string memory _celebId) external  nonReentrant {
         require(msg.sender == celebs[_celebId].owner, "Not the owner");
         uint256 amount = celebs[_celebId].etherEarned;
         celebs[_celebId].etherEarned = 0;
