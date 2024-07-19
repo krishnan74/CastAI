@@ -32,6 +32,8 @@ const getImage = async (messages: Messages[], avatars: string[]) => {
     <div
       style={{
         fontFamily: "Inter",
+        display: "flex",
+        flexDirection: "column",
         width: 600,
         height: 800,
         backgroundColor: "#F5F5F5",
@@ -50,7 +52,12 @@ const getImage = async (messages: Messages[], avatars: string[]) => {
                 marginRight: "15px",
               }}
             />
-            <div>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
               <div
                 style={{
                   backgroundColor: "#FFFFFF",
