@@ -18,17 +18,11 @@ type Messages = {
   timestamp: string;
 };
 
-const interMedium = fs.readFileSync(
-  join(process.cwd(), "/fonts/static/Inter-Medium.ttf")
-);
+const interMedium = fs.readFileSync("./font/Inter-Medium.ttf");
 
-const interBold = fs.readFileSync(
-  join(process.cwd(), "/fonts/static/Inter-Bold.ttf")
-);
+const interBold = fs.readFileSync("./font/static/Inter-Bold.ttf");
 
-const interLight = fs.readFileSync(
-  join(process.cwd(), "/fonts/static/Inter-Light.ttf")
-);
+const interLight = fs.readFileSync("./font/static/Inter-Light.ttf");
 
 const getImage = async (messages: Messages[], avatars: string[]) => {
   console.log("Generating image with messages:", messages);
