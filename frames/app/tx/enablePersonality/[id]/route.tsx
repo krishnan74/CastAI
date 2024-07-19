@@ -4,7 +4,13 @@ import {
   getFrameHtmlResponse,
 } from "@coinbase/onchainkit/frame";
 import { NextRequest, NextResponse } from "next/server";
-import { encodeFunctionData, formatEther, parseGwei, Abi } from "viem";
+import {
+  encodeFunctionData,
+  formatEther,
+  parseGwei,
+  Abi,
+  parseEther,
+} from "viem";
 import { baseSepolia } from "viem/chains";
 import type { FrameTransactionResponse } from "@coinbase/onchainkit/frame";
 
@@ -37,7 +43,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse | Response> {
         abi: contractConfig.abi as Abi,
         data,
         to: `0x${process.env.CONTRACT_ADDRESS}`,
-        value: "0",
+        value: parseEther("0.001").toString(),
       },
     };
     return NextResponse.json(txData);
