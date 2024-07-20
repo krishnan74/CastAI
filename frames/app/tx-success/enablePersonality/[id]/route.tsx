@@ -53,15 +53,9 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
           target: `${process.env.NEXT_PUBLIC_URL}/tx/disablePersonality/3?celebId=${id}`,
         },
         {
-          label:
-            button === "4"
-              ? `${celebPersonality4}  X`
-              : celebPersonality4
-              ? celebPersonality4
-              : "",
-          action: "tx",
-          postUrl: `${process.env.NEXT_PUBLIC_URL}/tx-success/disablePersonality/4?celebId=${id}&button=4&celebName=${celebName}&celebPersonality1=${celebPersonality1}&celebPersonality2=${celebPersonality2}&celebPersonality3=${celebPersonality3}&celebPersonality4=${celebPersonality4}`,
-          target: `${process.env.NEXT_PUBLIC_URL}/tx/disablePersonality/4?celebId=${id}`,
+          label: "Chat",
+          action: "post",
+          target: `${process.env.NEXT_PUBLIC_URL}/chat?celebName=${celebName}&celebPersonality1=${celebPersonality1}&celebPersonality2=${celebPersonality2}&celebPersonality3=${celebPersonality3}&celebPersonality4=${celebPersonality4}`,
         },
       ],
       image: {
