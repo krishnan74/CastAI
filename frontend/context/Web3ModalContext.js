@@ -5,7 +5,7 @@ import { ethers } from "ethers";
 import contractConfig from "./AICelebrityPlatform.json";
 
 const contractDetails = {
-  address: process.env.CONTRACT_ADDRESS,
+  address: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS,
   abi: contractConfig.abi,
 };
 
@@ -32,6 +32,7 @@ export const Web3ModalProvider = ({ children }) => {
   };
 
   const createCelebrity = async (celebDetails) => {
+    console.log(contractDetails.address);
     const {
       name,
       celebId,
