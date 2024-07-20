@@ -28,35 +28,35 @@ export async function generateMetadata(
       {
         label: searchParams.celebPersonality1,
         action: "tx",
-        postUrl: `${process.env.NEXT_PUBLIC_URL}/tx-success/enablePersonality/1?celebId=${id}&button=1&celebName=${searchParams.celebName}&celebPersonality1=${searchParams.celebPersonality1}&celebPersonality2=${searchParams.celebPersonality2}&celebPersonality3=${searchParams.celebPersonality3}&celebPersonality4=${searchParams.celebPersonality4}`,
-        target: `${process.env.NEXT_PUBLIC_URL}/tx/enablePersonality/1?celebId=${id}`,
+        postUrl: `${process.env.NEXT_PUBLIC_URL}tx-success/enablePersonality/1?celebId=${id}&button=1&celebName=${searchParams.celebName}&celebPersonality1=${searchParams.celebPersonality1}&celebPersonality2=${searchParams.celebPersonality2}&celebPersonality3=${searchParams.celebPersonality3}&celebPersonality4=${searchParams.celebPersonality4}`,
+        target: `${process.env.NEXT_PUBLIC_URL}tx/enablePersonality/1?celebId=${id}`,
       },
       {
         label: searchParams.celebPersonality2,
         action: "tx",
-        postUrl: `${process.env.NEXT_PUBLIC_URL}/tx-success/enablePersonality/2?celebId=${id}&button=2&celebName=${searchParams.celebName}&celebPersonality1=${searchParams.celebPersonality1}&celebPersonality2=${searchParams.celebPersonality2}&celebPersonality3=${searchParams.celebPersonality3}&celebPersonality4=${searchParams.celebPersonality4}`,
-        target: `${process.env.NEXT_PUBLIC_URL}/tx/enablePersonality/2?celebId=${id}`,
+        postUrl: `${process.env.NEXT_PUBLIC_URL}tx-success/enablePersonality/2?celebId=${id}&button=2&celebName=${searchParams.celebName}&celebPersonality1=${searchParams.celebPersonality1}&celebPersonality2=${searchParams.celebPersonality2}&celebPersonality3=${searchParams.celebPersonality3}&celebPersonality4=${searchParams.celebPersonality4}`,
+        target: `${process.env.NEXT_PUBLIC_URL}tx/enablePersonality/2?celebId=${id}`,
       },
       {
         label: searchParams.celebPersonality3,
         action: "tx",
-        postUrl: `${process.env.NEXT_PUBLIC_URL}/tx-success/enablePersonality/3?celebId=${id}&button=3&celebName=${searchParams.celebName}&celebPersonality1=${searchParams.celebPersonality1}&celebPersonality2=${searchParams.celebPersonality2}&celebPersonality3=${searchParams.celebPersonality3}&celebPersonality4=${searchParams.celebPersonality4}`,
-        target: `${process.env.NEXT_PUBLIC_URL}/tx/enablePersonality/3?celebId=${id}`,
+        postUrl: `${process.env.NEXT_PUBLIC_URL}tx-success/enablePersonality/3?celebId=${id}&button=3&celebName=${searchParams.celebName}&celebPersonality1=${searchParams.celebPersonality1}&celebPersonality2=${searchParams.celebPersonality2}&celebPersonality3=${searchParams.celebPersonality3}&celebPersonality4=${searchParams.celebPersonality4}`,
+        target: `${process.env.NEXT_PUBLIC_URL}tx/enablePersonality/3?celebId=${id}`,
       },
       {
         label: "Chat",
         action: "post",
-        target: `${process.env.NEXT_PUBLIC_URL}/chat?celebName=${searchParams.celebName}&celebPersonality1=${searchParams.celebPersonality1}&celebPersonality2=${searchParams.celebPersonality2}&celebPersonality3=${searchParams.celebPersonality3}&celebPersonality4=${searchParams.celebPersonality4}`,
+        target: `${process.env.NEXT_PUBLIC_URL}chat?celebName=${searchParams.celebName}&celebPersonality1=${searchParams.celebPersonality1}&celebPersonality2=${searchParams.celebPersonality2}&celebPersonality3=${searchParams.celebPersonality3}&celebPersonality4=${searchParams.celebPersonality4}`,
       },
     ],
     image: {
-      src: `${process.env.NEXT_PUBLIC_URL}/celeb-collage.jpg`,
+      src: `${process.env.NEXT_PUBLIC_URL}celeb-collage.jpg`,
       aspectRatio: "1:1",
     },
     input: {
       text: `Talk with your celebrity ${searchParams.celebName}`,
     },
-    postUrl: `${process.env.NEXT_PUBLIC_URL}/tx/frame/`,
+    postUrl: `${process.env.NEXT_PUBLIC_URL}tx/frame/`,
   });
 
   return {
