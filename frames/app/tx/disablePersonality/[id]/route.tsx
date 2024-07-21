@@ -8,7 +8,7 @@ import { encodeFunctionData, formatEther, parseGwei, Abi } from "viem";
 import { baseSepolia } from "viem/chains";
 import type { FrameTransactionResponse } from "@coinbase/onchainkit/frame";
 
-import contractConfig from "../../../config.json";
+import contractConfig from "../../config.json";
 import { get } from "http";
 
 async function getResponse(req: NextRequest): Promise<NextResponse | Response> {

@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@coinbase/onchainkit": "0.14.1",
+    "ethers": "^6.13.1",
     "next": "14.2.5",
     "pinata-fdk": "^3.10.2",
     "react": "^18",

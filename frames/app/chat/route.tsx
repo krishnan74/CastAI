@@ -162,6 +162,8 @@ async function getResponse(req: NextRequest): Promise<NextResponse | Response> {
     const messageData = message.input;
     console.log(messageData);
 
+   
+
     const image = await getImage(
       [
         {
