@@ -11,6 +11,7 @@ type Props = {
     celebPersonality2: string;
     celebPersonality3: string;
     celebPersonality4: string;
+    description: string;
   };
 };
 
@@ -54,7 +55,7 @@ export async function generateMetadata(
       aspectRatio: "1:1",
     },
     input: {
-      text: `Talk with your celebrity ${searchParams.celebName}`,
+      text: `Talk with ${searchParams.celebName}`,
     },
     postUrl: `${process.env.NEXT_PUBLIC_URL}tx/frame/`,
   });

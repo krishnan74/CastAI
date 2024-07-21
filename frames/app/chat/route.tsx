@@ -1,8 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import satori from "satori";
-import { join } from "path";
-import * as fs from "fs";
-import sharp from "sharp";
+import { getImage, runAgent, getMessageContent } from "./utils";
 
 import {
   FrameRequest,
@@ -11,127 +8,12 @@ import {
   getFrameMetadata,
 } from "@coinbase/onchainkit/frame";
 
-import { get } from "http";
-
-type Messages = {
-  userText: string;
-  timestamp: string;
-};
-
-const interMedium = fs.readFileSync(
-  join(process.cwd(), "font/Inter-Medium.ttf")
-);
-
-const interBold = fs.readFileSync(join(process.cwd(), "font/Inter-Bold.ttf"));
-
-const interLight = fs.readFileSync(join(process.cwd(), "font/Inter-Light.ttf"));
-
-const getImage = async (messages: Messages[], avatars: string[]) => {
-  console.log("Generating image with messages:", messages);
-  const svg = await satori(
-    <div
-      style={{
-        fontFamily: "Inter",
-        width: 800,
-        height: 800,
-        border: "1px solid #E0E0E0",
-        backgroundColor: "#F5F5F5",
-        display: "flex",
-        justifyContent: "center",
-        flexDirection: "column",
-      }}
-    >
-      {messages.map((msg, index) => {
-        const avatar = avatars[index % avatars.length];
-
-        return (
-          <div key={index} style={{ display: "flex", padding: "15px" }}>
-            <img
-              src={avatar}
-              style={{
-                borderRadius: "50%",
-                width: "40px",
-                height: "40px",
-                objectFit: "cover",
-                marginRight: "15px",
-              }}
-            />
-            <div style={{ display: "flex", gap: "15px" }}>
-              <div
-                style={{
-                  backgroundColor: "#FFFFFF",
-                  borderRadius: "15px",
-                  padding: "10px 15px",
-                  display: "flex",
-
-                  boxShadow: "0 0 5px rgba(0,0,0,0.1)",
-                }}
-              >
-                <p
-                  style={{
-                    margin: 0,
-                    color: "#000000",
-
-                    fontFamily: "Inter",
-                    fontWeight: 600,
-                  }}
-                >
-                  {msg.userText}
-                </p>
-              </div>
-              <p
-                style={{
-                  margin: 0,
-                  color: "#969696",
-                  fontSize: "12px",
-                  fontFamily: "Inter",
-                }}
-              >
-                {msg.timestamp}
-              </p>
-            </div>
-          </div>
-        );
-      })}
-    </div>,
-    {
-      width: 600,
-      height: 800,
-      fonts: [
-        {
-          name: "Inter",
-          data: interBold,
-          weight: 800,
-          style: "normal",
-        },
-        {
-          name: "Inter",
-          data: interMedium,
-          weight: 600,
-          style: "normal",
-        },
-        {
-          name: "Inter",
-          data: interLight,
-          weight: 300,
-          style: "normal",
-        },
-      ],
-    }
-  );
-
-  return (await sharp(Buffer.from(svg)).toFormat("png").toBuffer()).toString(
-    "base64"
-  );
-};
-
-// Example usage
-
 async function getResponse(req: NextRequest): Promise<NextResponse | Response> {
   try {
     const framerequest: FrameRequest = await req.json();
     console.log("Frame request received:", framerequest);
     const { searchParams } = new URL(req.url);
+    const description = searchParams.get("description");
     const celebPersonality1 = searchParams.get("celebPersonality1");
     const celebPersonality2 = searchParams.get("celebPersonality2");
     const celebPersonality3 = searchParams.get("celebPersonality3");
@@ -159,39 +41,22 @@ async function getResponse(req: NextRequest): Promise<NextResponse | Response> {
 
     console.log("Valid message received:", message);
 
-    const messageData = message.input;
-    console.log(messageData);
+    const messageData = `characterName: ${celebName} description: ${description} characterPersonality1: ${celebPersonality1} characterPersonality2: ${celebPersonality2}  Query: ${message.input}`;
 
-   
+    const agentId = (await runAgent(messageData)) as Number;
+    console.log("Agent ID:", agentId);
+
+    const messageContent = await getMessageContent(agentId);
+    console.log("Message content:", messageContent);
 
     const image = await getImage(
       [
         {
-          userText: messageData,
+          userText: messageContent[1],
           timestamp: new Date().toLocaleTimeString(),
         },
         {
-          userText: "Hello, how are you?",
-          timestamp: new Date().toLocaleTimeString(),
-        },
-        {
-          userText: "I'm good, how about you?",
-          timestamp: new Date().toLocaleTimeString(),
-        },
-        {
-          userText: "I'm good too",
-          timestamp: new Date().toLocaleTimeString(),
-        },
-        {
-          userText: "What do you do for a living?",
-          timestamp: new Date().toLocaleTimeString(),
-        },
-        {
-          userText: "I'm a software engineer",
-          timestamp: new Date().toLocaleTimeString(),
-        },
-        {
-          userText: "That's cool",
+          userText: messageContent[2],
           timestamp: new Date().toLocaleTimeString(),
         },
       ],
