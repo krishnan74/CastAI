@@ -18,8 +18,17 @@ const getMessageContent = async (agentId: Number) => {
       wallet
     );
 
-    const message = await agentContract.getMessageHistoryContents(agentId);
-    return message;
+    while (true) {
+      var isComplete = await agentContract.isRunFinished(agentId);
+      console.log("Is run finished:", isComplete);
+      if (isComplete) {
+        break;
+      }
+      await new Promise((resolve) => setTimeout(resolve, 5000)); // wait for 5 seconds before checking again
+    }
+
+    const messages = await agentContract.getMessageHistoryContents(agentId);
+    return messages;
   } catch (err) {
     console.error("Error getting message content:", err);
     return err;
@@ -29,7 +38,6 @@ const getMessageContent = async (agentId: Number) => {
 const executeContractFunction = async (prompt: string) => {
   try {
     const provider = new ethers.JsonRpcProvider(providerUrl);
-
     const wallet = new ethers.Wallet(privateKey, provider);
 
     // GAL token contract
@@ -42,7 +50,7 @@ const executeContractFunction = async (prompt: string) => {
     // Approve GAL token transfer to the contract
     const approveTx = await galTokenContract.approve(
       process.env.NEXT_PUBLIC_AGENT_CONTRACT_ADDRESS,
-      ethers.parseUnits("0.001", 18) // Amount to approve (in this case, 1000 GAL tokens)
+      ethers.parseUnits("0.001", 18) // Amount to approve (in this case, 0.001 GAL tokens)
     );
     await approveTx.wait();
 
@@ -68,18 +76,15 @@ const executeContractFunction = async (prompt: string) => {
 };
 
 const Page = () => {
-  useEffect(() => {
-    // Code that runs on component mount (similar to componentDidMount in class components)
-    // You can put async code directly inside useEffect using IIFE (Immediately Invoked Function Expression)
-  }, []);
-
   const [prompt, setPrompt] = useState("");
+  const [messages, setMessages] = useState<string[]>([]);
 
   const handleClick = async () => {
-    const receipt = (await executeContractFunction(prompt)) as Number;
-    const message = await getMessageContent(receipt);
-    console.log("Message content:", message);
-    // Handle receipt as needed
+    console.log("clicked");
+    const agentId = (await executeContractFunction(prompt)) as Number;
+    const messageContents = await getMessageContent(agentId);
+    console.log("Message contents:", messageContents);
+    setMessages(messageContents);
   };
 
   return (
@@ -90,6 +95,12 @@ const Page = () => {
         onChange={(e) => setPrompt(e.target.value)}
       />
       <button onClick={handleClick}>Click</button>
+      <div>
+        <h3>Messages:</h3>
+        {messages.map((message, index) => (
+          <p key={index}>{message}</p>
+        ))}
+      </div>
     </div>
   );
 };

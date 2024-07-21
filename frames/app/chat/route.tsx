@@ -1,12 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getImage, runAgent, getMessageContent } from "./utils";
-
 import {
   FrameRequest,
   getFrameMessage,
   getFrameHtmlResponse,
   getFrameMetadata,
 } from "@coinbase/onchainkit/frame";
+
+var messageObject = {
+  userText: [] as string[],
+  characterText: [] as string[],
+};
 
 async function getResponse(req: NextRequest): Promise<NextResponse | Response> {
   try {
@@ -24,24 +28,16 @@ async function getResponse(req: NextRequest): Promise<NextResponse | Response> {
     console.log("Parsed query parameters:", {
       celebPersonality1,
       celebPersonality2,
+      description,
       celebPersonality3,
       celebPersonality4,
       celebName,
       id,
     });
 
-    const { isValid, message } = await getFrameMessage(framerequest);
+    const inputText = framerequest.untrustedData.inputText;
 
-    if (!isValid) {
-      console.error("Invalid message:", message);
-      return new Response(JSON.stringify({ error: "Invalid message" }), {
-        status: 400,
-      });
-    }
-
-    console.log("Valid message received:", message);
-
-    const messageData = `characterName: ${celebName} description: ${description} characterPersonality1: ${celebPersonality1} characterPersonality2: ${celebPersonality2}  Query: ${message.input}`;
+    const messageData = `as humane and brief and more accurate to the character as possible characterName: ${celebName} description: ${description} characterPersonality1: ${celebPersonality1} characterPersonality2: ${celebPersonality2}  Query: ${inputText}`;
 
     const agentId = (await runAgent(messageData)) as Number;
     console.log("Agent ID:", agentId);
@@ -49,22 +45,29 @@ async function getResponse(req: NextRequest): Promise<NextResponse | Response> {
     const messageContent = await getMessageContent(agentId);
     console.log("Message content:", messageContent);
 
-    const image = await getImage(
-      [
+    messageObject.userText.push(inputText);
+    messageObject.characterText.push(messageContent[2]);
+
+    const messagePairs = [];
+    const timestamp = new Date().toLocaleTimeString();
+
+    for (let i = 0; i < messageObject.userText.length; i++) {
+      messagePairs.push(
         {
-          userText: messageContent[1],
-          timestamp: new Date().toLocaleTimeString(),
+          userText: messageObject.userText[i],
+          timestamp,
         },
         {
-          userText: messageContent[2],
-          timestamp: new Date().toLocaleTimeString(),
-        },
-      ],
-      [
-        "https://static.animecorner.me/2023/12/1703513395-4981.jpg",
-        "https://image.api.playstation.com/vulcan/ap/rnd/202009/3021/B2aUYFC0qUAkNnjbTHRyhrg3.png",
-      ]
-    );
+          userText: messageObject.characterText[i],
+          timestamp,
+        }
+      );
+    }
+
+    const image = await getImage(messagePairs, [
+      "https://static.animecorner.me/2023/12/1703513395-4981.jpg",
+      "https://image.api.playstation.com/vulcan/ap/rnd/202009/3021/B2aUYFC0qUAkNnjbTHRyhrg3.png",
+    ]);
 
     return new NextResponse(
       getFrameHtmlResponse({
@@ -90,7 +93,8 @@ async function getResponse(req: NextRequest): Promise<NextResponse | Response> {
           {
             label: "Chat",
             action: "post",
-            target: `${process.env.NEXT_PUBLIC_URL}/chat?celebName=${celebName}&celebPersonality1=${celebPersonality1}&celebPersonality2=${celebPersonality2}&celebPersonality3=${celebPersonality3}&celebPersonality4=${celebPersonality4}`,
+
+            target: `${process.env.NEXT_PUBLIC_URL}chat?celebName=${celebName}&description=${description}&celebPersonality1=${celebPersonality1}&celebPersonality2=${celebPersonality2}&celebPersonality3=${celebPersonality3}&celebPersonality4=${celebPersonality4}`,
           },
         ],
         image: {
@@ -98,9 +102,9 @@ async function getResponse(req: NextRequest): Promise<NextResponse | Response> {
           aspectRatio: "1:1",
         },
         input: {
-          text: `Talk with your celebrity ${celebName}`,
+          text: `Talk with ${celebName}`,
         },
-        postUrl: `${process.env.NEXT_PUBLIC_URL}/tx/frame/`,
+        postUrl: `${process.env.NEXT_PUBLIC_URL}chat?celebName=${celebName}&description=${description}&celebPersonality1=${celebPersonality1}&celebPersonality2=${celebPersonality2}&celebPersonality3=${celebPersonality3}&celebPersonality4=${celebPersonality4}`,
       })
     );
   } catch (e: any) {

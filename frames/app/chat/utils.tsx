@@ -2,7 +2,7 @@ import satori from "satori";
 import { join } from "path";
 import * as fs from "fs";
 import React from "react";
-import ethers from "ethers";
+import { ethers } from "ethers";
 import sharp from "sharp";
 import contractConfig from "./agentConfig.json";
 import ERCconfig from "./ERC.json";
@@ -34,8 +34,17 @@ export const getMessageContent = async (agentId: Number) => {
       wallet
     );
 
-    const message = await agentContract.getMessageHistoryContents(agentId);
-    return message;
+    while (true) {
+      var isComplete = await agentContract.isRunFinished(agentId);
+      console.log("Is run finished:", isComplete);
+      if (isComplete) {
+        break;
+      }
+      await new Promise((resolve) => setTimeout(resolve, 5000)); // wait for 5 seconds before checking again
+    }
+
+    const messages = await agentContract.getMessageHistoryContents(agentId);
+    return messages;
   } catch (err) {
     console.error("Error getting message content:", err);
     return err;
@@ -78,7 +87,6 @@ export const runAgent = async (prompt: string) => {
     return err;
   }
 };
-
 export const getImage = async (messages: Messages[], avatars: string[]) => {
   console.log("Generating image with messages:", messages);
   const svg = await satori(
@@ -110,34 +118,59 @@ export const getImage = async (messages: Messages[], avatars: string[]) => {
               }}
             />
             <div style={{ display: "flex", gap: "15px" }}>
-              <div
-                style={{
-                  backgroundColor: "#FFFFFF",
-                  borderRadius: "15px",
-                  padding: "10px 15px",
-                  display: "flex",
-
-                  boxShadow: "0 0 5px rgba(0,0,0,0.1)",
-                }}
-              >
-                <p
+              {msg.userText.length > 40 ? (
+                <div
                   style={{
-                    margin: 0,
-                    color: "#000000",
-
-                    fontFamily: "Inter",
-                    fontWeight: 600,
+                    backgroundColor: "#FFFFFF",
+                    borderRadius: "15px",
+                    padding: "10px 15px",
+                    display: "flex",
+                    maxWidth: "70%",
+                    wordWrap: "break-word",
+                    boxShadow: "0 0 5px rgba(0,0,0,0.1)",
                   }}
                 >
-                  {msg.userText}
-                </p>
-              </div>
+                  <p
+                    style={{
+                      margin: 0,
+                      color: "#000000",
+                      fontFamily: "Inter",
+                      fontWeight: 600,
+                    }}
+                  >
+                    {msg.userText}
+                  </p>
+                </div>
+              ) : (
+                <div
+                  style={{
+                    backgroundColor: "#FFFFFF",
+                    borderRadius: "15px",
+                    padding: "10px 15px",
+                    display: "flex",
+                    boxShadow: "0 0 5px rgba(0,0,0,0.1)",
+                  }}
+                >
+                  <p
+                    style={{
+                      margin: 0,
+                      color: "#000000",
+                      fontFamily: "Inter",
+                      fontWeight: 600,
+                    }}
+                  >
+                    {msg.userText}
+                  </p>
+                </div>
+              )}
+
               <p
                 style={{
                   margin: 0,
                   color: "#969696",
                   fontSize: "12px",
                   fontFamily: "Inter",
+                  textAlign: "right",
                 }}
               >
                 {msg.timestamp}

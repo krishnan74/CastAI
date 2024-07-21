@@ -24,6 +24,7 @@ export async function generateMetadata(
   const frameMetadata = getFrameMetadata({
     state: {
       celebId: id,
+      celebName: searchParams.celebName,
     },
     buttons: [
       {
@@ -47,7 +48,6 @@ export async function generateMetadata(
       {
         label: "Chat",
         action: "post",
-        target: `${process.env.NEXT_PUBLIC_URL}chat?celebName=${searchParams.celebName}&celebPersonality1=${searchParams.celebPersonality1}&celebPersonality2=${searchParams.celebPersonality2}&celebPersonality3=${searchParams.celebPersonality3}&celebPersonality4=${searchParams.celebPersonality4}`,
       },
     ],
     image: {
@@ -57,7 +57,7 @@ export async function generateMetadata(
     input: {
       text: `Talk with ${searchParams.celebName}`,
     },
-    postUrl: `${process.env.NEXT_PUBLIC_URL}tx/frame/`,
+    postUrl: `${process.env.NEXT_PUBLIC_URL}chat?celebName=${searchParams.celebName}&description=${searchParams.description}&celebPersonality1=${searchParams.celebPersonality1}&celebPersonality2=${searchParams.celebPersonality2}&celebPersonality3=${searchParams.celebPersonality3}&celebPersonality4=${searchParams.celebPersonality4}`,
   });
 
   return {
