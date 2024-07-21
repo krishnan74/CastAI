@@ -39,7 +39,6 @@ export const Web3ModalProvider = ({ children }) => {
       personality1,
       personality2,
       personality3,
-      personality4,
       description,
     } = celebDetails;
     try {
@@ -52,8 +51,7 @@ export const Web3ModalProvider = ({ children }) => {
         personality1,
         personality2,
         personality3,
-        personality4,
-        "Ai Celeb"
+        description
       );
       return response;
     } catch (err) {
@@ -67,6 +65,19 @@ export const Web3ModalProvider = ({ children }) => {
       const contract = await fetchContract(provider);
       const celebDetails = await contract.getCelebDetails(_celebId);
       return celebDetails;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const getUserCharacters = async (userAddress) => {
+    try {
+      const provider = await getProvider();
+      const contract = await fetchContract(provider);
+      const userCharacters = await contract.getUserCelebs(
+        "0x18c00eeA07888Bcf369C9e954c74872b0C868DE4"
+      );
+      return userCharacters;
     } catch (err) {
       console.log(err);
     }
@@ -191,6 +202,7 @@ export const Web3ModalProvider = ({ children }) => {
         getProvider,
         createCelebrity,
         getCelebDetails,
+        getUserCharacters,
       }}
     >
       {children}

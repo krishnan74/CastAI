@@ -5,7 +5,6 @@ import { NEXT_PUBLIC_URL } from "./config";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 
-
 const styles = {
   backgroundImage: {
     backgroundImage: `url('/celeb-collage.jpg')`,
@@ -57,9 +56,11 @@ const Page = () => {
               Cast AI
             </Button>
           </Link>
-          <Button className="px-8 py-3 border border-gray-300 text-gray-800 bg-transparent hover:bg-gray-100">
-            Share
-          </Button>
+          <Link href={"/explore"}>
+            <Button className="px-8 py-3 border border-gray-300 text-gray-800 bg-transparent hover:bg-gray-100">
+              Explore
+            </Button>
+          </Link>
         </div>
       </div>
     </div>

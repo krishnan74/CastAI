@@ -50,7 +50,7 @@ export default function Page() {
     personality1: "",
     personality2: "",
     personality3: "",
-    personality4: "",
+    description: "",
   });
 
   const handleChange = (
@@ -103,8 +103,8 @@ export default function Page() {
           />
         </div>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          <label htmlFor="name" className="text-lg text-gray-900">
-            Name Your AI Celebrity:
+          <label htmlFor="name" className=" text-gray-900">
+            Name Your AI Celebrity: *
           </label>
           <input
             type="text"
@@ -114,8 +114,9 @@ export default function Page() {
             className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-[#845DCC]"
             required
           />
-          {/**<label htmlFor="description" className="text-lg text-gray-900">
-            Provide a description:
+
+          <label htmlFor="description" className=" text-gray-900">
+            Provide a description: *
           </label>
           <input
             type="text"
@@ -124,8 +125,9 @@ export default function Page() {
             onChange={handleChange}
             className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-[#845DCC]"
             required
-          />**/}
-          <label htmlFor="personality1" className="text-lg text-gray-900">
+          />
+
+          <label htmlFor="personality1" className=" text-gray-900">
             Choose Their Personality:
           </label>
           <div className="grid grid-cols-2 gap-5">
@@ -153,14 +155,6 @@ export default function Page() {
               className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-[#845DCC] resize-none"
               required
             ></textarea>
-            <textarea
-              id="personality4"
-              rows={2}
-              value={celebDetails.personality4}
-              onChange={handleChange}
-              className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-[#845DCC] resize-none"
-              required
-            ></textarea>
           </div>
           <div className="flex gap-5 mt-3">
             <Button
@@ -180,8 +174,6 @@ export default function Page() {
                 celebDetails.personality2
               )}%26celebPersonality3%3D${encodeURIComponent(
                 celebDetails.personality3
-              )}%26celebPersonality4%3D${encodeURIComponent(
-                celebDetails.personality4
               )}
 `}
               type="button"
