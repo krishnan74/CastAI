@@ -1,12 +1,10 @@
 "use client";
 import { useState } from "react";
-import { getFrameMetadata } from "@coinbase/onchainkit/frame";
-import { useWeb3Provider } from "@/context/Web3ModalContext";
-import type { Metadata } from "next";
-import Image from "next/image";
 import { v4 as uuidv4 } from "uuid";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import Image from "next/image";
+import { useWeb3Provider } from "@/context/Web3ModalContext";
 
 const styles = {
   backgroundImage: {
@@ -32,21 +30,12 @@ const styles = {
   },
 };
 
-interface CelebDetails {
-  name: string;
-  celebId: string;
-  personality1: string;
-  personality2: string;
-  personality3: string;
-  personality4: string;
-}
-
 export default function Page() {
   const { createCelebrity, currentAccount } = useWeb3Provider();
 
-  const [celebDetails, setCelebDetails] = useState({
+  const [characterDetails, setCelebDetails] = useState({
     name: "",
-    celebId: "",
+    characterId: "",
     personality1: "",
     personality2: "",
     personality3: "",
@@ -56,7 +45,7 @@ export default function Page() {
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    const { id, value, type } = e.target;
+    const { id, value } = e.target;
     setCelebDetails((prevDetails) => ({
       ...prevDetails,
       [id]: value,
@@ -66,20 +55,26 @@ export default function Page() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const celeb = uuidv4();
+      const characterId = uuidv4();
       setCelebDetails((prevDetails) => ({
         ...prevDetails,
-        celebId: celeb,
+        characterId,
       }));
-      const response = await createCelebrity(celebDetails);
+      const response = await createCelebrity(characterDetails);
       console.log(
-        "Celebrity created with celebId : ",
-        celebDetails.celebId,
+        "Character created with characterId : ",
+        characterDetails.characterId,
         response
       );
     } catch (err) {
-      console.error("Error creating celebrity:", err);
+      console.error("Error creating characterrity:", err);
     }
+  };
+
+  // Function to handle Metamask transaction initiation
+  const handleMetamaskTransaction = async () => {
+    // Implement your Metamask integration here
+    // Example: Initiate token transfer using Metamask
   };
 
   return (
@@ -93,9 +88,9 @@ export default function Page() {
         style={styles.mainCard}
       >
         <div className="flex items-center mb-10 text-gray-600">
-          <p className="text-sm">Powered by Farcaster</p>
+          <p className="text-sm ">Powered by Farcaster</p>
           <Image
-            className="ml-2 rounded-full"
+            className="ml-5  rounded-full"
             src="/farcaster-logo.png"
             alt="Farcaster Logo"
             width={30}
@@ -103,38 +98,38 @@ export default function Page() {
           />
         </div>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          <label htmlFor="name" className=" text-gray-900">
-            Name Your AI Celebrity: *
+          <label htmlFor="name" className="text-gray-900">
+            Name Your AI Character: *
           </label>
           <input
             type="text"
             id="name"
-            value={celebDetails.name}
+            value={characterDetails.name}
             onChange={handleChange}
             className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-[#845DCC]"
             required
           />
 
-          <label htmlFor="description" className=" text-gray-900">
+          <label htmlFor="description" className="text-gray-900">
             Provide a description: *
           </label>
           <input
             type="text"
             id="description"
-            value={celebDetails.description}
+            value={characterDetails.description}
             onChange={handleChange}
             className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-[#845DCC]"
             required
           />
 
-          <label htmlFor="personality1" className=" text-gray-900">
+          <label htmlFor="personality1" className="text-gray-900">
             Choose Their Personality:
           </label>
-          <div className="grid grid-cols-2 gap-5">
+          <div className="grid grid-cols-3 gap-5">
             <textarea
               id="personality1"
               rows={2}
-              value={celebDetails.personality1}
+              value={characterDetails.personality1}
               onChange={handleChange}
               className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-[#845DCC] resize-none"
               required
@@ -142,7 +137,7 @@ export default function Page() {
             <textarea
               id="personality2"
               rows={2}
-              value={celebDetails.personality2}
+              value={characterDetails.personality2}
               onChange={handleChange}
               className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-[#845DCC] resize-none"
               required
@@ -150,32 +145,60 @@ export default function Page() {
             <textarea
               id="personality3"
               rows={2}
-              value={celebDetails.personality3}
+              value={characterDetails.personality3}
               onChange={handleChange}
               className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-[#845DCC] resize-none"
               required
             ></textarea>
           </div>
-          <div className="flex gap-5 mt-3">
+          <p className="text-[15px]">
+            Join the{" "}
+            <Link
+              href={"https://discord.com/invite/bHnFgSTKrP"}
+              target="_blank"
+              className="text-[#845DCC] underline"
+            >
+              Galadriel Discord Server
+            </Link>{" "}
+            to get GAL tokens for your AI Character.
+          </p>
+
+          <div className="flex gap-5 mt-3 justify-between  ">
             <Button
               type="submit"
               className="px-8 py-3 bg-[#845DCC] text-white hover:bg-[#6344A6] transition-transform transform hover:scale-105"
             >
               Create AI Celebrity
             </Button>
+            <Button
+              onClick={handleMetamaskTransaction}
+              className="px-8 py-3 border  border-white text-gray-800 bg-white hover:bg-gray-100 transition-transform transform hover:scale-105"
+            >
+              <div className="flex items-center gap-3">
+                <p> Send GAL Tokens</p>
+                <img
+                  src="/galadriel-icon.jpg"
+                  height={20}
+                  width={20}
+                  className="rounded-full"
+                  alt=""
+                />
+              </div>
+            </Button>
             <Link
-              href={`https://warpcast.com/~/compose?text=Check%20out%20my%20new%20AI%20character&embeds[]=https%3A%2F%2Fcast-ai-frame.vercel.app%2Fcelebs%2F${
-                celebDetails.celebId
-              }%3FcelebName%3D${encodeURIComponent(
-                celebDetails.name
-              )}%26celebPersonality1%3D${encodeURIComponent(
-                celebDetails.personality1
-              )}%26celebPersonality2%3D${encodeURIComponent(
-                celebDetails.personality2
-              )}%26celebPersonality3%3D${encodeURIComponent(
-                celebDetails.personality3
+              href={`https://warpcast.com/~/compose?text=Check%20out%20my%20new%20AI%20character&embeds[]=https%3A%2F%2Fcast-ai-frame.vercel.app%2Fcharacters%2F${
+                characterDetails.characterId
+              }%3FcharacterName%3D${encodeURIComponent(characterDetails.name)}
+              %26characterDescription%3D${encodeURIComponent(
+                characterDetails.description
               )}
-`}
+              %26characterPersonality1%3D${encodeURIComponent(
+                characterDetails.personality1
+              )}%26characterPersonality2%3D${encodeURIComponent(
+                characterDetails.personality2
+              )}%26characterPersonality3%3D${encodeURIComponent(
+                characterDetails.personality3
+              )}`}
               type="button"
             >
               <Button className="px-8 py-3 border border-white text-gray-800 bg-white hover:bg-gray-100 transition-transform transform hover:scale-105">

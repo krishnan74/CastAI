@@ -87,7 +87,8 @@ export const runAgent = async (prompt: string) => {
     return err;
   }
 };
-export const getImage = async (messages: Messages[], avatars: string[]) => {
+
+export const getChatImage = async (messages: Messages[], avatars: string[]) => {
   console.log("Generating image with messages:", messages);
   const svg = await satori(
     <div

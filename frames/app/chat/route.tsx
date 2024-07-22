@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getImage, runAgent, getMessageContent } from "./utils";
+import { getChatImage, runAgent, getMessageContent } from "./utils";
 import {
   FrameRequest,
   getFrameMessage,
@@ -21,7 +21,6 @@ async function getResponse(req: NextRequest): Promise<NextResponse | Response> {
     const celebPersonality1 = searchParams.get("celebPersonality1");
     const celebPersonality2 = searchParams.get("celebPersonality2");
     const celebPersonality3 = searchParams.get("celebPersonality3");
-    const celebPersonality4 = searchParams.get("celebPersonality4");
     const celebName = searchParams.get("celebName");
     const id = searchParams.get("celebId");
 
@@ -30,7 +29,6 @@ async function getResponse(req: NextRequest): Promise<NextResponse | Response> {
       celebPersonality2,
       description,
       celebPersonality3,
-      celebPersonality4,
       celebName,
       id,
     });
@@ -64,7 +62,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse | Response> {
       );
     }
 
-    const image = await getImage(messagePairs, [
+    const image = await getChatImage(messagePairs, [
       "https://static.animecorner.me/2023/12/1703513395-4981.jpg",
       "https://image.api.playstation.com/vulcan/ap/rnd/202009/3021/B2aUYFC0qUAkNnjbTHRyhrg3.png",
     ]);
@@ -75,26 +73,26 @@ async function getResponse(req: NextRequest): Promise<NextResponse | Response> {
           {
             label: celebPersonality1 ? ` ${celebPersonality1}` : "",
             action: "tx",
-            postUrl: `${process.env.NEXT_PUBLIC_URL}/tx-success/enablePersonality/1?celebId=${id}&button=1&celebName=${celebName}&celebPersonality1=${celebPersonality1}&celebPersonality2=${celebPersonality2}&celebPersonality3=${celebPersonality3}&celebPersonality4=${celebPersonality4}`,
+            postUrl: `${process.env.NEXT_PUBLIC_URL}/tx-success/enablePersonality/1?celebId=${id}&button=1&celebName=${celebName}&celebPersonality1=${celebPersonality1}&celebPersonality2=${celebPersonality2}&celebPersonality3=${celebPersonality3}`,
             target: `${process.env.NEXT_PUBLIC_URL}/tx/enablePersonality/1?celebId=${id}`,
           },
           {
             label: celebPersonality2 ? `${celebPersonality2}` : "",
             action: "tx",
-            postUrl: `${process.env.NEXT_PUBLIC_URL}/tx-success/enablePersonality/2?celebId=${id}&button=2&celebName=${celebName}&celebPersonality1=${celebPersonality1}&celebPersonality2=${celebPersonality2}&celebPersonality3=${celebPersonality3}&celebPersonality4=${celebPersonality4}`,
+            postUrl: `${process.env.NEXT_PUBLIC_URL}/tx-success/enablePersonality/2?celebId=${id}&button=2&celebName=${celebName}&celebPersonality1=${celebPersonality1}&celebPersonality2=${celebPersonality2}&celebPersonality3=${celebPersonality3}`,
             target: `${process.env.NEXT_PUBLIC_URL}/tx/enablePersonality/2?celebId=${id}`,
           },
           {
             label: celebPersonality3 ? `${celebPersonality3}` : "",
             action: "tx",
-            postUrl: `${process.env.NEXT_PUBLIC_URL}/tx-success/enablePersonality/3?celebId=${id}&button=3&celebName=${celebName}&celebPersonality1=${celebPersonality1}&celebPersonality2=${celebPersonality2}&celebPersonality3=${celebPersonality3}&celebPersonality4=${celebPersonality4}`,
+            postUrl: `${process.env.NEXT_PUBLIC_URL}/tx-success/enablePersonality/3?celebId=${id}&button=3&celebName=${celebName}&celebPersonality1=${celebPersonality1}&celebPersonality2=${celebPersonality2}&celebPersonality3=${celebPersonality3}`,
             target: `${process.env.NEXT_PUBLIC_URL}/tx/enablePersonality/3?celebId=${id}`,
           },
           {
             label: "Chat",
             action: "post",
 
-            target: `${process.env.NEXT_PUBLIC_URL}chat?celebName=${celebName}&description=${description}&celebPersonality1=${celebPersonality1}&celebPersonality2=${celebPersonality2}&celebPersonality3=${celebPersonality3}&celebPersonality4=${celebPersonality4}`,
+            target: `${process.env.NEXT_PUBLIC_URL}chat?celebName=${celebName}&description=${description}&celebPersonality1=${celebPersonality1}&celebPersonality2=${celebPersonality2}&celebPersonality3=${celebPersonality3}`,
           },
         ],
         image: {
@@ -104,7 +102,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse | Response> {
         input: {
           text: `Talk with ${celebName}`,
         },
-        postUrl: `${process.env.NEXT_PUBLIC_URL}chat?celebName=${celebName}&description=${description}&celebPersonality1=${celebPersonality1}&celebPersonality2=${celebPersonality2}&celebPersonality3=${celebPersonality3}&celebPersonality4=${celebPersonality4}`,
+        postUrl: `${process.env.NEXT_PUBLIC_URL}chat?celebName=${celebName}&description=${description}&celebPersonality1=${celebPersonality1}&celebPersonality2=${celebPersonality2}&celebPersonality3=${celebPersonality3}`,
       })
     );
   } catch (e: any) {

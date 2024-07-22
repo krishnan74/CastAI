@@ -31,40 +31,41 @@ export const Web3ModalProvider = ({ children }) => {
     return provider;
   };
 
-  const createCelebrity = async (celebDetails) => {
+  const createCelebrity = async (characterDetails) => {
     console.log(contractDetails.address);
     const {
       name,
-      celebId,
+      characterId,
       personality1,
       personality2,
       personality3,
       description,
-    } = celebDetails;
+    } = characterDetails;
     try {
       const provider = await getProvider();
       const signer = await provider.getSigner();
       const contract = await fetchContract(signer);
       const response = await contract.createCeleb(
         name,
-        celebId,
+        characterId,
         personality1,
         personality2,
         personality3,
         description
       );
+      provider.waitForTransaction(response.hash);
       return response;
     } catch (err) {
       console.log(err);
     }
   };
 
-  const getCelebDetails = async (_celebId) => {
+  const getCelebDetails = async (_characterId) => {
     try {
       const provider = await getProvider();
       const contract = await fetchContract(provider);
-      const celebDetails = await contract.getCelebDetails(_celebId);
-      return celebDetails;
+      const characterDetails = await contract.getCelebDetails(_characterId);
+      return characterDetails;
     } catch (err) {
       console.log(err);
     }
@@ -83,14 +84,14 @@ export const Web3ModalProvider = ({ children }) => {
     }
   };
 
-  const enablePersonality = async (_personalityIndex, _celebId) => {
+  const enablePersonality = async (_personalityIndex, _characterId) => {
     try {
       const provider = await getProvider();
       const signer = await provider.getSigner();
       const contract = await fetchContract(signer);
       const response = await contract.enablePersonality(
         _personalityIndex,
-        _celebId
+        _characterId
       );
       return response;
     } catch (err) {
@@ -131,16 +132,16 @@ export const Web3ModalProvider = ({ children }) => {
 
   const addNetwork = async (networkId) => {
     const networks = {
-      3: {
-        chainId: "0x3",
-        chainName: "Ropsten Testnet",
+      696969: {
+        chainId: "0xaa289",
+        chainName: "Galadriel Devnet",
         nativeCurrency: {
-          name: "Ropsten Ether",
-          symbol: "rETH",
+          name: "Galadriel",
+          symbol: "GAL",
           decimals: 18,
         },
-        rpcUrls: ["https://ropsten.infura.io/v3/YOUR_INFURA_PROJECT_ID"],
-        blockExplorerUrls: ["https://ropsten.etherscan.io"],
+        rpcUrls: ["https://devnet.galadriel.com"],
+        blockExplorerUrls: ["https://explorer.galadriel.com/"],
       },
       84532: {
         chainId: "0x14a34",

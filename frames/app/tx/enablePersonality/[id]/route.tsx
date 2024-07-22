@@ -11,7 +11,7 @@ import {
   Abi,
   parseEther,
 } from "viem";
-import { baseSepolia } from "viem/chains";
+import { baseSepolia, polygonZkEvmCardona } from "viem/chains";
 import type { FrameTransactionResponse } from "@coinbase/onchainkit/frame";
 
 import contractConfig from "../../config.json";
@@ -42,7 +42,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse | Response> {
       params: {
         abi: contractConfig.abi as Abi,
         data,
-        to: `0x${process.env.NEXT_PUBLIC_CONTRACT_ADDRESS}`,
+        to: `0x${process.env.NEXT_PUBLIC_BASE_CONTRACT_ADDRESS}`,
         value: parseEther("0.001").toString(),
       },
     };

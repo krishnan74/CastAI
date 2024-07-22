@@ -2,15 +2,16 @@ import { Metadata } from "next";
 import { ResolvingMetadata } from "next";
 import React from "react";
 import { getFrameMetadata } from "@coinbase/onchainkit/core";
+import satori from "satori";
 
 type Props = {
   params: { id: string };
   searchParams: {
     celebName: string;
+    network: string;
     celebPersonality1: string;
     celebPersonality2: string;
     celebPersonality3: string;
-    celebPersonality4: string;
     description: string;
   };
 };
@@ -30,19 +31,19 @@ export async function generateMetadata(
       {
         label: searchParams.celebPersonality1,
         action: "tx",
-        postUrl: `${process.env.NEXT_PUBLIC_URL}tx-success/enablePersonality/1?celebId=${id}&button=1&celebName=${searchParams.celebName}&celebPersonality1=${searchParams.celebPersonality1}&celebPersonality2=${searchParams.celebPersonality2}&celebPersonality3=${searchParams.celebPersonality3}&celebPersonality4=${searchParams.celebPersonality4}`,
-        target: `${process.env.NEXT_PUBLIC_URL}tx/enablePersonality/1?celebId=${id}`,
+        postUrl: `${process.env.NEXT_PUBLIC_URL}tx-success/enablePersonality/1?celebId=${id}&button=1&celebName=${searchParams.celebName}&celebPersonality1=${searchParams.celebPersonality1}&celebPersonality2=${searchParams.celebPersonality2}&celebPersonality3=${searchParams.celebPersonality3}`,
+        target: `${process.env.NEXT_PUBLIC_URL}tx/enablePersonality/1?celebId=${id}&`,
       },
       {
         label: searchParams.celebPersonality2,
         action: "tx",
-        postUrl: `${process.env.NEXT_PUBLIC_URL}tx-success/enablePersonality/2?celebId=${id}&button=2&celebName=${searchParams.celebName}&celebPersonality1=${searchParams.celebPersonality1}&celebPersonality2=${searchParams.celebPersonality2}&celebPersonality3=${searchParams.celebPersonality3}&celebPersonality4=${searchParams.celebPersonality4}`,
+        postUrl: `${process.env.NEXT_PUBLIC_URL}tx-success/enablePersonality/2?celebId=${id}&button=2&celebName=${searchParams.celebName}&celebPersonality1=${searchParams.celebPersonality1}&celebPersonality2=${searchParams.celebPersonality2}&celebPersonality3=${searchParams.celebPersonality3}`,
         target: `${process.env.NEXT_PUBLIC_URL}tx/enablePersonality/2?celebId=${id}`,
       },
       {
         label: searchParams.celebPersonality3,
         action: "tx",
-        postUrl: `${process.env.NEXT_PUBLIC_URL}tx-success/enablePersonality/3?celebId=${id}&button=3&celebName=${searchParams.celebName}&celebPersonality1=${searchParams.celebPersonality1}&celebPersonality2=${searchParams.celebPersonality2}&celebPersonality3=${searchParams.celebPersonality3}&celebPersonality4=${searchParams.celebPersonality4}`,
+        postUrl: `${process.env.NEXT_PUBLIC_URL}tx-success/enablePersonality/3?celebId=${id}&button=3&celebName=${searchParams.celebName}&celebPersonality1=${searchParams.celebPersonality1}&celebPersonality2=${searchParams.celebPersonality2}&celebPersonality3=${searchParams.celebPersonality3}`,
         target: `${process.env.NEXT_PUBLIC_URL}tx/enablePersonality/3?celebId=${id}`,
       },
       {
@@ -57,7 +58,7 @@ export async function generateMetadata(
     input: {
       text: `Talk with ${searchParams.celebName}`,
     },
-    postUrl: `${process.env.NEXT_PUBLIC_URL}chat?celebName=${searchParams.celebName}&description=${searchParams.description}&celebPersonality1=${searchParams.celebPersonality1}&celebPersonality2=${searchParams.celebPersonality2}&celebPersonality3=${searchParams.celebPersonality3}&celebPersonality4=${searchParams.celebPersonality4}`,
+    postUrl: `${process.env.NEXT_PUBLIC_URL}chat?celebName=${searchParams.celebName}&description=${searchParams.description}&celebPersonality1=${searchParams.celebPersonality1}&celebPersonality2=${searchParams.celebPersonality2}&celebPersonality3=${searchParams.celebPersonality3}`,
   });
 
   return {

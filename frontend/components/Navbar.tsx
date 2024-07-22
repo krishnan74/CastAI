@@ -61,8 +61,18 @@ const Navbar = () => {
             <SelectValue placeholder="Select Network" />
           </SelectTrigger>
           <SelectContent position="popper">
-            <SelectItem value="2442">Polygon Cardano zkEVM</SelectItem>
-            <SelectItem value="84532">Base Sepolia</SelectItem>
+            <SelectItem value="2442 w-fit">
+              <div className="flex w-fit gap-2 items-center">
+                <img src="/polygon-icon.png" height={25} width={25} alt="" />
+                <p>Polygon Cardano zkEVM</p>
+              </div>
+            </SelectItem>
+            <SelectItem value="84532">
+              <div className="flex w-fit gap-2 items-center">
+                <img src="/base-icon.png" height={25} width={25} alt="" />
+                <p>Base Sepolia</p>
+              </div>
+            </SelectItem>
           </SelectContent>
         </Select>
 
