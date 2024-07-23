@@ -18,27 +18,43 @@ interface AICharacter {
 }
 
 const Page = () => {
-  const {
-    getUserCharacters,
-    currentAccount,
-    checkIfWalletConnected,
-    checkCurrentNetwork,
-  } = useWeb3Provider();
-  const [characters, setCharacters] = useState<AICharacter[]>([]);
-
-  const fetchCharacters = async () => {
-    console.log("currentAccount", currentAccount);
-    const characters = await getUserCharacters(currentAccount);
-    setCharacters(characters);
-  };
+  const { getUserCharacters, currentAccount, getAllCharacters } =
+    useWeb3Provider();
+  const [characters, setCharacters] = useState([]);
 
   useEffect(() => {
-    fetchCharacters();
-  }, []);
+    const fetchData = async () => {
+      console.log("currentAccount", currentAccount);
+      const fetchedCharacters = await getUserCharacters(currentAccount);
+      setCharacters(fetchedCharacters);
+    };
+
+    if (currentAccount) {
+      setTimeout(() => {
+        fetchData();
+      }, 500);
+    }
+  }, [currentAccount]); 
+
+  const fetchAllCharacters = async () => {
+    const allCharacters = await getAllCharacters();
+    setCharacters(allCharacters);
+  };
+
+  const handleFetchUserCharacters = async () => {
+    if (currentAccount) {
+      const fetchedCharacters = await getUserCharacters(currentAccount);
+      setCharacters(fetchedCharacters);
+    }
+  };
 
   return (
     <div className="flex flex-col justify-center items-center mt-10">
-      <TabBar myCharacters={characters} allCharacters={characters} />
+      {characters != null ? (
+        <TabBar myCharacters={characters} allCharacters={characters} />
+      ) : (
+        <div>Loading...</div>
+      )}
     </div>
   );
 };

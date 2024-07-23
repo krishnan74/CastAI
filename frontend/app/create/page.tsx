@@ -1,14 +1,15 @@
 "use client";
-import { useState } from "react";
+import { use, useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { useWeb3Provider } from "@/context/Web3ModalContext";
 
 const styles = {
   backgroundImage: {
-    backgroundImage: `url('/celeb-collage.jpg')`,
+    backgroundImage: `url('/character-collage.jpg')`,
     backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
     backgroundPosition: "center",
@@ -31,10 +32,24 @@ const styles = {
 };
 
 export default function Page() {
-  const { createCharacter, currentAccount, sendGALTokens } = useWeb3Provider();
+  const router = useRouter();
+  const {
+    createCharacter,
 
-  const [characterDetails, setCelebDetails] = useState({
+    sendGALTokens,
+    checkCurrentNetwork,
+  } = useWeb3Provider();
+  const [enableCasting, setEnableCasting] = useState(false);
+
+  useEffect(() => {}, [enableCasting]);
+
+  useEffect(() => {
+    checkCurrentNetwork();
+  }, []);
+
+  const [characterDetails, setCharacterDetails] = useState({
     name: "",
+    url: "",
     characterId: "",
     personality1: "",
     personality2: "",
@@ -46,7 +61,7 @@ export default function Page() {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { id, value } = e.target;
-    setCelebDetails((prevDetails) => ({
+    setCharacterDetails((prevDetails) => ({
       ...prevDetails,
       [id]: value,
     }));
@@ -56,10 +71,13 @@ export default function Page() {
     e.preventDefault();
     try {
       const characterId = uuidv4();
-      setCelebDetails((prevDetails) => ({
+
+      setCharacterDetails((prevDetails) => ({
         ...prevDetails,
         characterId,
       }));
+
+      // Proceed with creating the character using characterDetails and characterId
       const response = await createCharacter(characterDetails);
       console.log(
         "Character created with characterId : ",
@@ -67,13 +85,13 @@ export default function Page() {
         response
       );
     } catch (err) {
-      console.error("Error creating characterrity:", err);
+      console.error("Error creating character:", err);
     }
   };
 
-  // Function to handle Metamask transaction initiation
   const handleMetamaskTransaction = async () => {
-    sendGALTokens("0xF19266508b9d6F40955f2968567d8979287A231B");
+    await sendGALTokens("0xF19266508b9d6F40955f2968567d8979287A231B");
+    setEnableCasting(true);
   };
 
   return (
@@ -96,7 +114,7 @@ export default function Page() {
             height={30}
           />
         </div>
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4">
           <label htmlFor="name" className="text-gray-900">
             Name Your AI Character: *
           </label>
@@ -164,12 +182,12 @@ export default function Page() {
 
           <div className="flex gap-5 mt-3 justify-center  ">
             <Button
-              type="submit"
+              onClick={handleSubmit}
               className="px-8 py-3 bg-[#845DCC] text-white hover:bg-[#6344A6] transition-transform transform hover:scale-105"
             >
-              Create AI Celebrity
+              Create AI Character
             </Button>
-            {/* <Button
+            <Button
               onClick={handleMetamaskTransaction}
               className="px-8 py-3 border  border-white text-gray-800 bg-white hover:bg-gray-100 transition-transform transform hover:scale-105"
             >
@@ -183,29 +201,21 @@ export default function Page() {
                   alt=""
                 />
               </div>
-            </Button> */}
-            <Link
-              href={`https://warpcast.com/~/compose?text=Check%20out%20my%20new%20AI%20character&embeds[]=https%3A%2F%2Fcast-ai-frame.vercel.app%2Fcharacters%2F${
-                characterDetails.characterId
-              }%3FcharacterName%3D${encodeURIComponent(characterDetails.name)}
-              %26characterDescription%3D${encodeURIComponent(
-                characterDetails.description
-              )}
-              %26characterPersonality1%3D${encodeURIComponent(
-                characterDetails.personality1
-              )}%26characterPersonality2%3D${encodeURIComponent(
-                characterDetails.personality2
-              )}%26characterPersonality3%3D${encodeURIComponent(
-                characterDetails.personality3
-              )}`}
-              type="button"
+            </Button>
+
+            <Button
+              //disabled={!enableCasting}
+              onClick={() =>
+                router.push(
+                  `https://warpcast.com/~/compose?text=Check%20out%20my%20new%20AI%20character&embeds[]=https%3A%2F%2Fcast-ai-frame.vercel.app%2Fcharacters%2F${characterDetails.characterId}?characterName=${encodeURIComponent(characterDetails.name)}%26characterDescription=${encodeURIComponent(characterDetails.description)}%26characterPersonality1=${encodeURIComponent(characterDetails.personality1)}%26characterPersonality2=${encodeURIComponent(characterDetails.personality2)}%26characterPersonality3=${encodeURIComponent(characterDetails.personality3)}`
+                )
+              }
+              className="px-8 py-3 border border-white text-gray-800 bg-white hover:bg-gray-100 transition-transform transform hover:scale-105"
             >
-              <Button className="px-8 py-3 border border-white text-gray-800 bg-white hover:bg-gray-100 transition-transform transform hover:scale-105">
-                Cast on Warpcast
-              </Button>
-            </Link>
+              Cast on Warpcast
+            </Button>
           </div>
-        </form>
+        </div>
       </div>
     </div>
   );

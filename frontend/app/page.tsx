@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 
 const styles = {
   backgroundImage: {
-    backgroundImage: `url('/celeb-collage.jpg')`,
+    backgroundImage: `url('/character-collage.jpg')`,
     backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
     backgroundPosition: "center",
@@ -37,11 +37,11 @@ const Page = () => {
           />
         </div>
         <h1 className="text-5xl font-bold mb-4 text-gray-900">
-          Cast Your Own AI Celebrity with{" "}
+          Cast Your Own AI Character with{" "}
           <span className="text-[#845DCC]">Cast AI </span>
         </h1>
         <p className="text-lg mb-4 text-gray-800">
-          Interact with your AI celebrity on Farcaster. Customize their
+          Interact with your AI Character on Farcaster. Customize their
           personality and engage in various activities.
         </p>
         <ul className="list-disc pl-6 mb-6 text-gray-700">

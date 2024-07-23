@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect, createContext, useContext } from "react";
 import Web3Modal from "web3modal";
+import { v4 as uuidv4 } from "uuid";
 import { ethers } from "ethers";
 import contractConfig from "./AICharacterPlatform.json";
 import transferTokenContract from "./TransferToken.json";
@@ -27,70 +28,27 @@ export const Web3ModalProvider = ({ children }) => {
   };
 
   const sendGALTokens = async (_recipientAddress) => {
-    // try {
-    //   const provider = new ethers.BrowserProvider(window.ethereum);
-    //   const signer = provider.getSigner();
-
-    //   const galTokenContract = new ethers.Contract(
-    //     "0x0c44cFecaFE4da904Ee24984FD74c91C2bE431B7",
-    //     ERCconfig.abi,
-    //     signer
-    //   );
-
-    //   console.log(galTokenContract);
-
-    //   // const approveTx = await galTokenContract.approve(
-    //   //   tokenTransferContractAddress,
-    //   //   ethers.parseUnits("0.01", 18)
-    //   // );
-    //   // await approveTx.wait();
-
-    //   // console.log(approveTx);
-
-    //   const transferContract = new ethers.Contract(
-    //     tokenTransferContractAddress,
-    //     transferTokenContract.abi,
-    //     signer
-    //   );
-
-    //   const depositTx = await transferContract.deposit(
-    //     ethers.parseUnits("0.01", 18)
-    //   );
-    //   const depositReceipt = await tx.wait();
-    //   const sendTx = await transferContract.transfer(
-    //     recipientAddress,
-    //     ethers.parseUnits("0.01", 18)
-    //   );
-
-    //   const sendReceipt = await sendTx.wait();
-    //   console.log("Transaction receipt:", sendReceipt);
-    //   return agentId;
-    // } catch (err) {
-    //   console.error("Error executing contract function:", err);
-    //   return err;
-    // }
-
-    const galTokenAddress = "0x0c44cFecaFE4da904Ee24984FD74c91C2bE431B7";
-
     const provider = new ethers.BrowserProvider(window.ethereum);
 
     const signer = await provider.getSigner();
-    const token = new ethers.Contract(galTokenAddress, ERCconfig.abi, signer);
-    const amount = ethers.parseUnits("0.01", 18);
 
-    await token
-      .transfer(_recipientAddress, amount)
-      .then((transferResult) => {
-        console.log("transferResult", transferResult);
-      })
-      .catch((error) => {
-        console.error("Error", error);
-      });
+    const tx = {
+      from: currentAccount,
+      to: _recipientAddress,
+      value: ethers.parseEther("0.01"),
+    };
+
+    const response = await signer.sendTransaction(tx);
+
+    await provider.waitForTransaction(response.hash);
+
+    return response;
   };
 
   const createCharacter = async (characterDetails) => {
     const {
       name,
+      url,
       characterId,
       personality1,
       personality2,
@@ -103,13 +61,14 @@ export const Web3ModalProvider = ({ children }) => {
       const contract = await fetchContract(signer);
       const response = await contract.createCharacter(
         name,
+        url,
         characterId,
         personality1,
         personality2,
         personality3,
         description
       );
-      provider.waitForTransaction(response.hash);
+      await provider.waitForTransaction(response.hash);
       return response;
     } catch (err) {
       console.log(err);
@@ -131,9 +90,28 @@ export const Web3ModalProvider = ({ children }) => {
     try {
       const provider = await getProvider();
       const contract = await fetchContract(provider);
-      console.log(userAddress);
-      const userCharacters = await contract.getUserCharacters(userAddress);
-      return userCharacters;
+      const userCharacters = await contract.getUserCharacters(currentAccount);
+      var actualCharacters = [];
+
+      for (let i = 0; i < userCharacters.length; i++) {
+        const character = await contract.getCharacterDetails(
+          userCharacters[i][1]
+        );
+        actualCharacters.push(character);
+      }
+
+      return actualCharacters;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const getAllCharacters = async () => {
+    try {
+      const provider = await getProvider();
+      const contract = await fetchContract(provider);
+      const allCharacters = await contract.getAllCharacters();
+      return allCharacters;
     } catch (err) {
       console.log(err);
     }
@@ -270,6 +248,7 @@ export const Web3ModalProvider = ({ children }) => {
         connectWallet,
         checkIfWalletConnected,
         switchNetwork,
+        withDrawETH,
         currentAccount,
         currentNetwork,
         getProvider,

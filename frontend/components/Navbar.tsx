@@ -65,6 +65,10 @@ const Navbar = () => {
       <Link className="" href={"/"}>
         <p className="text-2xl font-semibold text-gray-900">CastAI</p>
       </Link>
+      <div className="flex gap-10">
+        <Link href={"/create"}>Cast AI</Link>
+        <Link href={"/explore"}>Explore</Link>
+      </div>
       <div className="flex gap-8 items-center">
         <Select onValueChange={handleSwitchNetwork}>
           <SelectTrigger
