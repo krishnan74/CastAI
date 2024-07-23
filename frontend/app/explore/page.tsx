@@ -17,13 +17,18 @@ interface AICharacter {
   enabledPersonality4: boolean;
 }
 
-const page = () => {
-  const { getUserCharacters, currentAccount } = useWeb3Provider();
-  const [characters, setCharacters] = useState([]);
+const Page = () => {
+  const {
+    getUserCharacters,
+    currentAccount,
+    checkIfWalletConnected,
+    checkCurrentNetwork,
+  } = useWeb3Provider();
+  const [characters, setCharacters] = useState<AICharacter[]>([]);
 
   const fetchCharacters = async () => {
+    console.log("currentAccount", currentAccount);
     const characters = await getUserCharacters(currentAccount);
-
     setCharacters(characters);
   };
 
@@ -32,10 +37,10 @@ const page = () => {
   }, []);
 
   return (
-    <div className=" flex flex-col justify-center items-center mt-10">
+    <div className="flex flex-col justify-center items-center mt-10">
       <TabBar myCharacters={characters} allCharacters={characters} />
     </div>
   );
 };
 
-export default page;
+export default Page;

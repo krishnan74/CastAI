@@ -4,49 +4,48 @@ import { NextRequest, NextResponse } from "next/server";
 async function getResponse(req: NextRequest): Promise<NextResponse> {
   const { searchParams } = new URL(req.url);
 
-  const celebPersonality1 = searchParams.get("celebPersonality1");
-  const celebPersonality2 = searchParams.get("celebPersonality2");
-  const celebPersonality3 = searchParams.get("celebPersonality3");
-  const celebPersonality4 = searchParams.get("celebPersonality4");
-  const celebName = searchParams.get("celebName");
-  const id = searchParams.get("celebId");
+  const characterPersonality1 = searchParams.get("characterPersonality1");
+  const characterPersonality2 = searchParams.get("characterPersonality2");
+  const characterPersonality3 = searchParams.get("characterPersonality3");
+  const characterDescription = searchParams.get("characterDescription");
+  const characterName = searchParams.get("characterName");
+  const id = searchParams.get("characterId");
   const button = searchParams.get("button");
 
   return new NextResponse(
     getFrameHtmlResponse({
       buttons: [
         {
-          label: celebPersonality1 ? ` ${celebPersonality1}` : "",
+          label: characterPersonality1 ? ` ${characterPersonality1}` : "",
           action: "tx",
-          postUrl: `${process.env.NEXT_PUBLIC_URL}tx-success/enablePersonality/1?celebId=${id}&button=1&celebName=${celebName}&celebPersonality1=${celebPersonality1}&celebPersonality2=${celebPersonality2}&celebPersonality3=${celebPersonality3}&celebPersonality4=${celebPersonality4}`,
-          target: `${process.env.NEXT_PUBLIC_URL}tx/enablePersonality/1?celebId=${id}`,
+          postUrl: `${process.env.NEXT_PUBLIC_URL}tx-success/enablePersonality/1?characterId=${id}&button=1&characterName=${characterName}&characterDescription=${characterDescription}&characterPersonality1=${characterPersonality1}&characterPersonality2=${characterPersonality2}&characterPersonality3=${characterPersonality3}`,
+          target: `${process.env.NEXT_PUBLIC_URL}tx/enablePersonality/1?characterId=${id}`,
         },
         {
-          label: celebPersonality2 ? `${celebPersonality2}` : "",
+          label: characterPersonality2 ? `${characterPersonality2}` : "",
           action: "tx",
-          postUrl: `${process.env.NEXT_PUBLIC_URL}tx-success/enablePersonality/2?celebId=${id}&button=2&celebName=${celebName}&celebPersonality1=${celebPersonality1}&celebPersonality2=${celebPersonality2}&celebPersonality3=${celebPersonality3}&celebPersonality4=${celebPersonality4}`,
-          target: `${process.env.NEXT_PUBLIC_URL}tx/enablePersonality/2?celebId=${id}`,
+          postUrl: `${process.env.NEXT_PUBLIC_URL}tx-success/enablePersonality/2?characterId=${id}&button=2&characterName=${characterName}&characterDescription=${characterDescription}&characterPersonality1=${characterPersonality1}&characterPersonality2=${characterPersonality2}&characterPersonality3=${characterPersonality3}`,
+          target: `${process.env.NEXT_PUBLIC_URL}tx/enablePersonality/2?characterId=${id}`,
         },
         {
-          label: celebPersonality3 ? `${celebPersonality3}` : "",
+          label: characterPersonality3 ? `${characterPersonality3}` : "",
           action: "tx",
-          postUrl: `${process.env.NEXT_PUBLIC_URL}tx-success/enablePersonality/3?celebId=${id}&button=3&celebName=${celebName}&celebPersonality1=${celebPersonality1}&celebPersonality2=${celebPersonality2}&celebPersonality3=${celebPersonality3}&celebPersonality4=${celebPersonality4}`,
-          target: `${process.env.NEXT_PUBLIC_URL}tx/enablePersonality/3?celebId=${id}`,
+          postUrl: `${process.env.NEXT_PUBLIC_URL}tx-success/enablePersonality/3?characterId=${id}&button=3&characterName=${characterName}&characterDescription=${characterDescription}&characterPersonality1=${characterPersonality1}&characterPersonality2=${characterPersonality2}&characterPersonality3=${characterPersonality3}`,
+          target: `${process.env.NEXT_PUBLIC_URL}tx/enablePersonality/3?characterId=${id}`,
         },
         {
           label: "Chat",
           action: "post",
-          target: `${process.env.NEXT_PUBLIC_URL}chat?celebName=${celebName}&celebPersonality1=${celebPersonality1}&celebPersonality2=${celebPersonality2}&celebPersonality3=${celebPersonality3}&celebPersonality4=${celebPersonality4}`,
         },
       ],
       image: {
-        src: `${process.env.NEXT_PUBLIC_URL}celeb-collage.jpg`,
+        src: `${process.env.NEXT_PUBLIC_URL}character-collage.jpg`,
         aspectRatio: "1:1",
       },
       input: {
-        text: `Talk with your celebrity ${celebName}`,
+        text: `Talk with ${characterName}`,
       },
-      postUrl: `${process.env.NEXT_PUBLIC_URL}tx/frame/`,
+      postUrl: `${process.env.NEXT_PUBLIC_URL}chat?characterName=${characterName}&characterDescription=${characterDescription}&characterPersonality1=${characterPersonality1}&characterPersonality2=${characterPersonality2}&characterPersonality3=${characterPersonality3}`,
     })
   );
 }

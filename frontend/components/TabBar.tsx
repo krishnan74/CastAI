@@ -23,6 +23,7 @@ const TabBar = ({
   myCharacters: any;
   allCharacters: any;
 }) => {
+  console.log(myCharacters);
   return (
     <Tabs defaultValue="account">
       <TabsList>

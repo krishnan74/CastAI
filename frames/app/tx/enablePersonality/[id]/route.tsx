@@ -21,7 +21,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse | Response> {
   try {
     const framerequest: FrameRequest = await req.json();
     const { searchParams } = new URL(req.url);
-    const celebId = searchParams.get("celebId");
+    const characterId = searchParams.get("characterId");
 
     const { isValid, message } = await getFrameMessage(framerequest);
 
@@ -34,7 +34,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse | Response> {
     const data = encodeFunctionData({
       abi: contractConfig.abi,
       functionName: "enablePersonality",
-      args: [BigInt(message.button), celebId],
+      args: [BigInt(message.button), characterId],
     });
     const txData: FrameTransactionResponse = {
       chainId: `eip155:${baseSepolia.id}`,

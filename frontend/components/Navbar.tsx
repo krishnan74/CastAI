@@ -16,27 +16,40 @@ import { MetaMaskAvatar } from "react-metamask-avatar";
 import Image from "next/image";
 
 const Navbar = () => {
-  const { connectWallet, currentAccount, switchNetwork, getProvider } =
-    useWeb3Provider();
+  const {
+    connectWallet,
+    currentAccount,
+    switchNetwork,
+    getProvider,
+    checkIfWalletConnected,
+    checkCurrentNetwork,
+    currentNetwork,
+  } = useWeb3Provider();
   const [showDetails, setShowDetails] = useState(false);
   const [balance, setBalance] = useState("");
   const [profilePhoto, setProfilePhoto] = useState("/placeholder-profile.png");
 
   useEffect(() => {
-    if (currentAccount) {
-      fetchBalance();
-    }
-  }, [currentAccount]);
+    checkIfWalletConnected();
+    checkCurrentNetwork();
+    handleSwitchNetwork(currentNetwork);
+  }, []);
 
-  const fetchBalance = async () => {
-    const provider = await getProvider();
-    console.log(provider);
-    if (provider && currentAccount) {
-      // const balance = await provider.getBalance("ethers.eth");
-      // setBalance(ethers.formatEther(balance));
-      // console.log("Balance: ", balance);
-    }
-  };
+  // useEffect(() => {
+  //   if (currentAccount) {
+  //     fetchBalance();
+  //   }
+  // }, [currentAccount]);
+
+  // const fetchBalance = async () => {
+  //   const provider = await getProvider();
+  //   console.log(provider);
+  //   if (provider && currentAccount) {
+  //     // const balance = await provider.getBalance("ethers.eth");
+  //     // setBalance(ethers.formatEther(balance));
+  //     // console.log("Balance: ", balance);
+  //   }
+  // };
 
   const handleSwitchNetwork = (networkId: string) => {
     switchNetwork(parseInt(networkId, 10));
@@ -61,16 +74,23 @@ const Navbar = () => {
             <SelectValue placeholder="Select Network" />
           </SelectTrigger>
           <SelectContent position="popper">
-            <SelectItem value="2442 w-fit">
+            <SelectItem value="84532">
+              <div className="flex w-fit gap-2 items-center">
+                <img src="/base-icon.png" height={25} width={25} alt="" />
+                <p>Base Sepolia</p>
+              </div>
+            </SelectItem>
+            <SelectItem value="2442">
               <div className="flex w-fit gap-2 items-center">
                 <img src="/polygon-icon.png" height={25} width={25} alt="" />
                 <p>Polygon Cardano zkEVM</p>
               </div>
             </SelectItem>
-            <SelectItem value="84532">
+
+            <SelectItem value="696969">
               <div className="flex w-fit gap-2 items-center">
-                <img src="/base-icon.png" height={25} width={25} alt="" />
-                <p>Base Sepolia</p>
+                <img src="/galadriel-icon.jpg" className="rounded-full" height={25} width={25} alt="" />
+                <p>Galadriel Devnet</p>
               </div>
             </SelectItem>
           </SelectContent>

@@ -31,7 +31,7 @@ const styles = {
 };
 
 export default function Page() {
-  const { createCelebrity, currentAccount } = useWeb3Provider();
+  const { createCharacter, currentAccount, sendGALTokens } = useWeb3Provider();
 
   const [characterDetails, setCelebDetails] = useState({
     name: "",
@@ -60,7 +60,7 @@ export default function Page() {
         ...prevDetails,
         characterId,
       }));
-      const response = await createCelebrity(characterDetails);
+      const response = await createCharacter(characterDetails);
       console.log(
         "Character created with characterId : ",
         characterDetails.characterId,
@@ -73,8 +73,7 @@ export default function Page() {
 
   // Function to handle Metamask transaction initiation
   const handleMetamaskTransaction = async () => {
-    // Implement your Metamask integration here
-    // Example: Initiate token transfer using Metamask
+    sendGALTokens("0xF19266508b9d6F40955f2968567d8979287A231B");
   };
 
   return (
@@ -163,14 +162,14 @@ export default function Page() {
             to get GAL tokens for your AI Character.
           </p>
 
-          <div className="flex gap-5 mt-3 justify-between  ">
+          <div className="flex gap-5 mt-3 justify-center  ">
             <Button
               type="submit"
               className="px-8 py-3 bg-[#845DCC] text-white hover:bg-[#6344A6] transition-transform transform hover:scale-105"
             >
               Create AI Celebrity
             </Button>
-            <Button
+            {/* <Button
               onClick={handleMetamaskTransaction}
               className="px-8 py-3 border  border-white text-gray-800 bg-white hover:bg-gray-100 transition-transform transform hover:scale-105"
             >
@@ -184,7 +183,7 @@ export default function Page() {
                   alt=""
                 />
               </div>
-            </Button>
+            </Button> */}
             <Link
               href={`https://warpcast.com/~/compose?text=Check%20out%20my%20new%20AI%20character&embeds[]=https%3A%2F%2Fcast-ai-frame.vercel.app%2Fcharacters%2F${
                 characterDetails.characterId

@@ -17,25 +17,25 @@ async function getResponse(req: NextRequest): Promise<NextResponse | Response> {
     const framerequest: FrameRequest = await req.json();
     console.log("Frame request received:", framerequest);
     const { searchParams } = new URL(req.url);
-    const description = searchParams.get("description");
-    const celebPersonality1 = searchParams.get("celebPersonality1");
-    const celebPersonality2 = searchParams.get("celebPersonality2");
-    const celebPersonality3 = searchParams.get("celebPersonality3");
-    const celebName = searchParams.get("celebName");
-    const id = searchParams.get("celebId");
+    const characterDescription = searchParams.get("characterDescription");
+    const characterPersonality1 = searchParams.get("characterPersonality1");
+    const characterPersonality2 = searchParams.get("characterPersonality2");
+    const characterPersonality3 = searchParams.get("characterPersonality3");
+    const characterName = searchParams.get("characterName");
+    const id = searchParams.get("characterId");
 
     console.log("Parsed query parameters:", {
-      celebPersonality1,
-      celebPersonality2,
-      description,
-      celebPersonality3,
-      celebName,
+      characterPersonality1,
+      characterPersonality2,
+      characterDescription,
+      characterPersonality3,
+      characterName,
       id,
     });
 
     const inputText = framerequest.untrustedData.inputText;
 
-    const messageData = `as humane and brief and more accurate to the character as possible characterName: ${celebName} description: ${description} characterPersonality1: ${celebPersonality1} characterPersonality2: ${celebPersonality2}  Query: ${inputText}`;
+    const messageData = `as humane and brief and more accurate to the character as possible characterName: ${characterName} characterDescription: ${characterDescription} characterPersonality1: ${characterPersonality1} characterPersonality2: ${characterPersonality2} characterPersonality3: ${characterPersonality3}   Query: ${inputText}`;
 
     const agentId = (await runAgent(messageData)) as Number;
     console.log("Agent ID:", agentId);
@@ -71,28 +71,28 @@ async function getResponse(req: NextRequest): Promise<NextResponse | Response> {
       getFrameHtmlResponse({
         buttons: [
           {
-            label: celebPersonality1 ? ` ${celebPersonality1}` : "",
+            label: characterPersonality1 ? ` ${characterPersonality1}` : "",
             action: "tx",
-            postUrl: `${process.env.NEXT_PUBLIC_URL}/tx-success/enablePersonality/1?celebId=${id}&button=1&celebName=${celebName}&celebPersonality1=${celebPersonality1}&celebPersonality2=${celebPersonality2}&celebPersonality3=${celebPersonality3}`,
-            target: `${process.env.NEXT_PUBLIC_URL}/tx/enablePersonality/1?celebId=${id}`,
+            postUrl: `${process.env.NEXT_PUBLIC_URL}/tx-success/enablePersonality/1?characterId=${id}&button=1&characterName=${characterName}&characterDescription=${characterDescription}&characterPersonality1=${characterPersonality1}&characterPersonality2=${characterPersonality2}&characterPersonality3=${characterPersonality3}`,
+            target: `${process.env.NEXT_PUBLIC_URL}/tx/enablePersonality/1?characterId=${id}`,
           },
           {
-            label: celebPersonality2 ? `${celebPersonality2}` : "",
+            label: characterPersonality2 ? `${characterPersonality2}` : "",
             action: "tx",
-            postUrl: `${process.env.NEXT_PUBLIC_URL}/tx-success/enablePersonality/2?celebId=${id}&button=2&celebName=${celebName}&celebPersonality1=${celebPersonality1}&celebPersonality2=${celebPersonality2}&celebPersonality3=${celebPersonality3}`,
-            target: `${process.env.NEXT_PUBLIC_URL}/tx/enablePersonality/2?celebId=${id}`,
+            postUrl: `${process.env.NEXT_PUBLIC_URL}/tx-success/enablePersonality/2?characterId=${id}&button=2&characterName=${characterName}&characterDescription=${characterDescription}&characterPersonality1=${characterPersonality1}&characterPersonality2=${characterPersonality2}&characterPersonality3=${characterPersonality3}`,
+            target: `${process.env.NEXT_PUBLIC_URL}/tx/enablePersonality/2?characterId=${id}`,
           },
           {
-            label: celebPersonality3 ? `${celebPersonality3}` : "",
+            label: characterPersonality3 ? `${characterPersonality3}` : "",
             action: "tx",
-            postUrl: `${process.env.NEXT_PUBLIC_URL}/tx-success/enablePersonality/3?celebId=${id}&button=3&celebName=${celebName}&celebPersonality1=${celebPersonality1}&celebPersonality2=${celebPersonality2}&celebPersonality3=${celebPersonality3}`,
-            target: `${process.env.NEXT_PUBLIC_URL}/tx/enablePersonality/3?celebId=${id}`,
+            postUrl: `${process.env.NEXT_PUBLIC_URL}/tx-success/enablePersonality/3?characterId=${id}&button=3&characterName=${characterName}&characterDescription=${characterDescription}&characterPersonality1=${characterPersonality1}&characterPersonality2=${characterPersonality2}&characterPersonality3=${characterPersonality3}`,
+            target: `${process.env.NEXT_PUBLIC_URL}/tx/enablePersonality/3?characterId=${id}`,
           },
           {
             label: "Chat",
             action: "post",
 
-            target: `${process.env.NEXT_PUBLIC_URL}chat?celebName=${celebName}&description=${description}&celebPersonality1=${celebPersonality1}&celebPersonality2=${celebPersonality2}&celebPersonality3=${celebPersonality3}`,
+            target: `${process.env.NEXT_PUBLIC_URL}chat?characterName=${characterName}&characterDescription=${characterDescription}&characterPersonality1=${characterPersonality1}&characterPersonality2=${characterPersonality2}&characterPersonality3=${characterPersonality3}`,
           },
         ],
         image: {
@@ -100,9 +100,9 @@ async function getResponse(req: NextRequest): Promise<NextResponse | Response> {
           aspectRatio: "1:1",
         },
         input: {
-          text: `Talk with ${celebName}`,
+          text: `Talk with ${characterName}`,
         },
-        postUrl: `${process.env.NEXT_PUBLIC_URL}chat?celebName=${celebName}&description=${description}&celebPersonality1=${celebPersonality1}&celebPersonality2=${celebPersonality2}&celebPersonality3=${celebPersonality3}`,
+        postUrl: `${process.env.NEXT_PUBLIC_URL}chat?characterName=${characterName}&characterDescription=${characterDescription}&characterPersonality1=${characterPersonality1}&characterPersonality2=${characterPersonality2}&characterPersonality3=${characterPersonality3}`,
       })
     );
   } catch (e: any) {
