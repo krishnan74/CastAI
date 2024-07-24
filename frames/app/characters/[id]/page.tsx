@@ -53,7 +53,7 @@ export async function generateMetadata(
       },
     ],
     image: {
-      src: image,
+      src: `data:image/png;base64,${image}`,
       aspectRatio: "1:1",
     },
     input: {
@@ -68,7 +68,7 @@ export async function generateMetadata(
     openGraph: {
       title: "cast-ai.vercel.app",
       description: "Cast your own AI character",
-      images: [image],
+      images: [`data:image/png;base64,${image}`],
     },
     other: {
       ...frameMetadata,
