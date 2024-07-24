@@ -80,12 +80,6 @@ const Navbar = () => {
                 <p>Base Sepolia</p>
               </div>
             </SelectItem>
-            <SelectItem value="2442">
-              <div className="flex w-fit gap-2 items-center">
-                <img src="/polygon-icon.png" height={25} width={25} alt="" />
-                <p>Polygon Cardano zkEVM</p>
-              </div>
-            </SelectItem>
 
             <SelectItem value="696969">
               <div className="flex w-fit gap-2 items-center">

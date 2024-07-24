@@ -29,7 +29,7 @@ const Page = () => {
 
   return (
     <div className="mt-10">
-      <ReclaimComponent />
+      <ReclaimComponent setIsVerified={setIsVerified} />
       <TabBar
         myCharacters={userCharacters}
         allCharacters={allCharacters}

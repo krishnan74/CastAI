@@ -60,9 +60,10 @@ const AICharacterCard = ({
       </div>
 
       <div className="flex flex-row items-center justify-center ">
-        <p className="text-sm font-light text-gray-600 text-center">{`ETH Earned: ${ethers.formatEther(
-          ethEarned
-        )}`}</p>
+        <p className="text-sm font-light text-center">
+          {`ETH Earned: ${ethers.formatEther(ethEarned)} `}{" "}
+          <span className="text-green-500">{isVerified ? "x 2" : ""}</span>
+        </p>
       </div>
       {isUserCharacter && (
         <Button onClick={handleWithdraw} disabled={!canWithdraw}>

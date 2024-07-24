@@ -1,10 +1,14 @@
 "use client";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import QRCode from "react-qr-code";
 import { Reclaim } from "@reclaimprotocol/js-sdk";
 import { Button } from "@/components/ui/button";
 
-export default function ReclaimComponent() {
+export default function ReclaimComponent({
+  setIsVerified,
+}: {
+  setIsVerified: Dispatch<SetStateAction<boolean>>;
+}) {
   const [url, setUrl] = useState("");
   const [error, setError] = useState("");
   const [verificationMessage, setVerificationMessage] = useState("");
@@ -42,10 +46,12 @@ export default function ReclaimComponent() {
           await reclaimClient.startSession({
             onSuccessCallback: (proofs) => {
               console.log("Verification success", proofs);
+              setIsVerified(true);
               setVerificationMessage("Verification succeeded.");
             },
             onFailureCallback: (error) => {
               console.error("Verification failed", error);
+              setIsVerified(false);
               setVerificationMessage("Verification failed. Please try again.");
               setError("Verification failed. Please try again.");
             },
@@ -66,7 +72,8 @@ export default function ReclaimComponent() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center">
+    <div className="flex h-fit flex-col items-center justify-center">
+      Verify to earn 2x rewards
       {!url && !error && !verificationMessage && (
         <Button
           onClick={generateVerificationRequest}

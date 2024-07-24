@@ -48,7 +48,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         },
       ],
       image: {
-        src: `data:image/png;base64,${image}`,
+        src: `https://cast-ai.vercel.app/joker.png`,
         aspectRatio: "1:1",
       },
       input: {
