@@ -21,7 +21,7 @@ export async function generateMetadata(
   parent: ResolvingMetadata
 ): Promise<Metadata> {
   const id = params.id;
-  const image = await getInitialFrameImage(searchParams.imageURL);
+  const image = await getInitialFrameImage(searchParams.imageURL, searchParams.characterName, searchParams.characterDescription);
 
   const frameMetadata = getFrameMetadata({
     state: {
