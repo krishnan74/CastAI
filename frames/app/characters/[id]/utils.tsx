@@ -71,7 +71,10 @@ export const getInitialFrameImage = async (
     }
   );
 
-  return (await sharp(Buffer.from(svg)).toFormat("png").toBuffer()).toString(
-    "base64"
-  );
+  const pngBuffer = await sharp(Buffer.from(svg))
+    .png({ quality: 30 }) // Set the quality level for PNG compression
+    .toBuffer();
+
+  // Encode to base64 and return
+  return pngBuffer.toString("base64");
 };
