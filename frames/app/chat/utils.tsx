@@ -53,7 +53,6 @@ export const getMessageContent = async (agentId: Number) => {
 
 export const runAgent = async (prompt: string) => {
   try {
-    console.log("PRivate key:", privateKey);
     const provider = new ethers.JsonRpcProvider(providerUrl);
 
     const wallet = new ethers.Wallet(privateKey, provider);
@@ -69,6 +68,7 @@ export const runAgent = async (prompt: string) => {
       ethers.parseUnits("0.001", 18)
     );
     await approveTx.wait();
+    console.log("Approved transaction:", approveTx);
 
     const agentContract = new ethers.Contract(
       process.env.NEXT_PUBLIC_AGENT_CONTRACT_ADDRESS as string,
