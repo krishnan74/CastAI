@@ -40,7 +40,7 @@ export const getMessageContent = async (agentId: Number) => {
       if (isComplete) {
         break;
       }
-      await new Promise((resolve) => setTimeout(resolve, 1000)); // wait for 1 second before checking again
+      await new Promise((resolve) => setTimeout(resolve, 1000)); // wait for 5 seconds before checking again
     }
 
     const messages = await agentContract.getMessageHistoryContents(agentId);
@@ -67,6 +67,7 @@ export const runAgent = async (prompt: string) => {
       process.env.NEXT_PUBLIC_AGENT_CONTRACT_ADDRESS,
       ethers.parseUnits("0.001", 18)
     );
+    await approveTx.wait();
     console.log("Approved transaction:", approveTx);
 
     const agentContract = new ethers.Contract(
@@ -77,13 +78,22 @@ export const runAgent = async (prompt: string) => {
 
     const tx = await agentContract.runAgent(prompt, 1);
 
-    const agentId = parseInt(tx.logs[0].topics[2]);
+    const receipt = await tx.wait();
+
+    console.log("Transaction receipt:", receipt);
+
+    const agentId = parseInt(receipt.logs[0].topics[2]);
+    console.log("Transaction receipt:", receipt);
     return agentId;
   } catch (err) {
     console.error("Error executing contract function:", err);
     return err;
   }
 };
+
+
+export const getLoadingStateImage = async () => {
+}
 
 export const getChatImage = async (messages: Messages[], avatars: string[]) => {
   console.log("Generating image with messages:", messages);

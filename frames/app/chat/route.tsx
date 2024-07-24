@@ -21,6 +21,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse | Response> {
     const characterPersonality2 = searchParams.get("characterPersonality2");
     const characterPersonality3 = searchParams.get("characterPersonality3");
     const characterName = searchParams.get("characterName");
+    const imageID = searchParams.get("imageID");
     const id = searchParams.get("characterId");
 
     console.log("Parsed query parameters:", {
@@ -62,8 +63,8 @@ async function getResponse(req: NextRequest): Promise<NextResponse | Response> {
     }
 
     const image = await getChatImage(messagePairs, [
-      "https://static.animecorner.me/2023/12/1703513395-4981.jpg",
-      "https://image.api.playstation.com/vulcan/ap/rnd/202009/3021/B2aUYFC0qUAkNnjbTHRyhrg3.png",
+      "https://www.shutterstock.com/image-vector/vector-flat-illustration-grayscale-avatar-600nw-2264922221.jpg",
+      `https://storage.googleapis.com/galadriel-assets/${imageID}.png`,
     ]);
 
     return new NextResponse(

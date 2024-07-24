@@ -1,5 +1,6 @@
 import { getFrameHtmlResponse } from "@coinbase/onchainkit/frame";
 import { NextRequest, NextResponse } from "next/server";
+import { getInitialFrameImage } from "./utils";
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
   const { searchParams } = new URL(req.url);
@@ -9,8 +10,15 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   const characterPersonality3 = searchParams.get("characterPersonality3");
   const characterDescription = searchParams.get("characterDescription");
   const characterName = searchParams.get("characterName");
+  const imageID = searchParams.get("imageID");
   const id = searchParams.get("characterId");
   const button = searchParams.get("button");
+
+  const image = await getInitialFrameImage(
+    imageID as string,
+    characterName as string,
+    characterDescription as string
+  );
 
   return new NextResponse(
     getFrameHtmlResponse({
@@ -18,19 +26,19 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         {
           label: characterPersonality1 ? ` ${characterPersonality1}` : "",
           action: "tx",
-          postUrl: `${process.env.NEXT_PUBLIC_URL}tx-success/enablePersonality/1?characterId=${id}&button=1&characterName=${characterName}&characterDescription=${characterDescription}&characterPersonality1=${characterPersonality1}&characterPersonality2=${characterPersonality2}&characterPersonality3=${characterPersonality3}`,
+          postUrl: `${process.env.NEXT_PUBLIC_URL}tx-success/enablePersonality/1?characterId=${id}&button=1&characterName=${characterName}&imageID=${searchParams}&characterDescription=${characterDescription}&characterPersonality1=${characterPersonality1}&characterPersonality2=${characterPersonality2}&characterPersonality3=${characterPersonality3}`,
           target: `${process.env.NEXT_PUBLIC_URL}tx/enablePersonality/1?characterId=${id}`,
         },
         {
           label: characterPersonality2 ? `${characterPersonality2}` : "",
           action: "tx",
-          postUrl: `${process.env.NEXT_PUBLIC_URL}tx-success/enablePersonality/2?characterId=${id}&button=2&characterName=${characterName}&characterDescription=${characterDescription}&characterPersonality1=${characterPersonality1}&characterPersonality2=${characterPersonality2}&characterPersonality3=${characterPersonality3}`,
+          postUrl: `${process.env.NEXT_PUBLIC_URL}tx-success/enablePersonality/2?characterId=${id}&button=2&characterName=${characterName}&imageID=${searchParams}&characterDescription=${characterDescription}&characterPersonality1=${characterPersonality1}&characterPersonality2=${characterPersonality2}&characterPersonality3=${characterPersonality3}`,
           target: `${process.env.NEXT_PUBLIC_URL}tx/enablePersonality/2?characterId=${id}`,
         },
         {
           label: characterPersonality3 ? `${characterPersonality3}` : "",
           action: "tx",
-          postUrl: `${process.env.NEXT_PUBLIC_URL}tx-success/enablePersonality/3?characterId=${id}&button=3&characterName=${characterName}&characterDescription=${characterDescription}&characterPersonality1=${characterPersonality1}&characterPersonality2=${characterPersonality2}&characterPersonality3=${characterPersonality3}`,
+          postUrl: `${process.env.NEXT_PUBLIC_URL}tx-success/enablePersonality/3?characterId=${id}&button=3&characterName=${characterName}&imageID=${searchParams}&characterDescription=${characterDescription}&characterPersonality1=${characterPersonality1}&characterPersonality2=${characterPersonality2}&characterPersonality3=${characterPersonality3}`,
           target: `${process.env.NEXT_PUBLIC_URL}tx/enablePersonality/3?characterId=${id}`,
         },
         {
@@ -39,13 +47,13 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         },
       ],
       image: {
-        src: `${process.env.NEXT_PUBLIC_URL}character-collage.jpg`,
+        src: `data:image/png;base64,${image}`,
         aspectRatio: "1:1",
       },
       input: {
         text: `Talk with ${characterName}`,
       },
-      postUrl: `${process.env.NEXT_PUBLIC_URL}chat?characterName=${characterName}&characterDescription=${characterDescription}&characterPersonality1=${characterPersonality1}&characterPersonality2=${characterPersonality2}&characterPersonality3=${characterPersonality3}`,
+      postUrl: `${process.env.NEXT_PUBLIC_URL}chat?characterName=${characterName}&imageID=${imageID}&characterDescription=${characterDescription}&characterPersonality1=${characterPersonality1}&characterPersonality2=${characterPersonality2}&characterPersonality3=${characterPersonality3}`,
     })
   );
 }
