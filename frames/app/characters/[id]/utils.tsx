@@ -19,7 +19,7 @@ export const getInitialFrameImage = async (imageURL: string) => {
         width: 800,
         height: 800,
         border: "1px solid #E0E0E0",
-        backgroundImage: `url('${process.env.NEXT_PUBLIC_URL}celeb-collage.jpg')`,
+        backgroundImage: `url('${process.env.NEXT_PUBLIC_URL}character-collage.jpg')`,
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
