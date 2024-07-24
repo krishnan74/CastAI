@@ -147,38 +147,6 @@
       "type": "fallback"
     },
     {
-      "inputs": [],
-      "name": "agentAddress",
-      "outputs": [
-        {
-          "internalType": "address",
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "string",
-          "name": "",
-          "type": "string"
-        }
-      ],
-      "name": "characterToAgentRunId",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
       "inputs": [
         {
           "internalType": "string",
@@ -196,6 +164,11 @@
         {
           "internalType": "string",
           "name": "characterId",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "picURL",
           "type": "string"
         },
         {
@@ -257,6 +230,11 @@
         {
           "internalType": "string",
           "name": "_characterId",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_picUrl",
           "type": "string"
         },
         {
@@ -335,6 +313,19 @@
       "type": "function"
     },
     {
+      "inputs": [],
+      "name": "getAllCharacters",
+      "outputs": [
+        {
+          "internalType": "string[]",
+          "name": "",
+          "type": "string[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
       "inputs": [
         {
           "internalType": "string",
@@ -354,6 +345,11 @@
             {
               "internalType": "string",
               "name": "characterId",
+              "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "picURL",
               "type": "string"
             },
             {
@@ -449,6 +445,11 @@
             {
               "internalType": "string",
               "name": "characterId",
+              "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "picURL",
               "type": "string"
             },
             {

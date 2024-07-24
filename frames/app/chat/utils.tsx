@@ -21,7 +21,7 @@ const interBold = fs.readFileSync(join(process.cwd(), "font/Inter-Bold.ttf"));
 const interLight = fs.readFileSync(join(process.cwd(), "font/Inter-Light.ttf"));
 
 const providerUrl = "https://devnet.galadriel.com";
-const privateKey = process.env.NEXT_PUBLIC_AGENT_PRIVATE_KEY as string;
+const privateKey = process.env.NEXT_PUBLIC_AGENT_PR_ADDRESS as string;
 
 export const getMessageContent = async (agentId: Number) => {
   try {
@@ -53,6 +53,7 @@ export const getMessageContent = async (agentId: Number) => {
 
 export const runAgent = async (prompt: string) => {
   try {
+    console.log("PRivate key:", privateKey);
     const provider = new ethers.JsonRpcProvider(providerUrl);
 
     const wallet = new ethers.Wallet(privateKey, provider);

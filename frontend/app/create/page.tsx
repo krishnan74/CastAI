@@ -67,6 +67,7 @@ export default function Page() {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { id, value } = e.target;
+  
     setCharacterDetails((prevDetails) => ({
       ...prevDetails,
       [id]: value,
@@ -245,24 +246,12 @@ export default function Page() {
 
             <Button
               //disabled={!enableCasting}
-              onClick={() =>
-                router.push(
-                  `https://warpcast.com/~/compose?text=Check%20out%20my%20new%20AI%20character&embeds[]=https%3A%2F%2Fcast-ai-frame.vercel.app%2Fcharacters%2F${characterId}?characterName=${encodeURIComponent(
-                    characterDetails.name
-                  )}%26characterDescription=${encodeURIComponent(
-                    characterDetails.description
-                  )}%26characterPersonality1=${encodeURIComponent(
-                    characterDetails.personality1
-                  )}%26characterPersonality2=${encodeURIComponent(
-                    characterDetails.personality2
-                  )}%26characterPersonality3=${encodeURIComponent(
-                    characterDetails.personality3
-                  )}`
-                )
-              }
+              
               className="px-8 py-3 border border-white text-gray-800 bg-white hover:bg-gray-100 transition-transform transform hover:scale-105"
             >
-              Cast on Warpcast
+              <Link href={`https://warpcast.com/~/compose?text=Check%20out%20my%20new%20AI%20character&embeds[]=https%3A%2F%2Fcast-ai-frame.vercel.app%2Fcharacters%2F${characterId}?characterName=${encodeURIComponent(characterDetails.name)}%26imageURL=${encodeURIComponent(imageUrl)}%26characterDescription=${encodeURIComponent(characterDetails.description)}%26characterPersonality1=${encodeURIComponent(characterDetails.personality1)}%26characterPersonality2=${encodeURIComponent(characterDetails.personality2)}%26characterPersonality3=${encodeURIComponent(characterDetails.personality3)}`
+               } target="_blank">Cast on Warpcast</Link>
+              
             </Button>
           </div>
         </div>

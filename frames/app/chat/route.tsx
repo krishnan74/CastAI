@@ -4,7 +4,6 @@ import {
   FrameRequest,
   getFrameMessage,
   getFrameHtmlResponse,
-  getFrameMetadata,
 } from "@coinbase/onchainkit/frame";
 
 var messageObject = {

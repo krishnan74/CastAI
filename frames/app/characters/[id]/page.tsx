@@ -2,12 +2,12 @@ import { Metadata } from "next";
 import { ResolvingMetadata } from "next";
 import React from "react";
 import { getFrameMetadata } from "@coinbase/onchainkit/core";
-import satori from "satori";
 
 type Props = {
   params: { id: string };
   searchParams: {
     characterName: string;
+    imageURL: string;
     characterPersonality1: string;
     characterPersonality2: string;
     characterPersonality3: string;
