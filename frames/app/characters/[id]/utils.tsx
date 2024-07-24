@@ -11,7 +11,7 @@ const interBold = fs.readFileSync(join(process.cwd(), "font/Inter-Bold.ttf"));
 
 const interLight = fs.readFileSync(join(process.cwd(), "font/Inter-Light.ttf"));
 
-export const getChatImage = async () => {
+export const getInitialFrameImage = async (imageURL: string) => {
   const svg = await satori(
     <div
       style={{
@@ -21,12 +21,14 @@ export const getChatImage = async () => {
         border: "1px solid #E0E0E0",
         backgroundImage: `url('${process.env.NEXT_PUBLIC_URL}celeb-collage.jpg')`,
         display: "flex",
+        alignItems: "center",
         justifyContent: "center",
         flexDirection: "column",
       }}
     >
-      
-
+      <div>
+        <img src={imageURL} alt="" />
+      </div>
     </div>,
     {
       width: 600,

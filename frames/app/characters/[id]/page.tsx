@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import { ResolvingMetadata } from "next";
 import React from "react";
 import { getFrameMetadata } from "@coinbase/onchainkit/core";
+import { getInitialFrameImage } from "./utils";
 
 type Props = {
   params: { id: string };
@@ -20,6 +21,7 @@ export async function generateMetadata(
   parent: ResolvingMetadata
 ): Promise<Metadata> {
   const id = params.id;
+  const image = await getInitialFrameImage(searchParams.imageURL);
 
   const frameMetadata = getFrameMetadata({
     state: {
@@ -51,7 +53,7 @@ export async function generateMetadata(
       },
     ],
     image: {
-      src: `${process.env.NEXT_PUBLIC_URL}character-collage.jpg`,
+      src: image,
       aspectRatio: "1:1",
     },
     input: {
@@ -62,11 +64,11 @@ export async function generateMetadata(
 
   return {
     title: "cast-ai.vercel.app",
-    description: "Cast your own AI characterrity",
+    description: "Cast your own AI character",
     openGraph: {
       title: "cast-ai.vercel.app",
-      description: "Cast your own AI characterrity",
-      images: [`${process.env.NEXT_PUBLIC_URL}/character-collage.jpg`],
+      description: "Cast your own AI character",
+      images: [image],
     },
     other: {
       ...frameMetadata,

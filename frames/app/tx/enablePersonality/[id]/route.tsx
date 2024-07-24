@@ -23,6 +23,8 @@ async function getResponse(req: NextRequest): Promise<NextResponse | Response> {
     const { searchParams } = new URL(req.url);
     const characterId = searchParams.get("characterId");
 
+    console.log("Character ID:", characterId);
+
     const { isValid, message } = await getFrameMessage(framerequest);
 
     if (!isValid) {
@@ -43,7 +45,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse | Response> {
         abi: contractConfig.abi as Abi,
         data,
         to: `0x${process.env.NEXT_PUBLIC_BASE_CONTRACT_ADDRESS}`,
-        value: parseEther("0.001").toString(),
+        value: parseEther("0.0001").toString(),
       },
     };
     return NextResponse.json(txData);
