@@ -8,7 +8,7 @@ type Props = {
   params: { id: string };
   searchParams: {
     characterName: string;
-    imageURL: string;
+    imageID: string;
     characterPersonality1: string;
     characterPersonality2: string;
     characterPersonality3: string;
@@ -21,7 +21,11 @@ export async function generateMetadata(
   parent: ResolvingMetadata
 ): Promise<Metadata> {
   const id = params.id;
-  const image = await getInitialFrameImage(searchParams.imageURL, searchParams.characterName, searchParams.characterDescription);
+  const image = await getInitialFrameImage(
+    searchParams.imageID,
+    searchParams.characterName,
+    searchParams.characterDescription
+  );
 
   const frameMetadata = getFrameMetadata({
     state: {

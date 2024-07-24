@@ -10,7 +10,7 @@ const interBold = fs.readFileSync(join(FONT_DIR, "Inter-Bold.ttf"));
 const interLight = fs.readFileSync(join(FONT_DIR, "Inter-Light.ttf"));
 
 export const getInitialFrameImage = async (
-  imageURL: string,
+  imageID: string,
   characterName: string,
   characterDescription: string
 ) => {
@@ -35,7 +35,7 @@ export const getInitialFrameImage = async (
           flexDirection: "column",
           alignItems: "center",
           width: "50%",
-          
+
           justifyContent: "center",
           position: "absolute",
           backgroundColor: "rgba(255, 255,255, 1)", // Semi-transparent white background
@@ -46,7 +46,7 @@ export const getInitialFrameImage = async (
         }}
       >
         <img
-          src={imageURL}
+          src={`https://storage.googleapis.com/galadriel-assets/${imageID}.png`}
           height={300}
           width={300}
           alt=""
