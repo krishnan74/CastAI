@@ -193,7 +193,6 @@ export const getChatImage = async (messages: Messages[], avatars: string[]) => {
   );
 };
 
-
 export const getLoadingStateImage = async (
   imageID: string,
   characterName: string
@@ -238,7 +237,7 @@ export const getLoadingStateImage = async (
         <p style={{ fontFamily: "Inter", fontWeight: 800 }}>
           Give me a sec to ponder your deep, existential question... 🤔 Be
           patient now, I operate on human time, not warp speed. Hit refresh in a
-          moment, unless you've got a time machine handy!
+          moment, unless you&apos;ve got a time machine handy!
         </p>
       </div>
     </div>,

@@ -23,7 +23,6 @@ const interLight = fs.readFileSync(join(process.cwd(), "font/Inter-Light.ttf"));
 const providerUrl = "https://devnet.galadriel.com";
 const privateKey = process.env.NEXT_PUBLIC_AGENT_PR_ADDRESS as string;
 
-
 export const runAgent = async (prompt: string) => {
   try {
     const provider = new ethers.JsonRpcProvider(providerUrl);
@@ -106,9 +105,9 @@ export const getLoadingStateImage = async (
           {characterName}
         </h2>
         <p style={{ fontFamily: "Inter", fontWeight: 800 }}>
-          Give me a sec to ponder your deep, existential question... 🤔 Be
-          patient now, I operate on human time, not warp speed. Hit refresh in a
-          moment, unless you've got a time machine handy!
+          Give me a sec to ponder your deep, existential question... Be patient
+          now, I operate on human time, not warp speed. Hit refresh in a moment,
+          unless you&apos;ve got a time machine handy!
         </p>
       </div>
     </div>,
