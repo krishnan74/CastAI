@@ -49,7 +49,7 @@ const Page = () => {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center mt-10">
+    <div className="mt-10">
       {characters != null ? (
         <TabBar myCharacters={characters} allCharacters={characters} />
       ) : (

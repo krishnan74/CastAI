@@ -30,7 +30,7 @@ const AICharacterCard = ({
   return (
     <div
       key={cid}
-      className="flex flex-col gap-3 p-6 items-center justify-center w-[100px] h-[100px] border border-gray-200 bg-white rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300"
+      className="flex flex-col gap-3 p-6 items-center justify-center w-[100px] h-fit border border-gray-200 bg-white rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300"
     >
       <div className="mb-4">
         <img
@@ -42,22 +42,22 @@ const AICharacterCard = ({
         />
       </div>
 
-      <div className="flex flex-col items-center justify-center w-full">
+      <div className="flex flex-col items-center justify-center">
         <h1 className="text-2xl font-semibold text-gray-900 ">{name}</h1>
-        <p className="text-sm font-light text-gray-600 text-center">
+        <p className="text-sm font-light text-gray-600 text-center text-wrap ">
           {description}
         </p>
-        <div className="flex flex-row items-center justify-center w-full">
+        <div className="flex flex-row items-center justify-center">
           <p className="text-sm font-light text-gray-600 text-center">{`Personality: ${personality1}, ${personality2}, ${personality3}`}</p>
         </div>
-        <div className="flex flex-row items-center justify-center w-full">
+        <div className="flex flex-row items-center justify-center ">
           <p className="text-sm font-light text-gray-600 text-center">{`Owner: ${shortenAddress(
             owner
           )}`}</p>
         </div>
       </div>
 
-      <div className="flex flex-row items-center justify-center w-full">
+      <div className="flex flex-row items-center justify-center ">
         <p className="text-sm font-light text-gray-600 text-center">{`ETH Earned: ${ethers.formatEther(
           ethEarned
         )}`}</p>

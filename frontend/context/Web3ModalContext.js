@@ -1,11 +1,8 @@
 "use client";
 import React, { useState, useEffect, createContext, useContext } from "react";
-import Web3Modal from "web3modal";
-import { v4 as uuidv4 } from "uuid";
 import { ethers } from "ethers";
 import contractConfig from "./AICharacterPlatform.json";
-import transferTokenContract from "./TransferToken.json";
-import ERCconfig from "./ERC.json";
+import { getImageContent, runAgent } from "./utils";
 
 export const Web3ModalContext = createContext();
 
@@ -45,31 +42,29 @@ export const Web3ModalProvider = ({ children }) => {
     return response;
   };
 
-  const createCharacter = async (characterDetails) => {
-    const {
-      name,
-      url,
-      characterId,
-      personality1,
-      personality2,
-      personality3,
-      description,
-    } = characterDetails;
+  const createCharacter = async (characterDetails, characterId) => {
+    const { name, personality1, personality2, personality3, description } =
+      characterDetails;
     try {
+      const agentID = await runAgent(
+        `Character name: ${name} Character Description: ${description}`
+      );
+      const picURL = await getImageContent(agentID);
+
       const provider = await getProvider();
       const signer = await provider.getSigner();
       const contract = await fetchContract(signer);
       const response = await contract.createCharacter(
         name,
-        url,
         characterId,
+        picURL,
         personality1,
         personality2,
         personality3,
         description
       );
-      await provider.waitForTransaction(response.hash);
-      return response;
+
+      return { response, picURL };
     } catch (err) {
       console.log(err);
     }
@@ -207,6 +202,7 @@ export const Web3ModalProvider = ({ children }) => {
       console.error("Failed to add network:", error);
     }
   };
+
   const switchNetwork = async (networkId) => {
     try {
       console.log(networkId);

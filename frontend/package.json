@@ -23,11 +23,11 @@
     "pinata-fdk": "^3.10.2",
     "react": "^18",
     "react-dom": "^18",
+    "react-loading": "^2.0.3",
     "react-metamask-avatar": "^2.0.9",
     "tailwind-merge": "^2.4.0",
     "tailwindcss-animate": "^1.0.7",
-    "uuid": "^10.0.0",
-    "web3modal": "^1.9.12"
+    "uuid": "^10.0.0"
   },
   "devDependencies": {
     "@types/node": "^20",

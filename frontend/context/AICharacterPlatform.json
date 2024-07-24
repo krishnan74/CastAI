@@ -93,85 +93,6 @@
       "type": "event"
     },
     {
-      "inputs": [
-        {
-          "internalType": "string",
-          "name": "_name",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "_picUrl",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "_characterId",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "_personality1",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "_personality2",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "_personality3",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "_description",
-          "type": "string"
-        }
-      ],
-      "name": "createCharacter",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "_index",
-          "type": "uint256"
-        },
-        {
-          "internalType": "string",
-          "name": "_characterId",
-          "type": "string"
-        }
-      ],
-      "name": "disablePersonality",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "_index",
-          "type": "uint256"
-        },
-        {
-          "internalType": "string",
-          "name": "_characterId",
-          "type": "string"
-        }
-      ],
-      "name": "enablePersonality",
-      "outputs": [],
-      "stateMutability": "payable",
-      "type": "function"
-    },
-    {
       "anonymous": false,
       "inputs": [
         {
@@ -195,19 +116,6 @@
       ],
       "name": "FeePaid",
       "type": "event"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "_feeAmount",
-          "type": "uint256"
-        }
-      ],
-      "name": "setFeeAmount",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
     },
     {
       "anonymous": false,
@@ -237,23 +145,6 @@
     {
       "stateMutability": "payable",
       "type": "fallback"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "string",
-          "name": "_characterId",
-          "type": "string"
-        }
-      ],
-      "name": "withdraw",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "stateMutability": "payable",
-      "type": "receive"
     },
     {
       "inputs": [
@@ -333,11 +224,84 @@
       "inputs": [
         {
           "internalType": "string",
-          "name": "",
+          "name": "_name",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_characterId",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_picUrl",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_personality1",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_personality2",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_personality3",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_description",
           "type": "string"
         }
       ],
-      "name": "characterToAgentRunId",
+      "name": "createCharacter",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_index",
+          "type": "uint256"
+        },
+        {
+          "internalType": "string",
+          "name": "_characterId",
+          "type": "string"
+        }
+      ],
+      "name": "disablePersonality",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_index",
+          "type": "uint256"
+        },
+        {
+          "internalType": "string",
+          "name": "_characterId",
+          "type": "string"
+        }
+      ],
+      "name": "enablePersonality",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "feeAmount",
       "outputs": [
         {
           "internalType": "uint256",
@@ -350,12 +314,12 @@
     },
     {
       "inputs": [],
-      "name": "feeAmount",
+      "name": "getAllCharacters",
       "outputs": [
         {
-          "internalType": "uint256",
+          "internalType": "string[]",
           "name": "",
-          "type": "uint256"
+          "type": "string[]"
         }
       ],
       "stateMutability": "view",
@@ -541,6 +505,36 @@
       ],
       "stateMutability": "view",
       "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_feeAmount",
+          "type": "uint256"
+        }
+      ],
+      "name": "setFeeAmount",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_characterId",
+          "type": "string"
+        }
+      ],
+      "name": "withdraw",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "stateMutability": "payable",
+      "type": "receive"
     }
   ]
 }
