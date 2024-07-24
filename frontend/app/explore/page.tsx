@@ -20,13 +20,16 @@ interface AICharacter {
 const Page = () => {
   const { getUserCharacters, currentAccount, getAllCharacters } =
     useWeb3Provider();
-  const [characters, setCharacters] = useState([]);
+  const [userCharacters, setUserCharacters] = useState([]);
+  const [allCharacters, setAllCharacters] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       console.log("currentAccount", currentAccount);
       const fetchedCharacters = await getUserCharacters(currentAccount);
-      setCharacters(fetchedCharacters);
+      const allCharacters = await getAllCharacters();
+      setAllCharacters(allCharacters);
+      setUserCharacters(fetchedCharacters);
     };
 
     if (currentAccount) {
@@ -34,27 +37,11 @@ const Page = () => {
         fetchData();
       }, 500);
     }
-  }, [currentAccount]); 
-
-  const fetchAllCharacters = async () => {
-    const allCharacters = await getAllCharacters();
-    setCharacters(allCharacters);
-  };
-
-  const handleFetchUserCharacters = async () => {
-    if (currentAccount) {
-      const fetchedCharacters = await getUserCharacters(currentAccount);
-      setCharacters(fetchedCharacters);
-    }
-  };
+  }, [currentAccount]);
 
   return (
     <div className="mt-10">
-      {characters != null ? (
-        <TabBar myCharacters={characters} allCharacters={characters} />
-      ) : (
-        <div>Loading...</div>
-      )}
+      <TabBar myCharacters={userCharacters} allCharacters={allCharacters} />
     </div>
   );
 };

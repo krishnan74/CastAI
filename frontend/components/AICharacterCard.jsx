@@ -8,6 +8,7 @@ import { ethers } from "ethers";
 import { useWeb3Provider } from "@/context/Web3ModalContext";
 
 const AICharacterCard = ({
+  isUserCharacter,
   name,
   cid,
   description,
@@ -30,7 +31,7 @@ const AICharacterCard = ({
   return (
     <div
       key={cid}
-      className="flex flex-col gap-3 p-6 items-center justify-center w-[100px] h-fit border border-gray-200 bg-white rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300"
+      className="flex flex-col gap-3 p-6 items-center justify-center w-[300px] h-fit border border-gray-200 bg-white rounded-xl shadow-md hover:shadow-xl "
     >
       <div className="mb-4">
         <img
@@ -44,7 +45,7 @@ const AICharacterCard = ({
 
       <div className="flex flex-col items-center justify-center">
         <h1 className="text-2xl font-semibold text-gray-900 ">{name}</h1>
-        <p className="text-sm font-light text-gray-600 text-center text-wrap ">
+        <p className="text-sm font-light text-gray-600 text-center text-wrap w-[200px] ">
           {description}
         </p>
         <div className="flex flex-row items-center justify-center">
@@ -62,9 +63,11 @@ const AICharacterCard = ({
           ethEarned
         )}`}</p>
       </div>
-      <Button onClick={handleWithdraw} disabled={!canWithdraw}>
-        Withdraw
-      </Button>
+      {isUserCharacter && (
+        <Button onClick={handleWithdraw} disabled={!canWithdraw}>
+          Withdraw
+        </Button>
+      )}
     </div>
   );
 };

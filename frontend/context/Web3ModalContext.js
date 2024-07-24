@@ -105,8 +105,14 @@ export const Web3ModalProvider = ({ children }) => {
     try {
       const provider = await getProvider();
       const contract = await fetchContract(provider);
+      var actualCharacters = [];
       const allCharacters = await contract.getAllCharacters();
-      return allCharacters;
+      for (let i = 0; i < allCharacters.length; i++) {
+        const character = await contract.getCharacterDetails(allCharacters[i]);
+        actualCharacters.push(character);
+      }
+      console.log(actualCharacters);
+      return actualCharacters;
     } catch (err) {
       console.log(err);
     }
@@ -248,6 +254,7 @@ export const Web3ModalProvider = ({ children }) => {
         currentAccount,
         currentNetwork,
         getProvider,
+        getAllCharacters,
         checkCurrentNetwork,
         createCharacter,
         getCharacterDetails,
