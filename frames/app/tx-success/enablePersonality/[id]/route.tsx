@@ -16,6 +16,8 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
 
   const imageID = searchParams.get("imageID");
 
+  console.log(imageID);
+
   const characterName = searchParams.get("characterName");
   const id = searchParams.get("characterId");
   const button = searchParams.get("button");
@@ -26,6 +28,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     characterDescription as string
   );
 
+  console.log(image);
   return new NextResponse(
     getFrameHtmlResponse({
       buttons: [

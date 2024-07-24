@@ -14,11 +14,15 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
   const id = searchParams.get("characterId");
   const button = searchParams.get("button");
 
+  console.log(imageID);
+
   const image = await getInitialFrameImage(
     imageID as string,
     characterName as string,
     characterDescription as string
   );
+
+  console.log(image);
 
   return new NextResponse(
     getFrameHtmlResponse({
@@ -26,19 +30,19 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         {
           label: characterPersonality1 ? ` ${characterPersonality1}` : "",
           action: "tx",
-          postUrl: `${process.env.NEXT_PUBLIC_URL}tx-success/enablePersonality/1?characterId=${id}&button=1&characterName=${characterName}&imageID=${searchParams}&characterDescription=${characterDescription}&characterPersonality1=${characterPersonality1}&characterPersonality2=${characterPersonality2}&characterPersonality3=${characterPersonality3}`,
+          postUrl: `${process.env.NEXT_PUBLIC_URL}tx-success/enablePersonality/1?characterId=${id}&button=1&characterName=${characterName}&imageID=${imageID}&characterDescription=${characterDescription}&characterPersonality1=${characterPersonality1}&characterPersonality2=${characterPersonality2}&characterPersonality3=${characterPersonality3}`,
           target: `${process.env.NEXT_PUBLIC_URL}tx/enablePersonality/1?characterId=${id}`,
         },
         {
           label: characterPersonality2 ? `${characterPersonality2}` : "",
           action: "tx",
-          postUrl: `${process.env.NEXT_PUBLIC_URL}tx-success/enablePersonality/2?characterId=${id}&button=2&characterName=${characterName}&imageID=${searchParams}&characterDescription=${characterDescription}&characterPersonality1=${characterPersonality1}&characterPersonality2=${characterPersonality2}&characterPersonality3=${characterPersonality3}`,
+          postUrl: `${process.env.NEXT_PUBLIC_URL}tx-success/enablePersonality/2?characterId=${id}&button=2&characterName=${characterName}&imageID=${imageID}&characterDescription=${characterDescription}&characterPersonality1=${characterPersonality1}&characterPersonality2=${characterPersonality2}&characterPersonality3=${characterPersonality3}`,
           target: `${process.env.NEXT_PUBLIC_URL}tx/enablePersonality/2?characterId=${id}`,
         },
         {
           label: characterPersonality3 ? `${characterPersonality3}` : "",
           action: "tx",
-          postUrl: `${process.env.NEXT_PUBLIC_URL}tx-success/enablePersonality/3?characterId=${id}&button=3&characterName=${characterName}&imageID=${searchParams}&characterDescription=${characterDescription}&characterPersonality1=${characterPersonality1}&characterPersonality2=${characterPersonality2}&characterPersonality3=${characterPersonality3}`,
+          postUrl: `${process.env.NEXT_PUBLIC_URL}tx-success/enablePersonality/3?characterId=${id}&button=3&characterName=${characterName}&imageID=${imageID}&characterDescription=${characterDescription}&characterPersonality1=${characterPersonality1}&characterPersonality2=${characterPersonality2}&characterPersonality3=${characterPersonality3}`,
           target: `${process.env.NEXT_PUBLIC_URL}tx/enablePersonality/3?characterId=${id}`,
         },
         {

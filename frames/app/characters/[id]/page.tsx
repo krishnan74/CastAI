@@ -21,6 +21,8 @@ export async function generateMetadata(
   parent: ResolvingMetadata
 ): Promise<Metadata> {
   const id = params.id;
+
+  
   const image = await getInitialFrameImage(
     searchParams.imageID,
     searchParams.characterName,
@@ -37,7 +39,7 @@ export async function generateMetadata(
         label: searchParams.characterPersonality1,
         action: "tx",
         postUrl: `${process.env.NEXT_PUBLIC_URL}tx-success/enablePersonality/1?characterId=${id}&button=1&characterName=${searchParams.characterName}&imageID=${searchParams.imageID}&characterDescription=${searchParams.characterDescription}&characterPersonality1=${searchParams.characterPersonality1}&characterPersonality2=${searchParams.characterPersonality2}&characterPersonality3=${searchParams.characterPersonality3}`,
-        target: `${process.env.NEXT_PUBLIC_URL}tx/enablePersonality/1?characterId=${id}&`,
+        target: `${process.env.NEXT_PUBLIC_URL}tx/enablePersonality/1?characterId=${id}`,
       },
       {
         label: searchParams.characterPersonality2,
