@@ -33,6 +33,8 @@ async function getResponse(req: NextRequest): Promise<NextResponse | Response> {
       });
     }
 
+    console.log("Message:", message);
+
     const data = encodeFunctionData({
       abi: contractConfig.abi,
       functionName: "enablePersonality",
@@ -45,9 +47,11 @@ async function getResponse(req: NextRequest): Promise<NextResponse | Response> {
         abi: contractConfig.abi as Abi,
         data,
         to: `0x${process.env.NEXT_PUBLIC_BASE_CONTRACT_ADDRESS}`,
-        value: parseEther("0.0001").toString(),
+        value: parseEther("0.0001", "wei").toString(),
       },
     };
+
+    console.log("Transaction data:", txData);
     return NextResponse.json(txData);
   } catch (e: any) {
     console.error(e);
