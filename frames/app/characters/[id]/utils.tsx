@@ -26,9 +26,7 @@ export const getInitialFrameImage = async (imageURL: string) => {
         flexDirection: "column",
       }}
     >
-      <div>
-        <img src={imageURL} alt="" />
-      </div>
+      <img src={imageURL} alt="" />
     </div>,
     {
       width: 600,
