@@ -8,7 +8,7 @@ type Props = {
   params: { id: string };
   searchParams: {
     characterName: string;
-    imageID: string;
+    imageId: string;
     characterPersonality1: string;
     characterPersonality2: string;
     characterPersonality3: string;
@@ -22,9 +22,9 @@ export async function generateMetadata(
 ): Promise<Metadata> {
   const id = params.id;
 
-  
+  console.log(searchParams.imageId);
   const image = await getInitialFrameImage(
-    searchParams.imageID,
+    searchParams.imageId,
     searchParams.characterName,
     searchParams.characterDescription
   );
@@ -36,22 +36,9 @@ export async function generateMetadata(
     },
     buttons: [
       {
-        label: searchParams.characterPersonality1,
-        action: "tx",
-        postUrl: `${process.env.NEXT_PUBLIC_URL}tx-success/enablePersonality/1?characterId=${id}&button=1&characterName=${searchParams.characterName}&imageID=${searchParams.imageID}&characterDescription=${searchParams.characterDescription}&characterPersonality1=${searchParams.characterPersonality1}&characterPersonality2=${searchParams.characterPersonality2}&characterPersonality3=${searchParams.characterPersonality3}`,
-        target: `${process.env.NEXT_PUBLIC_URL}tx/enablePersonality/1?characterId=${id}`,
-      },
-      {
-        label: searchParams.characterPersonality2,
-        action: "tx",
-        postUrl: `${process.env.NEXT_PUBLIC_URL}tx-success/enablePersonality/2?characterId=${id}&button=2&characterName=${searchParams.characterName}&imageID=${searchParams.imageID}&characterDescription=${searchParams.characterDescription}&characterPersonality1=${searchParams.characterPersonality1}&characterPersonality2=${searchParams.characterPersonality2}&characterPersonality3=${searchParams.characterPersonality3}`,
-        target: `${process.env.NEXT_PUBLIC_URL}tx/enablePersonality/2?characterId=${id}`,
-      },
-      {
-        label: searchParams.characterPersonality3,
-        action: "tx",
-        postUrl: `${process.env.NEXT_PUBLIC_URL}tx-success/enablePersonality/3?characterId=${id}&button=3&characterName=${searchParams.characterName}&imageID=${searchParams.imageID}&characterDescription=${searchParams.characterDescription}&characterPersonality1=${searchParams.characterPersonality1}&characterPersonality2=${searchParams.characterPersonality2}&characterPersonality3=${searchParams.characterPersonality3}`,
-        target: `${process.env.NEXT_PUBLIC_URL}tx/enablePersonality/3?characterId=${id}`,
+        label: "Create your own AI Character",
+        action: "link",
+        target: "https://cast-ai.vercel.app/",
       },
       {
         label: "Chat",
@@ -62,10 +49,8 @@ export async function generateMetadata(
       src: `data:image/png;base64,${image}`,
       aspectRatio: "1:1",
     },
-    input: {
-      text: `Talk with ${searchParams.characterName}`,
-    },
-    postUrl: `${process.env.NEXT_PUBLIC_URL}chat?characterName=${searchParams.characterName}&imageID=${searchParams.imageID}&characterDescription=${searchParams.characterDescription}&characterPersonality1=${searchParams.characterPersonality1}&characterPersonality2=${searchParams.characterPersonality2}&characterPersonality3=${searchParams.characterPersonality3}`,
+
+    postUrl: `${process.env.NEXT_PUBLIC_URL}chatInitial/1?characterName=${searchParams.characterName}&characterId=${id}&imageId=${searchParams.imageId}&characterDescription=${searchParams.characterDescription}&characterPersonality1=${searchParams.characterPersonality1}&characterPersonality2=${searchParams.characterPersonality2}&characterPersonality3=${searchParams.characterPersonality3}`,
   });
 
   return {
@@ -74,7 +59,7 @@ export async function generateMetadata(
     openGraph: {
       title: "cast-ai.vercel.app",
       description: "Cast your own AI character",
-      images: [`data:image/png;base64,${image}`],
+      images: [`${process.env.NEXT_PUBLIC_URL}character-collage.jpg`],
     },
     other: {
       ...frameMetadata,
