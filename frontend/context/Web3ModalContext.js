@@ -7,17 +7,16 @@ import { getImageContent, runAgent } from "./utils";
 export const Web3ModalContext = createContext();
 
 const baseContractAddress = process.env.NEXT_PUBLIC_BASE_CONTRACT_ADDRESS;
-const polygonContractAddress = process.env.NEXT_PUBLIC_POLYGON_CONTRACT_ADDRESS;
-const tokenTransferContractAddress =
-  "0xd6Fc72dE61938b21C75f8c1d86a3F89B8B5C0240";
 
 export const Web3ModalProvider = ({ children }) => {
   const [currentAccount, setCurrentAccount] = useState("");
-  const [currentNetwork, setCurrentNetwork] = useState("");
-  const [contractAddress, setContractAddress] = useState("");
 
   const fetchContract = async (signerOrProvider) =>
-    new ethers.Contract(contractAddress, contractConfig.abi, signerOrProvider);
+    new ethers.Contract(
+      baseContractAddress,
+      contractConfig.abi,
+      signerOrProvider
+    );
 
   const getProvider = async () => {
     const provider = new ethers.BrowserProvider(window.ethereum);
@@ -50,7 +49,6 @@ export const Web3ModalProvider = ({ children }) => {
         `Character name: ${name} Character Description: ${description}`
       );
       const picURL = await getImageContent(agentID);
-
       const provider = await getProvider();
       const signer = await provider.getSigner();
       const contract = await fetchContract(signer);
@@ -118,12 +116,12 @@ export const Web3ModalProvider = ({ children }) => {
     }
   };
 
-  const withDrawETH = async (_characterId) => {
+  const withDrawETH = async (_characterId, isVerified) => {
     try {
       const provider = await getProvider();
       const signer = await provider.getSigner();
       const contract = await fetchContract(signer);
-      const response = await contract.withdraw(_characterId);
+      const response = await contract.withdraw(_characterId, isVerified);
       return response;
     } catch (err) {
       console.log(err);
@@ -225,25 +223,6 @@ export const Web3ModalProvider = ({ children }) => {
     }
   };
 
-  const checkCurrentNetwork = async () => {
-    const chainId = await window.ethereum.request({
-      method: "eth_chainId",
-    });
-    console.log(chainId);
-    setCurrentNetwork(chainId);
-
-    if (chainId === "0x14a34") {
-      console.log("Connected to Sepolia Testnet");
-
-      setContractAddress(baseContractAddress);
-      console.log(contractAddress);
-    } else if (chainId === "0x98a") {
-      console.log("Connected to Polygon Testnet");
-      setContractAddress(polygonContractAddress);
-      console.log(contractAddress);
-    }
-  };
-
   return (
     <Web3ModalContext.Provider
       value={{
@@ -252,10 +231,8 @@ export const Web3ModalProvider = ({ children }) => {
         switchNetwork,
         withDrawETH,
         currentAccount,
-        currentNetwork,
         getProvider,
         getAllCharacters,
-        checkCurrentNetwork,
         createCharacter,
         getCharacterDetails,
         getUserCharacters,

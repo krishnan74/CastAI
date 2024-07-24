@@ -7,9 +7,11 @@ import ReactLoading from "react-loading";
 const TabBar = ({
   myCharacters,
   allCharacters,
+  isVerified,
 }: {
   myCharacters: any;
   allCharacters: any;
+  isVerified: boolean;
 }) => {
   return (
     <Tabs defaultValue="userCharacters">
@@ -34,6 +36,7 @@ const TabBar = ({
                   personality3={character[6]}
                   description={character[7]}
                   ethEarned={character[8]}
+                  isVerified={isVerified}
                 ></AICharacterCard>
               );
             })}
@@ -56,6 +59,7 @@ const TabBar = ({
               return (
                 <AICharacterCard
                   isUserCharacter={false}
+                  isVerified={isVerified}
                   key={character[1]}
                   name={character[0]}
                   cid={character[1]}

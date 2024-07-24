@@ -5,7 +5,7 @@ import contractConfig from "./agentConfig.json";
 import ERCconfig from "./ERC.json";
 
 const providerUrl = "https://devnet.galadriel.com";
-const privateKey = process.env.NEXT_PUBLIC_AGENT_PRIVATE_KEY;
+const privateKey = process.env.NEXT_PUBLIC_AGENT_PR_ADDRESS;
 
 export const getImageContent = async (agentId) => {
   try {

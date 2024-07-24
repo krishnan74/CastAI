@@ -2,26 +2,14 @@
 import React, { useEffect, useState } from "react";
 import TabBar from "@/components/TabBar";
 import { useWeb3Provider } from "@/context/Web3ModalContext";
-
-interface AICharacter {
-  name: string;
-  characterId: string;
-  personality1: string;
-  personality2: string;
-  personality3: string;
-  personality4: string;
-  description: string;
-  enabledPersonality1: boolean;
-  enabledPersonality2: boolean;
-  enabledPersonality3: boolean;
-  enabledPersonality4: boolean;
-}
+import ReclaimComponent from "./ReclaimComponent";
 
 const Page = () => {
   const { getUserCharacters, currentAccount, getAllCharacters } =
     useWeb3Provider();
   const [userCharacters, setUserCharacters] = useState([]);
   const [allCharacters, setAllCharacters] = useState([]);
+  const [isVerified, setIsVerified] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -41,7 +29,12 @@ const Page = () => {
 
   return (
     <div className="mt-10">
-      <TabBar myCharacters={userCharacters} allCharacters={allCharacters} />
+      <ReclaimComponent />
+      <TabBar
+        myCharacters={userCharacters}
+        allCharacters={allCharacters}
+        isVerified={isVerified}
+      />
     </div>
   );
 };

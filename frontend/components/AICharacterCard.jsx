@@ -9,6 +9,7 @@ import { useWeb3Provider } from "@/context/Web3ModalContext";
 
 const AICharacterCard = ({
   isUserCharacter,
+  isVerified,
   name,
   cid,
   description,
@@ -24,7 +25,7 @@ const AICharacterCard = ({
   const [canWithdraw, setCanWithdraw] = useState(ethEarned != 0 ? true : false);
 
   const handleWithdraw = async () => {
-    const response = await withDrawETH(cid);
+    const response = await withDrawETH(cid, isVerified);
     window.location.reload();
     console.log(response);
   };

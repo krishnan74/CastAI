@@ -36,25 +36,19 @@ export default function Page() {
   const router = useRouter();
   const {
     createCharacter,
-
     sendGALTokens,
-    checkCurrentNetwork,
   } = useWeb3Provider();
   const [enableCasting, setEnableCasting] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [imageId, setImageId] = useState("");
   const [imageUrl, setImageUrl] = useState(
     "https://www.shutterstock.com/image-vector/vector-flat-illustration-grayscale-avatar-600nw-2264922221.jpg"
   );
 
   useEffect(() => {}, [enableCasting]);
 
-  useEffect(() => {
-    checkCurrentNetwork();
-  }, []);
-
   const [characterDetails, setCharacterDetails] = useState({
     name: "",
-    url: "",
     personality1: "",
     personality2: "",
     personality3: "",
@@ -67,24 +61,26 @@ export default function Page() {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { id, value } = e.target;
-  
+
     setCharacterDetails((prevDetails) => ({
       ...prevDetails,
       [id]: value,
     }));
   };
 
+  function convertToHyphenSeparated(sentence: string) {
+    sentence = sentence.trim();
+    return sentence.replace(/\s+/g, "-");
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
-    console.log("Craeting..");
+    console.log("Creating...");
     setLoading(true);
     e.preventDefault();
     try {
       const characterId = uuidv4();
-
       setCharacterId(characterId);
-
       console.log("Character ID:", characterId);
-
       console.log("Character Details:", characterDetails);
 
       // Proceed with creating the character using characterDetails and characterId
@@ -92,14 +88,18 @@ export default function Page() {
         characterDetails,
         characterId
       );
-      setCharacterDetails((prevDetails) => ({
-        ...prevDetails,
-        url: picURL,
-      }));
+
+      // Extracting the ID from the picURL
+      setImageUrl(picURL);
+
+      const urlParts = picURL.split("/");
+      const idWithExtension = urlParts[urlParts.length - 1];
+      const id = idWithExtension.split(".")[0]; // Remove the file extension (.png)
 
       console.log("Character created successfully:", response);
 
-      setImageUrl(picURL);
+      setImageId(id);
+
       setLoading(false);
     } catch (err) {
       console.error("Error creating character:", err);
@@ -246,12 +246,15 @@ export default function Page() {
 
             <Button
               //disabled={!enableCasting}
-              
+
               className="px-8 py-3 border border-white text-gray-800 bg-white hover:bg-gray-100 transition-transform transform hover:scale-105"
             >
-              <Link href={`https://warpcast.com/~/compose?text=Check%20out%20my%20new%20AI%20character&embeds[]=https%3A%2F%2Fcast-ai-frame.vercel.app%2Fcharacters%2F${characterId}?characterName=${encodeURIComponent(characterDetails.name)}%26imageURL=${encodeURIComponent(imageUrl)}%26characterDescription=${encodeURIComponent(characterDetails.description)}%26characterPersonality1=${encodeURIComponent(characterDetails.personality1)}%26characterPersonality2=${encodeURIComponent(characterDetails.personality2)}%26characterPersonality3=${encodeURIComponent(characterDetails.personality3)}`
-               } target="_blank">Cast on Warpcast</Link>
-              
+              <Link
+                href={`https://warpcast.com/~/compose?text=Check%20out%20my%20new%20AI%20character&embeds[]=https%3A%2F%2Fcast-ai-frame.vercel.app%2Fcharacters%2F${characterId}%3FcharacterName=${convertToHyphenSeparated(characterDetails.name)}%26imageId=${imageId}%26characterDescription=${convertToHyphenSeparated(characterDetails.description)}%26characterPersonality1=${convertToHyphenSeparated(characterDetails.personality1)}%26characterPersonality2=${convertToHyphenSeparated(characterDetails.personality2)}%26characterPersonality3=${convertToHyphenSeparated(characterDetails.personality3)}`}
+                target="_blank"
+              >
+                Cast on Warpcast
+              </Link>
             </Button>
           </div>
         </div>

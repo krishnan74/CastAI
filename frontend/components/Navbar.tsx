@@ -22,8 +22,6 @@ const Navbar = () => {
     switchNetwork,
     getProvider,
     checkIfWalletConnected,
-    checkCurrentNetwork,
-    currentNetwork,
   } = useWeb3Provider();
   const [showDetails, setShowDetails] = useState(false);
   const [balance, setBalance] = useState("");
@@ -31,8 +29,6 @@ const Navbar = () => {
 
   useEffect(() => {
     checkIfWalletConnected();
-    checkCurrentNetwork();
-    handleSwitchNetwork(currentNetwork);
   }, []);
 
   // useEffect(() => {
@@ -93,7 +89,13 @@ const Navbar = () => {
 
             <SelectItem value="696969">
               <div className="flex w-fit gap-2 items-center">
-                <img src="/galadriel-icon.jpg" className="rounded-full" height={25} width={25} alt="" />
+                <img
+                  src="/galadriel-icon.jpg"
+                  className="rounded-full"
+                  height={25}
+                  width={25}
+                  alt=""
+                />
                 <p>Galadriel Devnet</p>
               </div>
             </SelectItem>
