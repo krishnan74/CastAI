@@ -18,7 +18,7 @@ export const getInitialFrameImage = async (
     <div
       style={{
         fontFamily: "Inter",
-        position: "relative", 
+        position: "relative",
         width: 800,
         height: 800,
         backgroundImage: `url('${process.env.NEXT_PUBLIC_URL}character-collage.jpg')`,
@@ -72,7 +72,7 @@ export const getInitialFrameImage = async (
   );
 
   const pngBuffer = await sharp(Buffer.from(svg))
-    .png({ quality: 30 }) // Set the quality level for PNG compression
+    .png({ quality: 0 }) // Set the quality level for PNG compression
     .toBuffer();
 
   // Encode to base64 and return
