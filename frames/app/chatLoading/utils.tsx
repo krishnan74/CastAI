@@ -123,7 +123,7 @@ export const getLoadingStateImage = async (
   );
 
   const pngBuffer = await sharp(Buffer.from(svg))
-    .png({ quality: 30 }) // Set the quality level for PNG compression
+    .png({ quality: 10 }) // Set the quality level for PNG compression
     .toBuffer();
 
   // Encode to base64 and return
