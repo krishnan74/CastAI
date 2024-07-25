@@ -50,12 +50,12 @@ export const runAgent = async (prompt: string) => {
 
     const tx = await agentContract.runAgent(prompt, 1);
 
-    //const receipt = await tx.wait();
+    const receipt = await tx.wait();
 
-    console.log("Transaction receipt:", tx);
+    console.log("Transaction receipt:", receipt);
 
-    const agentId = parseInt(tx.logs[0].topics[2]);
-    console.log("Transaction receipt:", tx);
+    const agentId = parseInt(receipt.logs[0].topics[2]);
+    console.log("Transaction receipt:", receipt);
     return agentId;
   } catch (err) {
     console.error("Error executing contract function:", err);

@@ -46,7 +46,7 @@ export async function generateMetadata(
       },
     ],
     image: {
-      src: `https://cast-ai-frame.vercel.app/joker.png`,
+      src: `data:image/png;base64,${image}`,
       aspectRatio: "1:1",
     },
 
