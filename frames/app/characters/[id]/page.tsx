@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { ResolvingMetadata } from "next";
 import React from "react";
-import { getFrameMetadata } from "@coinbase/onchainkit/core";
+import { getFrameMetadata } from "@coinbase/onchainkit/frame";
 import { getInitialFrameImage } from "./utils";
 
 type Props = {
@@ -30,10 +30,6 @@ export async function generateMetadata(
   );
 
   const frameMetadata = getFrameMetadata({
-    state: {
-      characterId: id,
-      characterName: searchParams.characterName,
-    },
     buttons: [
       {
         label: "Create your own AI Character",
