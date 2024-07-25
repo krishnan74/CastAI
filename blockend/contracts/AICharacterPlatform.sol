@@ -1,14 +1,16 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.18;
 
-import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
-import "./Agent.sol";
+contract AICharacterPlatform {
 
-contract AICharacterPlatform is ReentrancyGuard {
+    //declaring the feeAmount
+    uint256 feeAmount;
+
+    //defining the struct for the AICharacter
     struct AICharacter {
         string name;
         string characterId;
+        string picURL;
         address owner;
         string personality1;
         string personality2;
@@ -20,18 +22,20 @@ contract AICharacterPlatform is ReentrancyGuard {
         bool personality3Enabled;
     }
 
+    //array of all the characterIds created by every creators
+    string[] allCharacterIds;
+
+    //maps the characterId to the corresponding AICharacter
     mapping(string => AICharacter) public characters;
+
+    //maps the creator address to their corresponding created AICharacters
     mapping(address => AICharacter[]) private userCharacters;
-    mapping(string => uint) public characterToAgentRunId;
 
-
-    uint256 public feeAmount;
-    address public agentAddress;
-    Agent agent;
-
+    //events emitted for all the functions
     event CharacterCreated(
-        string indexed characterId,
         string name,
+        string indexed characterId,
+        string picURL,
         address owner,
         string personality1,
         string personality2,
@@ -43,13 +47,16 @@ contract AICharacterPlatform is ReentrancyGuard {
     event ChatPromptReceived(string indexed characterId, string prompt);
     event ChatConcatenatedMessage(string message);
 
+    //constructor to assign the feeAmount to be paid by the users interacting with the AICharacters
     constructor(uint256 _feeAmount) {
         feeAmount = _feeAmount;
     }
 
+    //function to create an AI character and store it in the mappings
     function createCharacter(
         string memory _name,
         string memory _characterId,
+        string memory _picUrl,
         string memory _personality1,
         string memory _personality2,
         string memory _personality3,
@@ -58,6 +65,7 @@ contract AICharacterPlatform is ReentrancyGuard {
         AICharacter memory newCharacter = AICharacter({
             name: _name,
             characterId: _characterId,
+            picURL: _picUrl,
             owner: msg.sender,
             personality1: _personality1,
             personality2: _personality2,
@@ -71,11 +79,13 @@ contract AICharacterPlatform is ReentrancyGuard {
         });
 
         userCharacters[msg.sender].push(newCharacter);
+        allCharacterIds.push(_characterId);
         characters[_characterId] = newCharacter;
 
         emit CharacterCreated(
-            _characterId,
             _name,
+            _characterId,
+            _picUrl,
             msg.sender,
             _personality1,
             _personality2,
@@ -85,15 +95,10 @@ contract AICharacterPlatform is ReentrancyGuard {
 
     }
 
-    
+    //function to enable one of the three personalities of the AICharacter, It requires the sender to send 
     function enablePersonality(uint256 _index, string memory _characterId) external payable {
-        require(bytes(characters[_characterId].characterId).length != 0, "Character does not exist");
-        require(_index >= 1 && _index <= 3, "Invalid personality index");
-
-        require(msg.value == feeAmount, "Ether value must be greater than 0");
-
         
-
+        require(msg.value >= feeAmount , "Insufficient Fee Amount");
         if (_index == 1) {
             characters[_characterId].personality1Enabled = true;
         } else if (_index == 2) {
@@ -106,9 +111,8 @@ contract AICharacterPlatform is ReentrancyGuard {
         emit FeePaid(msg.sender, _characterId, msg.value);
     }
 
-     function disablePersonality(uint256 _index, string memory _characterId) external {
-        require(bytes(characters[_characterId].characterId).length != 0, "Character does not exist");
-        require(_index >= 1 && _index <= 3, "Invalid personality index");
+    //function to disable one of the three personalities of the AICharacter.
+    function disablePersonality(uint256 _index, string memory _characterId) external {
 
         if (_index == 1) {
             characters[_characterId].personality1Enabled = false;
@@ -120,35 +124,53 @@ contract AICharacterPlatform is ReentrancyGuard {
 
      }
     
-
-    function withdraw(string memory _characterId) external nonReentrant {
-        require(msg.sender == characters[_characterId].owner, "Not the owner");
+    //function to withdraw the ETH earned by the AICharacter, if verified their in real life identity using Reclaim Protocol creator can double their rewards
+    function withdraw(string memory _characterId, bool isVerified) external {
+        require( msg.sender == characters[_characterId].owner, "Only owner can withdraw the ETH earned by the AI Character" );
+        
         uint256 amount = characters[_characterId].etherEarned;
+        
+        //reseting the ethEarned by the AICharacter to zero
         characters[_characterId].etherEarned = 0;
-        payable(msg.sender).transfer(amount);
 
-        emit Withdrawal(_characterId, msg.sender, amount);
+        if (isVerified) {
+            // Verified withdrawal (doubling the amount)
+            payable(msg.sender).transfer(amount * 2);
+            emit Withdrawal(_characterId, msg.sender, amount * 2);
+        } else {
+            // Normal withdrawal
+            payable(msg.sender).transfer(amount);
+            emit Withdrawal(_characterId, msg.sender, amount);
+        }
     }
 
-    
+
+    //function to get the number of AICharacters created by the user
     function getUserCharacterCount(address _user) external view returns (uint256) {
         return userCharacters[_user].length;
     }
 
+    //function to get the details of the AICharacter using the characterId
     function getCharacterDetails(string memory _characterId) external view returns (AICharacter memory){
         return characters[_characterId];
     }
 
+    //function to get the AICharacters created by the creator using the the creator Address
     function getUserCharacters(address _user) external view returns (AICharacter[] memory) {
         return userCharacters[_user];
     }
 
-    function setFeeAmount( uint256 _feeAmount) external {
-        feeAmount = _feeAmount;
+    //function to get all the AICharacters IDS that have been created by all the Creators 
+    function getAllCharacters() external view returns (string[] memory){
+        return allCharacterIds;
     }
 
-    function getEnabledPersonalities(AICharacter memory character) internal pure returns (string memory) {
+    //function to get the personalities which have been enabled of the AICharacter using the characterId
+    function getEnabledPersonalities(string memory _characterId) external view returns (string memory) {
         string memory personalities = "";
+
+        AICharacter memory character = characters[_characterId];
+
         if (character.personality1Enabled) {
             personalities = string(abi.encodePacked(personalities, character.personality1, ", "));
         }
@@ -164,6 +186,10 @@ contract AICharacterPlatform is ReentrancyGuard {
             personalitiesBytes[personalitiesBytes.length - 2] = 0; 
         }
         return string(personalitiesBytes);
+    }
+
+    function setFeeAmount (uint256 _newFeeAmount) external{
+        feeAmount = _newFeeAmount;
     }
 
     receive() external payable {}
