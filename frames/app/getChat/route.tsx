@@ -19,7 +19,7 @@ var messageObject = {
 async function getResponse(req: NextRequest): Promise<NextResponse | Response> {
   try {
     const framerequest: FrameRequest = await req.json();
-    console.log("Frame request received:", framerequest);
+
     const { searchParams } = new URL(req.url);
     const characterDescription = searchParams.get("characterDescription");
     const characterPersonality1 = searchParams.get("characterPersonality1");
@@ -43,6 +43,10 @@ async function getResponse(req: NextRequest): Promise<NextResponse | Response> {
 
     const isFinished = await isRunFinished(Number(agentId));
 
+    const parsedState = JSON.parse(framerequest.untrustedData.state);
+
+    console.log("Input text:" + parsedState.inputText);
+
     if (isFinished) {
       const messageContent = await getMessageContent(Number(agentId));
       console.log("Message content:", messageContent);
@@ -50,7 +54,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse | Response> {
       const timestamp = new Date().toLocaleTimeString();
       const messagePairs = [
         {
-          userText: framerequest.untrustedData.inputText,
+          userText: parsedState.inputText,
           timestamp,
         },
         {
@@ -66,6 +70,9 @@ async function getResponse(req: NextRequest): Promise<NextResponse | Response> {
 
       return new NextResponse(
         getFrameHtmlResponse({
+          state: {
+            inputText: parsedState.input,
+          },
           buttons: [
             {
               label: "Chat",
@@ -90,6 +97,9 @@ async function getResponse(req: NextRequest): Promise<NextResponse | Response> {
 
       return new NextResponse(
         getFrameHtmlResponse({
+          state: {
+            inputText: parsedState.input,
+          },
           buttons: [
             {
               label: "Refresh",

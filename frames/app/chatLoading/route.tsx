@@ -49,6 +49,9 @@ async function getResponse(req: NextRequest): Promise<NextResponse | Response> {
 
     return new NextResponse(
       getFrameHtmlResponse({
+        state: {
+          inputText: inputText,
+        },
         buttons: [
           {
             label: "Refresh",
