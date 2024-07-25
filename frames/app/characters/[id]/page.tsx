@@ -46,7 +46,7 @@ export async function generateMetadata(
       aspectRatio: "1:1",
     },
 
-    postUrl: `${process.env.NEXT_PUBLIC_URL}chatInitial/1?characterName=${searchParams.characterName}&characterId=${id}&imageId=${searchParams.imageId}&characterDescription=${searchParams.characterDescription}&characterPersonality1=${searchParams.characterPersonality1}&characterPersonality2=${searchParams.characterPersonality2}&characterPersonality3=${searchParams.characterPersonality3}`,
+    postUrl: `${process.env.NEXT_PUBLIC_URL}chatInitial?characterName=${searchParams.characterName}&characterId=${id}&imageId=${searchParams.imageId}&characterDescription=${searchParams.characterDescription}&characterPersonality1=${searchParams.characterPersonality1}&characterPersonality2=${searchParams.characterPersonality2}&characterPersonality3=${searchParams.characterPersonality3}`,
   });
 
   return {
