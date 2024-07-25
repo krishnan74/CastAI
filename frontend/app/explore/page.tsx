@@ -28,7 +28,7 @@ const Page = () => {
   }, [currentAccount]);
 
   return (
-    <div className="mt-10">
+    <div className="mt-5">
       <ReclaimComponent setIsVerified={setIsVerified} />
       <TabBar
         myCharacters={userCharacters}

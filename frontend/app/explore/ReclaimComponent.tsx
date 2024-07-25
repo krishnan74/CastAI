@@ -1,8 +1,19 @@
 "use client";
 import { Dispatch, SetStateAction, useState } from "react";
 import QRCode from "react-qr-code";
+
 import { Reclaim } from "@reclaimprotocol/js-sdk";
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import Link from "next/link";
+import Image from "next/image";
 
 export default function ReclaimComponent({
   setIsVerified,
@@ -10,6 +21,7 @@ export default function ReclaimComponent({
   setIsVerified: Dispatch<SetStateAction<boolean>>;
 }) {
   const [url, setUrl] = useState("");
+  const [showPopup, setShowPopup] = useState(false);
   const [error, setError] = useState("");
   const [verificationMessage, setVerificationMessage] = useState("");
 
@@ -72,31 +84,120 @@ export default function ReclaimComponent({
   }
 
   return (
-    <div className="flex h-fit flex-col items-center justify-center">
-      Verify to earn 2x rewards
-      {!url && !error && !verificationMessage && (
-        <Button
-          onClick={generateVerificationRequest}
-          className="px-6 py-2 bg-[#845DCC] text-white rounded-lg hover:bg-[#6344A6] transition-colors"
-        >
-          Create Claim QR Code
-        </Button>
-      )}
-      {url && (
-        <div className="mt-4">
-          <QRCode value={url} />
-        </div>
-      )}
-      {error && (
-        <div className="mt-4 text-lg font-semibold text-red-600 bg-red-200 rounded-lg p-4 shadow">
-          {error}
-        </div>
-      )}
-      {verificationMessage && (
-        <div className="mt-4 text-lg font-semibold text-green-600 bg-green-200 rounded-lg p-4 shadow">
-          {verificationMessage}
-        </div>
-      )}
+    <div className="flex flex-col justify-center items-center">
+      <div>Verify your Identity with Reclaim Protocol to earn 2x rewards</div>
+
+      <Dialog onOpenChange={() => setUrl("")}>
+        <DialogTrigger>
+          {!url && !error && !verificationMessage && (
+            <Button
+              onClick={generateVerificationRequest}
+              className="px-6 py-2 bg-[#0101EE] text-white rounded-lg hover:bg-[#0101EE] transition-colors mt-5"
+            >
+              Create Claim QR Code
+            </Button>
+          )}
+        </DialogTrigger>
+        <DialogContent>
+          <DialogHeader>
+            <div className="flex flex-col justify-center items-center gap-5">
+              {url ? (
+                <DialogTitle>
+                  <div className="flex justify-center items-center mb-5 ">
+                    <p className="text-md ">Private ZK Proofs made easier </p>
+                    <Image
+                      className="ml-5  rounded-md"
+                      src="/reclaim-logo.jpeg"
+                      alt="Farcaster Logo"
+                      width={80}
+                      height={80}
+                    />
+                  </div>
+                  <p className="text-center">
+                    Scan the QR code with your Reclaim APP <br /> to verify your
+                    identity ( Twitter Auth ).
+                  </p>
+                </DialogTitle>
+              ) : (
+                <p>QR is getting generated ....</p>
+              )}
+
+              <DialogDescription>
+                <div className="flex flex-col items-center mb-5">
+                  {url && (
+                    <div className="">
+                      <QRCode value={url} />
+                    </div>
+                  )}
+                  {error && (
+                    <div className="mt-4 text-lg font-semibold text-red-600 bg-red-200 rounded-lg p-4 shadow">
+                      {error}
+                    </div>
+                  )}
+                  {verificationMessage && (
+                    <div className="mt-4 text-lg font-semibold text-green-600 bg-green-200 rounded-lg p-4 shadow">
+                      {verificationMessage}
+                    </div>
+                  )}
+                </div>
+
+                {url && (
+                  <div className="flex gap-5">
+                    <Link
+                      target="_blank"
+                      className="bg-black py-3 px-5 rounded-md"
+                      href={
+                        "https://apps.apple.com/in/app/reclaim-protocol/id6475267895"
+                      }
+                    >
+                      <div className="flex gap-2 justify-center items-center">
+                        <div>
+                          <Image
+                            src={"/apple-icon.png"}
+                            height={40}
+                            width={40}
+                            alt="Icon of App Store"
+                          ></Image>
+                        </div>
+                        <div className="flex flex-col items-center">
+                          <p className="text-sm text-white">Download on the</p>
+                          <p className="text-lg text-white font-semibold">
+                            App Store
+                          </p>
+                        </div>
+                      </div>
+                    </Link>
+                    <Link
+                      target="_blank"
+                      className="bg-black py-3 px-5 rounded-md"
+                      href={
+                        "https://play.google.com/store/apps/details?id=com.reclaim.protocol&hl=en_IN"
+                      }
+                    >
+                      <div className="flex gap-2 justify-center items-center">
+                        <div>
+                          <Image
+                            src={"/google-play-icon.png"}
+                            height={40}
+                            width={40}
+                            alt="Icon of Google Play Store"
+                          ></Image>
+                        </div>
+                        <div className="flex flex-col items-center">
+                          <p className="text-sm text-white">Get it on</p>
+                          <p className="text-lg text-white font-semibold">
+                            Google Play
+                          </p>
+                        </div>
+                      </div>
+                    </Link>
+                  </div>
+                )}
+              </DialogDescription>
+            </div>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
