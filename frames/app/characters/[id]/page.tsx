@@ -29,29 +29,20 @@ export async function generateMetadata(
     searchParams.characterDescription
   );
 
-  const frameMetadata = getFrameMetadata({
-    state: {
-      characterId: id,
-      characterName: searchParams.characterName,
-    },
-    buttons: [
-      {
-        label: "Create your own AI Character",
-        action: "link",
-        target: "https://cast-ai.vercel.app/",
-      },
-      {
-        label: "Chat",
-        action: "post",
-      },
-    ],
-    image: {
-      src: `data:image/png;base64,${image}`,
-      aspectRatio: "1:1",
-    },
-
-    postUrl: `${process.env.NEXT_PUBLIC_URL}chatInitial/1?characterName=${searchParams.characterName}&characterId=${id}&imageId=${searchParams.imageId}&characterDescription=${searchParams.characterDescription}&characterPersonality1=${searchParams.characterPersonality1}&characterPersonality2=${searchParams.characterPersonality2}&characterPersonality3=${searchParams.characterPersonality3}`,
-  });
+  const frameMetadata = {
+    "fc:frame": "vNext",
+    "fc:frame:image": `data:image/png;base64,${image}`,
+    "fc:frame:button:1": JSON.stringify({
+      label: "Create your own AI Character",
+      action: "link",
+      target: "https://cast-ai.vercel.app/",
+    }),
+    "fc:frame:button:2": JSON.stringify({
+      label: "Chat",
+      action: "post",
+    }),
+    "fc:frame:post_url": `${process.env.NEXT_PUBLIC_URL}chatInitial/1?characterName=${searchParams.characterName}&characterId=${id}&imageId=${searchParams.imageId}&characterDescription=${searchParams.characterDescription}&characterPersonality1=${searchParams.characterPersonality1}&characterPersonality2=${searchParams.characterPersonality2}&characterPersonality3=${searchParams.characterPersonality3}`,
+  };
 
   return {
     title: "cast-ai.vercel.app",
