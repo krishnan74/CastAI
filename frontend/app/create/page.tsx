@@ -245,7 +245,7 @@ export default function Page() {
             </Button>
 
             <Button
-              //disabled={!enableCasting}
+              disabled={!enableCasting}
 
               className="px-8 py-3 border border-white text-gray-800 bg-white hover:bg-gray-100 transition-transform transform hover:scale-105"
             >
