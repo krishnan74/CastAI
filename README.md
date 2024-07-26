@@ -53,7 +53,7 @@ NEXT_PUBLIC_AGENT_PR_ADDRESS = "84f56b944266554f4576c7149675bec841908e5114838920
 NEXT_PUBLIC_URL = <YOUR_ACCESSIBLE_NGROK_LINK>
 ```
 
-Note: for the NEXT_PUBLIC_URL use ngrok to make your localhost to publibly accessible and use that link
+Note: for the NEXT_PUBLIC_URL use ngrok to make your localhost to publicly accessible and use that link
  
 4. Start the application:
 
