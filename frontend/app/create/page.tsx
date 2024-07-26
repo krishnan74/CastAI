@@ -107,7 +107,7 @@ export default function Page() {
   };
 
   const handleMetamaskTransaction = async () => {
-    await sendGALTokens("0xF19266508b9d6F40955f2968567d8979287A231B");
+    await sendGALTokens("0x18c00eeA07888Bcf369C9e954c74872b0C868DE4");
     setEnableCasting(true);
   };
 
