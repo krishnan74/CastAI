@@ -2,12 +2,19 @@
 
 CastAI is a farcaster frame application that allows users to interact with AI characters (fictional or non-fictional) through a chat interface. Leveraging Galadriel OpenAI, CastAI provides a unique platform where users can engage in conversations with customized AI personas, enhancing their social experience on Farcaster.
 
-#Important Links:
+# Important Links:
+
 Site Link: https://cast-ai.vercel.app/
+
 Frame Server: https://cast-ai-frame.vercel.app/
-BASE Sepolia Contract Address: 0xBB5d5456414Ad834f93c3361750c2775bbd72a93
-Galadriel DALLE Agent Address: 0x7335bb6bEF7218751f9cECc06aB3295673c734CC
-Galadriel ChatGPT Agent Address: 0x84B6a71F2268A6EA166e3A3d060cD8E9D6180024
+
+BASE Sepolia Contract Address: [0xBB5d5456414Ad834f93c3361750c2775bbd72a93](https://sepolia.basescan.org/address/0xBB5d5456414Ad834f93c3361750c2775bbd72a93)
+
+Galadriel DALLE Agent Address: [0x7335bb6bEF7218751f9cECc06aB3295673c734CC](https://explorer.galadriel.com/address/0x7335bb6bEF7218751f9cECc06aB3295673c734CC)
+
+Galadriel ChatGPT Agent Address: [0x84B6a71F2268A6EA166e3A3d060cD8E9D6180024](https://explorer.galadriel.com/address/0x84B6a71F2268A6EA166e3A3d060cD8E9D6180024)
+
+HackonBlocks project dashboard: https://devfolio.co/projects/cast-ai-e75b/
 
 ## Features 
  
@@ -17,9 +24,10 @@ Galadriel ChatGPT Agent Address: 0x84B6a71F2268A6EA166e3A3d060cD8E9D6180024
  
 - **Monetization Model** : The integration of GAL tokens and ETH payments encourages a vibrant economy within the Farcaster ecosystem, rewarding content creators and driving engagement.
 
-You can use the hosted site https://cast.ai.vercel.app to create your AI character or run it in local environment by following the steps below, 
 
 ## Installation 
+
+ You can use the hosted site https://cast.ai.vercel.app to create your AI character or run it in local environment by following the steps below, 
  
 1. Clone the repository:
 
@@ -56,22 +64,15 @@ npm run dev
 ## Usage
  
 1. **Creating AI Characters** :
-   
-  - Provide character details including name, description, and personality traits.
-
-  - Send GAL tokens to the intermediary account.
-  
-  - Cast the created AI Character as a frame in warpcast.
+    - Provide character details including name, description, and personality traits.
+    - Send GAL tokens to the intermediary account.
+    - Cast the created AI Character as a frame in warpcast.
  
 2. **Interacting with AI Characters** :
-   
-  - Warpcast Users can chat with the AI characters for free.
-
-  - To enable advanced personality traits, users pay ETH to the smart contract, which is transferred to the character's creator.
+    - Warpcast Users can chat with the AI characters for free.
+    - To enable advanced personality traits, users pay ETH to the smart contract, which is transferred to the character's creator.
 
 3. **Withdrawing the ETH Earned** :
-
-   - Creators verify their identity using Reclaim Protocol to double their rewards.
-  
-   - Creators withdraw the amount earned by the specific character and get rewarded.
+    - Creators verify their identity using Reclaim Protocol to double their rewards.
+    - Creators withdraw the amount earned by the specific character and get rewarded.
 
