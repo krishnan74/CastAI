@@ -19,6 +19,7 @@ export const getInitialFrameImage = async (
       style={{
         fontFamily: "Inter",
         position: "relative",
+
         width: 800,
         height: 800,
         backgroundImage: `url('${process.env.NEXT_PUBLIC_URL}character-collage.jpg')`,

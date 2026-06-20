@@ -40,6 +40,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse | Response> {
       functionName: "enablePersonality",
       args: [BigInt(message.button), characterId],
     });
+    
     const txData: FrameTransactionResponse = {
       chainId: `eip155:${baseSepolia.id}`,
       method: "eth_sendTransaction",
