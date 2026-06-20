@@ -107,7 +107,7 @@ export default function Page() {
   };
 
   const handleMetamaskTransaction = async () => {
-    await sendGALTokens("0xF19266508b9d6F40955f2968567d8979287A231B");
+    await sendGALTokens("0x18c00eeA07888Bcf369C9e954c74872b0C868DE4");
     setEnableCasting(true);
   };
 
@@ -245,7 +245,7 @@ export default function Page() {
             </Button>
 
             <Button
-              //disabled={!enableCasting}
+             
 
               className="px-8 py-3 border border-white text-gray-800 bg-white hover:bg-gray-100 transition-transform transform hover:scale-105"
             >
